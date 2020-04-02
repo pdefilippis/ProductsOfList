@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Ecommerce</title>
+
+    @*<environment include="Development">
+        <link rel="stylesheet" href="~/libman/cdnjs/twitter-bootstrap/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/fontawesome.css" />
+        <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/all.css" />
+        <link rel="stylesheet" href="~/libman/unpkg/sweetalert2/dist/sweetalert2.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/libman/cdnjs/twitter-bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/all.min.css" />
+        <link rel="stylesheet" href="~/libman/unpkg/sweetalert2/dist/sweetalert2.min.css" />
+        <link rel="stylesheet" href="~/css/site.min.css" />
+    </environment>*@
+
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/materialize/css/materialize.css" />
+    </environment>
+    <environment exclude="Development">
+
+    </environment>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+
+    <nav>
+        <div class="nav-wrapper cyan darken-2">
+            <a class="brand-logo center">
+                Bienvenido al Ecommerce de Artículos
+            </a>
+        </div>
+    </nav>
+
+
+
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+    @*<environment include="Development">
+            <script src="~/libman/cdnjs/jquery/jquery.js"></script>
+            <script src="~/libman/cdnjs/twitter-bootstrap/js/bootstrap.js"></script>
+            <script src="~/js/site.js"></script>
+            <script src="~/js/_Layout.js"></script>
+            <script src="~/libman/unpkg/sweetalert2/dist/sweetalert2.all.js"></script>
+            <script src="~/js/promise.min.js"></script>
+        </environment>
+        <environment exclude="Development">
+            <script src="~/libman/cdnjs/jquery/jquery.min.js"></script>
+            <script src="~/libman/cdnjs/twitter-bootstrap/js/bootstrap.min.js"></script>
+            <script src="~/js/site.min.js"></script>
+            <script src="~/js/_Layout.min.js"></script>
+            <script src="~/libman/unpkg/sweetalert2/dist/sweetalert2.all.min.js"></script>
+            <script src="~/js/promise.min.js"></script>
+        </environment>*@
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/materialize/js/materialize.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
+
+    </environment>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - Ecommerce - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    @*<button class="btn btn-default" id="go-to-top-btn" title="@Localizer["GoToTop"]" style="margin-bottom:4.4%;">
+        <i class="fa fa-chevron-up fa-fw"></i>
+    </button>*@
+
+</body>
+</html>

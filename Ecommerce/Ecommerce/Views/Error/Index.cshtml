@@ -1,0 +1,18 @@
+﻿@model Ecommerce.ViewModels.Error.IndexViewModel
+
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div style="text-align:center; margin-top:50px; margin-bottom:200px">
+    <p>Hubo un problema al momento de atender la solicitud.</p>
+
+    <p style="font-size:200px"><i class="far fa-frown" style="color:#00A3A1"></i></p>
+
+    @if (Model.ShowRequestId)
+    {
+        <p>
+            <strong>Id de solicitud:</strong> <code>@Model.RequestId</code>
+        </p>
+    }
+</div>

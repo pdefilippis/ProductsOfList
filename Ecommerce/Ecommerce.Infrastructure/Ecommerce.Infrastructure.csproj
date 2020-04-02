@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ecommerce.EF\Ecommerce.EF.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Mappers\" />
+    <Folder Include="Repository\" />
+  </ItemGroup>
+
+</Project>
