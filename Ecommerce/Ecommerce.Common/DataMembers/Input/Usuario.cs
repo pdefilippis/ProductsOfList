@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ecommerce.Common.DataMembers.Input
 {
-    class Usuario
+    public class Usuario
     {
     }
 }
