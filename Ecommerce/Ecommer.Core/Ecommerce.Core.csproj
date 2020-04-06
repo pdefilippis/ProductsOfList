@@ -10,8 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Managers\" />
-    <Folder Include="Validations\" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
   </ItemGroup>
 
 </Project>
