@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
-namespace Ecommerce.ViewModels.Lot
+namespace Ecommerce.Web.ViewModels
 {
     public class HistoryLotViewModel
     {

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Ecommerce.Repository.Tables;
 
-namespace Ecommerce
+namespace Ecommerce.Web.ViewModels.Article
 {
     public class IndexPublicViewModel
     {
