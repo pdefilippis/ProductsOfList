@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
-
-namespace Ecommerce.Web.ViewModels
+﻿namespace Ecommerce.ViewModels
 {
     public class HistoryLotViewModel
     {

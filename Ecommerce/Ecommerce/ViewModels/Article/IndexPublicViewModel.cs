@@ -1,6 +1,4 @@
-﻿using Ecommerce.Repository.Tables;
-
-namespace Ecommerce.Web.ViewModels.Article
+﻿namespace Ecommerce.ViewModels.Article
 {
     public class IndexPublicViewModel
     {

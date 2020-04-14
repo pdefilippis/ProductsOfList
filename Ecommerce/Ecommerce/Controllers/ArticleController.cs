@@ -1,4 +1,6 @@
-﻿namespace Ecommerce.Web.Controllers
+﻿using Ecommerce.Tables;
+
+namespace Ecommerce.Controllers
 {
     public class ArticleController : _BaseController
     {

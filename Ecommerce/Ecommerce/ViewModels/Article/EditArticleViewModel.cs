@@ -1,4 +1,6 @@
-﻿namespace Ecommerce.Web.ViewModels.Article
+﻿using static Ecommerce.Tables.Article;
+
+namespace Ecommerce.ViewModels.Article
 {
     public class EditArticleViewModel
     {

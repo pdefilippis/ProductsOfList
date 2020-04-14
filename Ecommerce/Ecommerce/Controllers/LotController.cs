@@ -1,5 +1,4 @@
 ﻿using Ecommerce.Tables;
-using Ecommerce.ViewModels.Lot;
 using static Ecommerce.Tables.LotHistory;
 
 namespace Ecommerce.Controllers
