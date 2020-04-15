@@ -24,6 +24,10 @@ namespace Ecommerce.ViewModels.Login
             [DataType(DataType.Password)]
             [StringLength(100, ErrorMessage = "<font color='red'>El número de caracteres del {0} debe ser al menos {2}.</font>", MinimumLength = 6)]
             public string Password { get; set; }
+
+            [Display(Name = "Usuario")]
+            [Required(ErrorMessage = "<font color='red'>El campo 'Usuario' es obligatorio.</font>")]
+            public string User { get; set; }
         }
     }
 }
