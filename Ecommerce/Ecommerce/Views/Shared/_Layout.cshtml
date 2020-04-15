@@ -5,40 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Ecommerce</title>
 
-    @*<environment include="Development">
+
         <link rel="stylesheet" href="~/libman/cdnjs/twitter-bootstrap/css/bootstrap.css" />
         <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/fontawesome.css" />
         <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/all.css" />
         <link rel="stylesheet" href="~/libman/unpkg/sweetalert2/dist/sweetalert2.css" />
         <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="~/libman/cdnjs/twitter-bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/fontawesome.min.css" />
-        <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/all.min.css" />
-        <link rel="stylesheet" href="~/libman/unpkg/sweetalert2/dist/sweetalert2.min.css" />
-        <link rel="stylesheet" href="~/css/site.min.css" />
-    </environment>*@
 
-
-    <environment include="Development">
-        <link rel="stylesheet" href="~/materialize/css/materialize.css" />
-    </environment>
-    <environment exclude="Development">
-
-    </environment>
-    <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
+<body style="margin-top: 878px; background-image: url('images/fondoimage.jpg')">
 
-    <nav>
-        <div class="nav-wrapper cyan darken-2">
-            <a class="brand-logo center">
-                Bienvenido al Ecommerce de Artículos
-            </a>
+    @* --> Navbar <--*@
+    <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+
+        <a href="./" class="navbar-brand" style="padding-left:110px">Ecommerce de artículos</a>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#">Home</a>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                </li>
+                <li class="active">
+                    <a href="#">Contact</a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" style="cursor:pointer;padding-left: 18px;padding-right: 47px;" data-toggle="dropdown">Name user&nbsp;<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li style="font-family: 'Open Sans', sans-serif;"><a href="#">Salir</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <button class="btn btn-default pull-right" id="go_to_top_btn" title="Subir" style="margin-top:-25px; background-color:cadetblue; font-size:15px">
+        <i class="fa fa-chevron-up fa-fw"></i>
+    </button>
+
+
+    @* --> Footer <--*@
+    <footer style="padding-top:10px">
+        <div class="footer" style="padding: 25px" />
+        <div class="container">
+            <p class="pull-left copyright"> Copyright © Footer 2020. Ecommerce de Artículos </p>
+
         </div>
-    </nav>
+    </footer>
 
+
+    <div style="@(!User.Identity.IsAuthenticated == true ? "visibility: hidden; display: none;" : "padding-top: 1.5em; visibility: visible; display: block;")">
+        @{
+            if (IsSectionDefined("Breadcrumb"))
+            {
+                <ol class="breadcrumb">
+                    @RenderSection("Breadcrumb", false)
+                </ol>
+            }
+        }
+    </div>
 
 
     <div class="container">
@@ -48,50 +74,30 @@
         </main>
     </div>
 
-
-    @*<environment include="Development">
-            <script src="~/libman/cdnjs/jquery/jquery.js"></script>
-            <script src="~/libman/cdnjs/twitter-bootstrap/js/bootstrap.js"></script>
-            <script src="~/js/site.js"></script>
-            <script src="~/js/_Layout.js"></script>
-            <script src="~/libman/unpkg/sweetalert2/dist/sweetalert2.all.js"></script>
-            <script src="~/js/promise.min.js"></script>
-        </environment>
-        <environment exclude="Development">
-            <script src="~/libman/cdnjs/jquery/jquery.min.js"></script>
-            <script src="~/libman/cdnjs/twitter-bootstrap/js/bootstrap.min.js"></script>
-            <script src="~/js/site.min.js"></script>
-            <script src="~/js/_Layout.min.js"></script>
-            <script src="~/libman/unpkg/sweetalert2/dist/sweetalert2.all.min.js"></script>
-            <script src="~/js/promise.min.js"></script>
-        </environment>*@
-
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/materialize/js/materialize.js"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
-        </script>
-
-    </environment>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/site.js"></script>
+        <script src="~/libman/cdnjs/jquery/jquery.js"></script>
+        <script src="~/libman/unpkg/sweetalert2/dist/sweetalert2.all.js"></script>
+        <script src="~/libman/cdnjs/twitter-bootstrap/js/bootstrap.js"></script>
+        <script src="~/libman/cdnjs/jquery/jquery.min.js"></script>
 
     @RenderSection("Scripts", required: false)
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - Ecommerce - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-
-    @*<button class="btn btn-default" id="go-to-top-btn" title="@Localizer["GoToTop"]" style="margin-bottom:4.4%;">
-        <i class="fa fa-chevron-up fa-fw"></i>
-    </button>*@
-
 </body>
 </html>
+
+<style>
+    .footer {
+        background-color: #002147;
+        height: auto;
+        padding-bottom: 30px;
+        position: relative;
+        width: 100%;
+        border-bottom: 1px solid #CCCCCC;
+        border-top: 2px solid #DDDDDD;
+    }
+
+        .footer p {
+            color: white;
+            font-weight: lighter;
+        }
+</style>
