@@ -9,6 +9,7 @@
         <script src="~/js/Lot/Edit.js"></script>
 }
 @section Breadcrumb {
+
     <li><a asp-action="Index" style="color:#002147">Lotes</a></li>
     <li class="active"><strong>@ViewData["Title"]</strong></li>
 }
@@ -48,12 +49,15 @@
 
             <div class="row">
                 <div class="col-md-6">
+
                     <input type="submit" style="background-color:#002147" value="Editar" class="btn btn-primary pull-left " />
+
                 </div>
                 <div class="col-md-6">
                     <a asp-action="Index" class="btn btn-default pull-right">Cancelar</a>
                 </div>
             </div>
+
             <br /><br /><br /><br /><br /><br /><br /><br />
 
         </form>

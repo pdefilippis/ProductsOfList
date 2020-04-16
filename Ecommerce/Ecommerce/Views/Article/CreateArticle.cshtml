@@ -5,6 +5,7 @@
     ViewData["Title"] = "Crear";
 }
 
+
 @section Breadcrumb {
     <li><a asp-action="Index" style="color:#002147">Lotes</a></li>
     <li><a asp-action="Index" style="color:#002147">Articulos</a></li>
@@ -12,6 +13,7 @@
 }
 
 <h2 style="padding-bottom: 37px; font-family:'Blippo'; font-size:295%; color:#676A6C">Nuevo Artículo</h2>
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="CreateArticle" method="post">
@@ -27,6 +29,7 @@
                     <option>Notebook</option>
                     <option>Mouse</option>
                 </select>
+
                 <span asp-validation-for="TypeId" class="text-danger"></span>
             </div>
 
@@ -53,6 +56,7 @@
 
             <div class="row">
                 <div class="col-md-6">
+
                     <input type="submit" style="background-color:#002147" value="Crear" class="btn btn-primary pull-left" />
                 </div>
                 <div class="col-md-6">
@@ -63,13 +67,16 @@
             <br />
             <br />
 
+
         </form>
     </div>
 </div>
 
 
+
 <script>
     //Validacion para que permita solo numeros
+<script> //Validacion para que permita solo numeros
     function onlyNumber(e) {
         key = e.keyCode || e.which; //Almacena la entrada del teclado
 

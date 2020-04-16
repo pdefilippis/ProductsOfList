@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="~/css/site.css" />
 
 </head>
+
 <body>
     <div style="background-color:#f5f0f0">
 
@@ -57,20 +58,16 @@
             </nav>
         </header>
 
-
-        <div style=" visibility: hidden; display: none; padding-top: 1.5em; visibility: visible; display: block; background-color:##dcdfe0">
-            @{
-                if (IsSectionDefined("Breadcrumb"))
-                {
-                    <ol class="breadcrumb" style="margin-top: -15px; background-color:#dcdfe0">
-                        @RenderSection("Breadcrumb", false)
-                    </ol>
-                }
+    <div style="@(!User.Identity.IsAuthenticated == true ? "visibility: hidden; display: none;" : "padding-top: 1.5em; visibility: visible; display: block;")">
+        @{
+            if (IsSectionDefined("Breadcrumb"))
+            {
+                <ol class="breadcrumb">
+                    @RenderSection("Breadcrumb", false)
+                </ol>
             }
-        </div>
-
-
-
+        }
+    </div>
 
         <div class="container">
             <partial name="_CookieConsentPartial" />
@@ -122,3 +119,4 @@
             font-weight: lighter;
         }
 </style>
+
