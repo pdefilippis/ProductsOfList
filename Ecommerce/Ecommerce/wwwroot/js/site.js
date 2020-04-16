@@ -177,6 +177,7 @@ BindTableSelectUndo = function (button, table, selection) {
     });
 }
 
+
 $(document).ready(function () {
     var go_to_top_btn = $('#go-to-top-btn');
 

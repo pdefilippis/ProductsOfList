@@ -13,8 +13,16 @@ using static Ecommerce.Tables.Article;
 
 namespace Ecommerce.Controllers
 {
-    public class ArticleController 
+    public class ArticleController : Controller
     {
-        
+        public IActionResult CreateArticle()
+        {
+            return View();
+        }
+
+        public IActionResult EditArticle()
+        {
+            return View();
+        }
     }
 }

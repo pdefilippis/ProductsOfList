@@ -9,9 +9,6 @@
     ViewData["Title"] = "Login";
 }
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
 
 <!DOCTYPE html>
 <meta charset="utf-8" />
@@ -35,6 +32,8 @@
     <link rel="stylesheet" href="~/login/vendor/css-hamburgers/hamburgers.min.css" />
     <link rel="stylesheet" href="~/login/vendor/animsition/css/animsition.min.css" />
     <link rel="stylesheet" href="~/login/vendor/select2/select2.min.css" />
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 </head>
 <body>

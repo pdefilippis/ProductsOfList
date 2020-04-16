@@ -31,7 +31,7 @@
                     render: function (data, type, full, meta) {
                         var priority = data;
                         switch (priority) {
-                            case "CERRADO":
+                            case "CERRADO" :
                                 priority = $("#closed-field").html();
                                 break;
                             case "ACTIVO":

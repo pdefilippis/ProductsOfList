@@ -122,7 +122,7 @@
         //Oculta las acciones (buttons) del articulo si el lote esta cerrado
         if ($("#State").val() == "CLOSED")
             table.column(9).visible(false);
-
+           
     };
 }(window.Index = window.Index || {}, jQuery));
 

@@ -109,3 +109,24 @@
 .navbar-inverse .navbar-nav > .dropdown > a:hover .caret {
     border-bottom-color: #FFFFFF
 }
+
+#go-to-top-btn {
+    opacity: 1;
+    font-size: 17px;
+    background-color: #002147;
+    padding: 15px;
+    position: fixed;
+    bottom: 86px;
+    right: 4px;
+}
+
+body {
+    padding-top: 50px;
+    padding-bottom: -5px;
+}
+
+.required:after {
+    content: " *";
+    font-weight: bold;
+    color: #e81123;
+}

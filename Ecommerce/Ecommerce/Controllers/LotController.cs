@@ -14,8 +14,16 @@ using static Ecommerce.Tables.LotHistory;
 
 namespace Ecommerce.Controllers
 {
-    public class LotController
+    public class LotController : Controller
     {
-        
+        public IActionResult CreateLot()
+        {
+            return View();
+        }
+
+        public IActionResult EditLot()
+        {
+            return View();
+        }
     }
 }
