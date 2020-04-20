@@ -46,6 +46,8 @@
                             <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Lot" asp-action="CreateLot">Crear Lote</a></li>
                             <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Lot" asp-action="EditLot">Editar Lote</a></li>
                             <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Article" asp-action="IndexPublic">Index publico</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Lot" asp-action="History">Historial del lote</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Article" asp-action="Index">Artículos</a></li>
                         </ul>
                     </li>
 
@@ -54,10 +56,10 @@
                         <a asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li>
-                        <a href="#">About</a>
+                        <a asp-controller="Home" asp-action="About">About</a>
                     </li>
                     <li class="active">
-                        <a href="#">Contact</a>
+                        <a asp-controller="Home" asp-action="Contact">Contact</a>
                     </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" style="cursor:pointer;padding-left: 18px;padding-right: 47px;" data-toggle="dropdown">Name user&nbsp;<b class="caret"></b></a>
