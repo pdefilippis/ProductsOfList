@@ -130,3 +130,35 @@ body {
     font-weight: bold;
     color: #e81123;
 }
+
+#swal2-content {
+    font-size: 16px;
+}
+
+/* Propiedades del swal (MODAL)*/
+.swal2-styled.swal2-confirm {
+    font-size: 14px !important;
+}
+
+.swal2-styled.swal2-cancel {
+    font-size: 14px !important;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color: #002147
+}
+
+.input-sm {
+    border-radius: 65px;
+}
+
+.select2-results__option--highlighted {
+    background-color: #002147 !important;
+}
+
+.table.dataTable tbody > tr.selected, table.dataTable tbody > tr > .selected {
+    background-color: #002147 !important;
+}
+
+
+

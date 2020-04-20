@@ -25,5 +25,15 @@ namespace Ecommerce.Controllers
         {
             return View();
         }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult History()
+        {
+            return View();
+        }
     }
 }
