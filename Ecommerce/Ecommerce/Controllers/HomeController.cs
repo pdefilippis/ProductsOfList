@@ -2,7 +2,7 @@
 
 namespace Ecommerce.Controllers
 {
-    public class HomeController : Controller /*_BaseController*/
+    public class HomeController : Controller 
     {
 
         public IActionResult Index()
@@ -10,8 +10,12 @@ namespace Ecommerce.Controllers
             return View();
         }
 
+        public IActionResult Contact()
+        {
+            return View();
+        }
 
-        public IActionResult Privacy()
+        public IActionResult About()
         {
             return View();
         }

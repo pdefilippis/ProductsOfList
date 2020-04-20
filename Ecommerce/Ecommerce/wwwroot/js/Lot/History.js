@@ -29,6 +29,13 @@
                     render: function (data, type, full, meta) {
                         var priority = data;
                         switch (priority) {
+
+                            case "EDITAR" :
+                            priority = $("#edit-field").html();
+                                break;
+                            case "CREAR":
+                            priority = $("#create-field").html();
+
                             case "EDITAR":
                                 priority = $("#edit-field").html();
                                 break;
