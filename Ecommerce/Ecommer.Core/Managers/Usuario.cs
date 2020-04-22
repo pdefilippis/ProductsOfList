@@ -10,7 +10,17 @@ namespace Ecommerce.Core.Managers
     {
         public Common.DataMembers.Output.Usuario Login(Common.DataMembers.Input.Usuario usuario)
         {
-            throw new NotImplementedException();
+            Common.DataMembers.Output.Usuario userResult = null;
+            if (usuario.UserName.ToLower() == "admin" && usuario.Password == "123456")
+            {
+                userResult = new Common.DataMembers.Output.Usuario
+                {
+                    UserName = usuario.UserName,
+                    Acciones = new string[] { "ADM", "USR" }
+                };
+            }
+
+            return userResult;
         }
     }
 }

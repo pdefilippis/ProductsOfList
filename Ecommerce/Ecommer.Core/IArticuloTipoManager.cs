@@ -8,6 +8,7 @@ namespace Ecommerce.Core
     public interface IArticuloTipoManager
     {
         Member.Output.ArticuloTipo GetById(int id);
+        Member.Output.ArticuloTipo GetByCodigo(string codigo);
         ICollection<Member.Output.ArticuloTipo> Get();
     }
 }

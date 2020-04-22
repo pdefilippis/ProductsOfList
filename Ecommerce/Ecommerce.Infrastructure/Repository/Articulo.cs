@@ -1,46 +1,102 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Ecommerce.Common.DataMembers.Input;
-using Ecommerce.Common.DataMembers.Output;
-
+using Input = Ecommerce.Common.DataMembers.Input;
+using Output = Ecommerce.Common.DataMembers.Output;
+using Domain = Ecommerce.Domain.Models;
+using System.Linq;
+using Ecommerce.Infrastructure.Mappers;
 namespace Ecommerce.Infrastructure.Repository
 {
     public class Articulo : IArticuloInfrastructure
     {
-        public Common.DataMembers.Output.Articulo Create(Common.DataMembers.Input.Articulo articulo)
+        private readonly ITransformMapper _transformMapper;
+        public Articulo(ITransformMapper transformMapper)
         {
-            throw new NotImplementedException();
+            _transformMapper = transformMapper;
+        }
+
+        public Output.Articulo Create(Input.Articulo articulo)
+        {
+            using (var context = new Domain.Models.ProductsManagerContext())
+            {
+                var item = new Domain.Models.Articulo
+                {
+                    Activo = true,
+                    Descripcion = articulo.Descripcion,
+                    IdLote = articulo.IdLote,
+                    IdTipo = articulo.IdTipo,
+                    NumeroSerie = articulo.NroSerie,
+                    Precio = articulo.Precio
+                };
+
+                context.Add(item);
+                context.SaveChanges();
+
+                return _transformMapper.Transform<Domain.Models.Articulo, Output.Articulo>(item);
+            }
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            using (var context = new Domain.Models.ProductsManagerContext())
+            {
+                var item = context.Articulo.Where(x => x.Id.Equals(id)).FirstOrDefault();
+                item.Activo = false;
+                context.SaveChanges();
+            }
         }
 
-        public Common.DataMembers.Output.Articulo Get()
+        public ICollection<Output.Articulo> Get()
         {
-            throw new NotImplementedException();
+            using (var context = new Domain.Models.ProductsManagerContext())
+            {
+                var items = context.Articulo.Where(x => x.Activo).ToList();
+                return _transformMapper.Transform<List<Domain.Models.Articulo>, ICollection<Output.Articulo>>(items);
+            }
         }
 
-        public Common.DataMembers.Output.Articulo GetById(int id)
+        public Output.Articulo GetById(int id)
         {
-            throw new NotImplementedException();
+            using (var context = new Domain.Models.ProductsManagerContext())
+            {
+                var item = context.Articulo.Where(x => x.Id.Equals(id)).FirstOrDefault();
+                return _transformMapper.Transform<Domain.Models.Articulo, Output.Articulo>(item);
+            }
         }
 
-        public Common.DataMembers.Output.Articulo GetByLote(int lote)
+        public ICollection<Output.Articulo> GetByLote(int lote)
         {
-            throw new NotImplementedException();
+            using (var context = new Domain.Models.ProductsManagerContext())
+            {
+                var items = context.Articulo.Where(x => x.Activo && x.IdLote.Equals(lote)).ToList();
+                return _transformMapper.Transform<List<Domain.Models.Articulo>, ICollection<Output.Articulo>>(items);
+            }
         }
 
-        public Common.DataMembers.Output.Articulo Save(Common.DataMembers.Input.Articulo articulo)
+        public Output.Articulo Save(Input.Articulo articulo)
         {
-            throw new NotImplementedException();
+            if (articulo.Id.HasValue)
+                return Update(articulo);
+            else
+                return Create(articulo);
         }
 
-        public Common.DataMembers.Output.Articulo Update(Common.DataMembers.Input.Articulo articulo)
+        public Output.Articulo Update(Input.Articulo articulo)
         {
-            throw new NotImplementedException();
+            using (var context = new Domain.Models.ProductsManagerContext())
+            {
+                var item = context.Articulo.Where(x => x.Id.Equals(articulo.Id)).FirstOrDefault();
+
+                item.IdLote = articulo.IdLote;
+                item.IdTipo = articulo.IdTipo;
+                item.NumeroSerie = articulo.NroSerie;
+                item.Precio = articulo.Precio;
+
+                context.SaveChanges();
+
+                return _transformMapper.Transform<Domain.Models.Articulo, Output.Articulo>(item);
+            }
         }
     }
 }
