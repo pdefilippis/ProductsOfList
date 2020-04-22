@@ -13,5 +13,9 @@ namespace Ecommerce.Domain.Models
         public string Usuario1 { get; set; }
         [StringLength(50)]
         public string Clave { get; set; }
+        [StringLength(50)]
+        public string Nombre { get; set; }
+        [StringLength(50)]
+        public string Apellido { get; set; }
     }
 }

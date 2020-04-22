@@ -70,7 +70,11 @@ namespace Ecommerce.Domain.Models
 
             modelBuilder.Entity<Usuario>(entity =>
             {
+                entity.Property(e => e.Apellido).IsUnicode(false);
+
                 entity.Property(e => e.Clave).IsUnicode(false);
+
+                entity.Property(e => e.Nombre).IsUnicode(false);
 
                 entity.Property(e => e.Usuario1).IsUnicode(false);
             });

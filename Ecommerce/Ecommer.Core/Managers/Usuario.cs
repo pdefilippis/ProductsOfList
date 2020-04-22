@@ -15,6 +15,8 @@ namespace Ecommerce.Core.Managers
             {
                 userResult = new Common.DataMembers.Output.Usuario
                 {
+                    Apellido = "Martinez",
+                    Nombre = "Jose",
                     UserName = usuario.UserName,
                     Acciones = new string[] { "ADM", "USR" }
                 };
