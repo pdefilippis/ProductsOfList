@@ -7,7 +7,7 @@
             var file = this.files[0];
             var length = file.size;
             var type = file.type;
-            var validImageTypes = ['image/gif', 'image/jfif', 'image/jpg', 'image/jpeg', 'image/png'];
+            var validImageTypes = ['image/gif', 'image/jfif' ,'image/jpg', 'image/jpeg', 'image/png'];
             if (file !== null) {
                 if (length > 52428800 || validImageTypes.indexOf(type) === -1) {
                     $('#Image').val("");

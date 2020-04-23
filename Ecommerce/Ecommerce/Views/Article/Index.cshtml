@@ -1,1 +1,70 @@
-﻿
+﻿@using Ecommerce.ViewModels.Article
+@model IndexPublicViewModel
+
+@{
+    ViewData["Title"] = "Artículos";
+}
+
+@section Breadcrumb {
+    <li><a asp-action="Index" style="color:#002147">Lotes</a></li>
+    <li class="active"><strong>@ViewData["Title"]</strong></li>
+}
+
+
+@section scripts{
+    <script src="~/js/Article/Index.js"></script>
+}
+
+
+<div class="row">
+    <div class="col-md-6 pull-left" style="padding-bottom: 37px; font-family:'Blippo';">
+        <h2 style="font-size:295%; color:#676A6C">Listado de Artículos</h2>
+    </div>
+    <div class="col-md-6 pull-right">
+        <div class="form-group btn-group pull-right" id="btnCreate" style="margin-top: 55px;margin-bottom: 10px;">
+            <a id="articleCreate" asp-action="Createarticle" class="btn btn-primary" style="background-color:#002147"><i class='fa fa-plus-circle'>&nbsp;</i>Crear</a>
+        </div>
+    </div>
+</div>
+
+
+
+<table id="articles-table" class="table table-striped table-bordered table-hover table-responsive text-nowrap" style="width:100%"></table>
+
+<div id="templates" hidden>
+    <div id="article-actions-btn-group">
+        <div class="btn-group" style="display:flex">
+
+            <a asp-action="EditArticle" class="btn btn-default btn-xs" title="Editar" style="color:#00A3A1" id="editArticle">
+                <i class="fas fa-pencil-alt"></i>
+            </a>
+            <a asp-action="EnableDisable" class="btn btn-default btn-xs btn-enable-article" title="Habilitar/Deshabilitar" style="color:#00A3A1">
+                <i id="toggleAble" class="fa fa-toggle-on fa-fw"></i>
+                <i id="toggleDisable" class="fa fa-toggle-off fa-fw"></i>
+            </a>
+            <a asp-action="CreateArticle" class="btn btn-default btn-xs" title="Duplicar" style="        color: #00A3A1
+">
+                <i class="far fa-clone"></i>
+            </a>
+        </div>
+    </div>
+
+    <div id="inactivate-field">
+        <span class="badge" style="background-color:#DB2C2C; color:white; font-size:smaller">Inactivo</span>
+    </div>
+    <div id="activate-field">
+        <span class="badge" style="background-color:#37B22C; color:white; font-size:smaller">Activo</span>
+    </div>
+
+
+    <div id="id-column-title">ID</div>
+    <div id="articleDescription-column-title">Descripción</div>
+    <div id="state-column-title">Estado</div>
+    <div id="type-column-title">Tipo</div>
+    <div id="brand-column-title">Marca</div>
+    <div id="serialNumber-column-title">Nro de serie</div>
+    <div id="price-column-title">Precio</div>
+    <div id="userCount-column-title">Usuarios interesados</div>
+    <div id="adjudicatedUser-column-title">Usuario adjudicado</div>
+    <div id="actions-column-title">Acciones</div>
+</div>

@@ -112,6 +112,30 @@ LinkedDateTimePickers = function (from, to) {
     });
 }
 
+AjaxErrorHandler = function (jqXHR, textStatus, errorThrown, callback) {
+    var statusCode = jqXHR.status;
+
+    switch (statusCode) {
+        case 400:
+            window.location.href = "/error/status/400";
+            break;
+        case 401:
+            window.location.href = "/account/login";
+            break;
+        case 403:
+            window.location.href = "/account/login";
+            break;
+        case 500:
+            window.location.href = "/error";
+            break;
+        default:
+            alert(statusCode);
+    }
+
+    callback();
+}
+
+
 
 SetStatusIconUpdating = function (statusIcon) {
     statusIcon.html($("#updating-icon").html());
@@ -176,6 +200,7 @@ BindTableSelectUndo = function (button, table, selection) {
         });
     });
 }
+
 
 $(document).ready(function () {
     var go_to_top_btn = $('#go-to-top-btn');

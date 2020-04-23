@@ -17,5 +17,16 @@ namespace Ecommerce.Domain.Models
         public string Nombre { get; set; }
         [StringLength(50)]
         public string Apellido { get; set; }
+        public EstadoUsuario State { get; set; }
+        public DateTime CreationTimestamp { get; set; } = DateTime.Now; //Fecha Creacion
+        public DateTime? LastLoginTimestamp { get; set; } //Ultimo ingreso
+        
+        public enum EstadoUsuario
+        {
+            [Display(Name = "USER_STATE_NOT_ENABLED")]
+            NOT_ENABLED = 0,
+            [Display(Name = "USER_STATE_ENABLED")]
+            ENABLED = 10
+        }
     }
 }

@@ -1,1 +1,56 @@
-﻿
+﻿@using Ecommerce.ViewModels.Lot
+@model HistoryLotViewModel
+
+@{
+    ViewData["Title"] = "Historial";
+}
+
+@section scripts{
+    <script src="~/js/Lot/History.js"></script>
+}
+
+@section Breadcrumb {
+    <li><a asp-action="Index" style="color:#002147">Lotes</a></li>
+    <li class="active"><strong>@ViewData["Title"]</strong></li>
+}
+
+
+
+<div class="row">
+    <div class="col-md-6 pull-left">
+        <h2 style="padding-bottom: 37px; font-family:'Blippo'; font-size:295%; color:#676A6C">Historial</h2>
+    </div>
+</div>
+
+<table id="lots-history-table" class="table table-striped table-bordered table-hover table-responsive text-nowrap" style="width:100%"></table>
+
+<input asp-for="LotId" hidden />
+
+<div hidden>
+    <div id="edit-field">
+        <span class="badge" style="background-color:#2A8AB0; color:white; font-size:smaller">Editar</span>
+    </div>
+    <div id="create-field">
+        <span class="badge" style="        background-color: #E2B924;
+        color: white;
+        font-size: smaller">Crear</span>
+    </div>
+    <div id="inactivate-field">
+        <span class="badge" style="background-color:#DB2C2C; color:white; font-size:smaller">Inactivar</span>
+    </div>
+    <div id="activate-field">
+        <span class="badge" style="background-color:#37B22C; color:white; font-size:smaller">Activar</span>
+    </div>
+    <div id="closed-field">
+        <span class="badge" style="background-color:#E16214; color:white; font-size:smaller">Cierre de Lote</span>
+    </div>
+</div>
+
+
+<div id="templates" hidden>
+    <div id="id-column-title">Id Lote</div>
+    <div id="lots-column-title">Lote</div>
+    <div id="users-column-title">Usuario</div>
+    <div id="actions-column-title">Acción</div>
+    <div id="date-column-title">Fecha</div>
+</div>

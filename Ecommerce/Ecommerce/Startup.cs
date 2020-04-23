@@ -9,8 +9,6 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Core = Ecommerce.Core;
-using Infra = Ecommerce.Infrastructure;
 
 namespace Ecommerce
 {
@@ -35,17 +33,6 @@ namespace Ecommerce
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            services.AddScoped<Core.IArticuloManager, Core.Managers.Articulo>();
-            services.AddScoped<Core.IArticuloTipoManager, Core.Managers.ArticuloTipo>();
-            services.AddScoped<Core.ILoteManager, Core.Managers.Lote>();
-            services.AddScoped<Core.IUsuarioManager, Core.Managers.Usuario>();
-
-            services.AddScoped<Infra.IArticuloInfrastructure, Infra.Repository.Articulo>();
-            services.AddScoped<Infra.IArticuloTipoInfrastructure, Infra.Repository.ArticuloTipo>();
-            services.AddScoped<Infra.ILoteInfrastructure, Infra.Repository.Lote>();
-
-            services.AddSingleton<Infra.Mappers.ITransformMapper, Infra.Mappers.TransformMapper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
