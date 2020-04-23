@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Ecommerce.Domain.Models;
 
 namespace Ecommerce
 {
     public class IndexPublicViewModel
     {
-        public string Description { get; set; }
-        public int LotId { get; set; }
-        public int TakenId { get; set; }
-        public Lot.LotState State { get; set; }
+        public string Descripcion { get; set; }
+        public int Id { get; set; }
+        public int TakenId { get; set; }        
+        public Lote.EstadoLote Estado { get; set; }
     }
 }

@@ -6,82 +6,122 @@
     <title>@ViewData["Title"] - Ecommerce</title>
 
 
-        <link rel="stylesheet" href="~/libman/cdnjs/twitter-bootstrap/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/fontawesome.css" />
-        <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/all.css" />
-        <link rel="stylesheet" href="~/libman/unpkg/sweetalert2/dist/sweetalert2.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/libman/cdnjs/select2/css/select2.css" />
+    <link rel="stylesheet" href="~/libman/cdnjs/select2-bootstrap-theme/select2-bootstrap.css" />
+    <link rel="stylesheet" href="~/bundles/css/select2.min.css" />
+
+    <link rel="stylesheet" href="~/libman/unpkg/datatables.net-bs/css/dataTables.bootstrap.css" />
+    <link rel="stylesheet" href="~/libman/unpkg/datatables.net-responsive-bs/css/responsive.bootstrap.css" />
+    <link rel="stylesheet" href="~/bundles/css/datatables.responsive.min.css" />
+
+    <link rel="stylesheet" href="~/libman/cdnjs/twitter-bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/fontawesome.css" />
+    <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/all.css" />
+    <link rel="stylesheet" href="~/libman/unpkg/sweetalert2/dist/sweetalert2.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 
 </head>
-<body style="margin-top: 878px; background-image: url('images/fondoimage.jpg')">
 
-    @* --> Navbar <--*@
-    <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+<body>
+    <div style="background-color:#f5f0f0">
 
-        <a href="./" class="navbar-brand" style="padding-left:110px">Ecommerce de artículos</a>
-        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="#">Home</a>
-                </li>
-                <li>
-                    <a href="#">About</a>
-                </li>
-                <li class="active">
-                    <a href="#">Contact</a>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" style="cursor:pointer;padding-left: 18px;padding-right: 47px;" data-toggle="dropdown">Name user&nbsp;<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li style="font-family: 'Open Sans', sans-serif;"><a href="#">Salir</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </header>
+        @* --> Navbar <--*@
+        <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
 
-    <button class="btn btn-default pull-right" id="go_to_top_btn" title="Subir" style="margin-top:-25px; background-color:cadetblue; font-size:15px">
-        <i class="fa fa-chevron-up fa-fw"></i>
-    </button>
+            <a asp-controller="Home" asp-action="Index" class="navbar-brand" style="padding-left:110px">Ecommerce de artículos</a>
+            <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                <ul class="nav navbar-nav navbar-right">
 
+                    <li>
+                        <a asp-controller="Lot" asp-action="Index" title="Lotes">Lotes (Admin)</a>
+                    </li>
 
-    @* --> Footer <--*@
-    <footer style="padding-top:10px">
-        <div class="footer" style="padding: 25px" />
-        <div class="container">
-            <p class="pull-left copyright"> Copyright © Footer 2020. Ecommerce de Artículos </p>
-
-        </div>
-    </footer>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" style="cursor:pointer;padding-left: 18px;padding-right: 47px;" data-toggle="dropdown">Views&nbsp;<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Login" asp-action="Index">Login</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Login" asp-action="Register">Registrarse</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Article" asp-action="CreateArticle">Crear Artículos</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Article" asp-action="EditArticle">Editar Artículos</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Lot" asp-action="CreateLot">Crear Lote</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Lot" asp-action="EditLot">Editar Lote</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Article" asp-action="IndexPublic">Index publico</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Lot" asp-action="History">Historial del lote</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Article" asp-action="Index">Artículos</a></li>
+                        </ul>
+                    </li>
 
 
-    <div style="@(!User.Identity.IsAuthenticated == true ? "visibility: hidden; display: none;" : "padding-top: 1.5em; visibility: visible; display: block;")">
-        @{
-            if (IsSectionDefined("Breadcrumb"))
-            {
-                <ol class="breadcrumb">
-                    @RenderSection("Breadcrumb", false)
-                </ol>
+                    <li>
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Home" asp-action="About">About</a>
+                    </li>
+                    <li class="active">
+                        <a asp-controller="Home" asp-action="Contact">Contact</a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" style="cursor:pointer;padding-left: 18px;padding-right: 47px;" data-toggle="dropdown">Name user&nbsp;<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li style="font-family: 'Open Sans', sans-serif;"><a href="#">Salir</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <div style=" visibility: hidden; display: none; padding-top: 1.5em; visibility: visible; display: block; background-color:##dcdfe0">
+            @{
+                if (IsSectionDefined("Breadcrumb"))
+                {
+                    <ol class="breadcrumb" style="margin-top: -15px; background-color:#dcdfe0">
+                        @RenderSection("Breadcrumb", false)
+                    </ol>
+                }
             }
-        }
-    </div>
+        </div>
+
+        <div class="container">
+            <partial name="_CookieConsentPartial" />
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
 
 
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+        @* --> Footer <--*@
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <footer style="padding-top:10px;">
+            <div class="footer" style="padding: 25px" />
+            <div class="container">
+                <p class="pull-left copyright"> Copyright © Footer 2020. Ecommerce de Artículos </p>
 
-        <script src="~/js/site.js"></script>
+            </div>
+        </footer>
+
+        <button class="btn btn-default pull-right" id="go-to-top-btn" title="Subir">
+            <i class="fa fa-chevron-up fa-fw" style="color:white"></i>
+        </button>
+
         <script src="~/libman/cdnjs/jquery/jquery.js"></script>
+        <script src="~/js/site.js"></script>
         <script src="~/libman/unpkg/sweetalert2/dist/sweetalert2.all.js"></script>
         <script src="~/libman/cdnjs/twitter-bootstrap/js/bootstrap.js"></script>
-        <script src="~/libman/cdnjs/jquery/jquery.min.js"></script>
+        <script src="~/login/vendor/bootstrap/js/popper.js"></script>
+        <script src="~/libman/cdnjs/select2/js/select2.js"></script>
+        <script src="~/libman/cdnjs/select2/js/select2.min.js"></script>
 
-    @RenderSection("Scripts", required: false)
+        <script src="~/libman/unpkg/datatables.net/js/jquery.dataTables.js"></script>
+        <script src="~/libman/unpkg/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+        <script src="~/libman/unpkg/datatables.net-responsive/js/dataTables.responsive.js"></script>
+        <script src="~/libman/unpkg/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+        <script src="~/bundles/js/datatables.responsive.min.js"></script>
 
+        @RenderSection("Scripts", required: false)
+
+
+    </div>
 </body>
 </html>
 
@@ -101,3 +141,4 @@
             font-weight: lighter;
         }
 </style>
+

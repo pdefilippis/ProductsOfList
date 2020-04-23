@@ -1,3 +1,80 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model HomeViewModel
+
+
+@{
+    ViewData["Title"] = "Home";
 }
+
+@section Breadcrumb {
+    <li class="active"><strong>@ViewData["Title"]</strong></li>
+}
+
+<div class="row">
+    <div class="col-md-12 text-center">
+        <h1 style="padding-bottom: 37px; font-family:'Blippo'; font-size:315%; color:#676A6C">Lotes</h1>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row portfolio">
+        <div class="col-sm-6 col-md-3">
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="col-md-12 text-center">
+                <h4 style="color:#676A6C">Descripción del lote</h4>
+            </div>
+            <div class="col-md-12 text-center">
+                <img src="~/images/box.png" alt="Ecommerce" style="width: 180px; height:180px;" title="Ver artículos" />
+
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="col-md-12 text-center">
+                <h4 style="color:#676A6C">Descripción del lote</h4>
+            </div>
+            <div class="col-md-12 text-center">
+                <img src="~/images/box.png" alt="Ecommerce" style="width: 180px; height:180px;" title="Ver artículos" />
+
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row portfolio">
+        <div class="col-sm-6 col-md-3">
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="col-md-12 text-center">
+                <h4 style="color:#676A6C">Descripción del lote</h4>
+            </div>
+            <div class="col-md-12 text-center">
+                <img src="~/images/box.png" alt="Ecommerce" style="width: 180px; height:180px;" title="Ver artículos" />
+
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="col-md-12 text-center">
+                <h4 style="color:#676A6C">Descripción del lote</h4>
+            </div>
+            <div class="col-md-12 text-center">
+                <img src="~/images/box.png" alt="Ecommerce" style="width: 180px; height:180px;" title="Ver artículos" />
+
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<br />
+
+
+<style>
+    h4 {
+        font-size: 20px
+    }
+
+    img {
+        cursor: pointer
+    }
+</style>

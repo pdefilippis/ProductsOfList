@@ -21,8 +21,22 @@ namespace Ecommerce.Domain.Models
         [StringLength(50)]
         public string NombreImagen { get; set; }
         public bool Activo { get; set; }
-
         [InverseProperty("IdLoteNavigation")]
         public virtual ICollection<Articulo> Articulo { get; set; }
+        public EstadoLote Estado { get; set; }
+        public DateTime UpdateDate { get; set; }
+        public DateTime CreateDate { get; set; }
+        public long ContentLength { get; set; }
+        public string ContentType { get; set; }
+
+        public enum EstadoLote
+        {
+            [Display(Name = "INACTIVO")]
+            DISABLED = 0,
+            [Display(Name = "ACTIVO")]
+            ENABLED = 1,
+            [Display(Name = "CERRADO")]
+            CLOSED = 2,
+        }
     }
 }
