@@ -11,8 +11,8 @@ namespace Ecommerce.Infrastructure
         Member.Output.Articulo Update(Member.Input.Articulo articulo);
         Member.Output.Articulo Create(Member.Input.Articulo articulo);
         Member.Output.Articulo GetById(int id);
-        Member.Output.Articulo GetByLote(int lote);
-        Member.Output.Articulo Get();
+        ICollection<Member.Output.Articulo> GetByLote(int lote);
+        ICollection<Member.Output.Articulo> Get();
         void Delete(int id);
 
     }

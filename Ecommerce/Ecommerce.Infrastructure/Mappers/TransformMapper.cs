@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,23 +12,21 @@ namespace Ecommerce.Infrastructure.Mappers
 
     public partial class TransformMapper : ITransformMapper
     {
-        //private static IMapper _mapper;
-        //public static void Initialize(IMapperConfigurationExpression ce)
-        //{
-        //    InitializeLogin(ce);
-        //    InitializeEmpleado(ce);
-        //    SucursalLogin(ce);
-        //}
+        private static IMapper _mapper;
+        public static void Initialize(IMapperConfigurationExpression ce)
+        {
+            InitializeArticulo(ce);
+            InitializeLote(ce);
+        }
 
-        //public static void SetMapper(IMapper mapper)
-        //{
-        //    _mapper = mapper;
-        //}
+        public static void SetMapper(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
 
         public TDestino Transform<TOrigen, TDestino>(TOrigen model)
         {
-            //return _mapper.Map<TOrigen, TDestino>(model);
-            throw new NotImplementedException();
+            return _mapper.Map<TOrigen, TDestino>(model);
         }
     }
 }

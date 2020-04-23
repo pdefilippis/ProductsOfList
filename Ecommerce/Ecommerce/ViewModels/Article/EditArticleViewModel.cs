@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using static Ecommerce.Tables.Article;
+using static Ecommerce.Domain.Models.Articulo;
 
 namespace Ecommerce.ViewModels.Article
 {
@@ -25,7 +25,7 @@ namespace Ecommerce.ViewModels.Article
         [Display(Name = "Descripción")]
         [Required(ErrorMessage = "El campo 'Descripción' es obligatorio.")]
         public string Description { get; set; }
-        public ArticleState State { get; set; }
+        public ArticuloEstado State { get; set; }
         public int Lot_ID { get; set; }
         public List<SelectListItem> Types { get; set; }
         [Display(Name = "ID")]
