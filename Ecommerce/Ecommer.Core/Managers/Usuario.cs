@@ -3,26 +3,39 @@ using System.Collections.Generic;
 using System.Text;
 using Ecommerce.Common.DataMembers.Input;
 using Ecommerce.Common.DataMembers.Output;
+using Ecommerce.Infrastructure;
 
 namespace Ecommerce.Core.Managers
 {
     public class Usuario : IUsuarioManager
     {
+        private readonly IUsuarioInfrastructure _usuarioInfrastructure;
+        public Usuario(IUsuarioInfrastructure usuarioInfrastructure)
+        {
+            _usuarioInfrastructure = usuarioInfrastructure;
+        }
+
+        public Common.DataMembers.Output.Usuario ChangePassword(Common.DataMembers.Input.ChangePassword usuario)
+        {
+            var usr = _usuarioInfrastructure.Get(usuario.UserName);
+            if (usr.Password == usuario.OldPassword)
+                return _usuarioInfrastructure.ChangePassword(usuario.UserName, usuario.NewPassword);
+
+            return null;
+        }
+
         public Common.DataMembers.Output.Usuario Login(Common.DataMembers.Input.Usuario usuario)
         {
-            Common.DataMembers.Output.Usuario userResult = null;
-            if (usuario.UserName.ToLower() == "admin" && usuario.Password == "123456")
-            {
-                userResult = new Common.DataMembers.Output.Usuario
-                {
-                    Apellido = "Martinez",
-                    Nombre = "Jose",
-                    UserName = usuario.UserName,
-                    Acciones = new string[] { "ADM", "USR" }
-                };
-            }
+            var usr = _usuarioInfrastructure.Get(usuario.UserName);
+            if (usr.Password == usuario.Password)
+                return usr;
 
-            return userResult;
+            return null;
+        }
+
+        public Common.DataMembers.Output.Usuario Register(Common.DataMembers.Input.Usuario usuario)
+        {
+            return _usuarioInfrastructure.Create(usuario);
         }
     }
 }

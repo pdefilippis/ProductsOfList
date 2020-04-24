@@ -6,6 +6,7 @@ using Output = Ecommerce.Common.DataMembers.Output;
 using Domain = Ecommerce.Domain.Models;
 using System.Linq;
 using Ecommerce.Infrastructure.Mappers;
+
 namespace Ecommerce.Infrastructure.Repository
 {
     public class Articulo : IArticuloInfrastructure
