@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Ecommerce.ViewModels.Lot
+﻿namespace Ecommerce.ViewModels
 {
     public class EditLotViewModel
     {
@@ -13,10 +6,14 @@ namespace Ecommerce.ViewModels.Lot
         [Display(Name = "Descripción")]
         [Required(ErrorMessage = "El campo 'Descripción' es obligatorio.")]
         public string Description { get; set; }
+
         public int LotId { get; set; }
+
         [Display(Name = "Imagen")]
         public IFormFile Image { get; set; }
+
         public string ImageName { get; set; }
+
         public bool FlagImage { get; set; }
     }
 }
