@@ -1,4 +1,4 @@
-﻿
+
 /* ==========================================================================
    #FONT
    ========================================================================== */
@@ -239,11 +239,16 @@ h6 {
 }
 
 .btn--blue {
-    background: #337ab7;
+    background: #00338D;
+    border-radius: 21px;
+    font-size: 18px;
+    text-transform: uppercase;
+    padding: 0 20px;
+    height: 42px;
 }
 
     .btn--blue:hover {
-        background: #265cc9;
+        background: #337ab7;
     }
 
 /* ==========================================================================
@@ -338,29 +343,29 @@ input {
 
     .input--style-1::-webkit-input-placeholder {
         /* WebKit, Blink, Edge */
-        color: #555;
+        color: #337ab7;
     }
 
     .input--style-1:-moz-placeholder {
         /* Mozilla Firefox 4 to 18 */
-        color: #555;
+        color: #337ab7;
         opacity: 1;
     }
 
     .input--style-1::-moz-placeholder {
         /* Mozilla Firefox 19+ */
-        color: #555;
+        color: #337ab7;
         opacity: 1;
     }
 
     .input--style-1:-ms-input-placeholder {
         /* Internet Explorer 10-11 */
-        color: #555;
+        color: #337ab7;
     }
 
     .input--style-1:-ms-input-placeholder {
         /* Microsoft Edge */
-        color: #555;
+        color: #337ab7;
     }
 
 /* ==========================================================================
