@@ -1,39 +1,46 @@
-﻿@using Ecommerce.ViewModels.Article
+@using Ecommerce.ViewModels.Article
 @model EditArticleViewModel
 
 @{
     ViewData["Title"] = "Editar";
 }
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_Select2ScriptsPartial");}
-
-        <script src="~/js/Article/Edit.js"></script>
-}
-
-@section Styles {
-    @{await Html.RenderPartialAsync("_Select2StylesPartial");}
+@section scripts{
+<script src="~/js/Article/Edit.js"></script>
 }
 
 @section Breadcrumb {
-    <li><a asp-action="Index" asp-controller="Lot" style="color:#00A3A1">Lotes</a></li>
-    <li><a asp-action="Index" asp-route-lotId="@Model.Lot_ID" style="color:#00A3A1">Artículos</a></li>
+    <li><a asp-action="Index" asp-controller="Lot" style="color:#002147">Lotes</a></li>
+    <li><a asp-action="Index" style="color:#002147">Artículos</a></li>
     <li class="active"><strong>@ViewData["Title"]</strong></li>
 }
 
-<h2 style="padding-bottom: 37px; font-family:'Blippo'; font-size:295%">Editar Artículo</h2>
+
+
+<h2 style="padding-bottom: 37px; font-family:'Blippo'; font-size:295%; color:#676A6C">Editar Artículo</h2>
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="EditArticle" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for="ArticleId" hidden />
-            <input asp-for="Lot_ID" hidden />
 
             <div class="form-group">
                 <label asp-for="TypeId" class="control-label"></label>
-                <select id="articles-multiselect" asp-for="TypeId" asp-items="Model.Types" class="form-control"></select>
+                <select id="articles-multiselect" @*asp-for="TypeId" asp-items="Model.Types"*@ class="form-control">
+                    <option>CPU</option>
+                    <option>Teclado</option>
+                    <option>Monitor</option>
+                    <option>Notebook</option>
+                    <option>Mouse</option>
+                </select>
                 <span asp-validation-for="TypeId" class="text-danger"></span>
             </div>
+            @*<div class="form-group">
+                    <label asp-for="TypeId" class="control-label"></label>
+                    <select id="articles-multiselect" asp-for="TypeId" asp-items="Model.Types" class="form-control"></select>
+                    <span asp-validation-for="TypeId" class="text-danger"></span>
+                </div>*@
 
             <div class="form-group">
                 <label asp-for="Brand" class="control-label required"></label>
@@ -52,43 +59,22 @@
             </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label required"></label>
-                <input asp-for="Price" class="form-control" type="text" onpaste="return false" onkeypress="return onlyNumber(event)" maxlength="9" />
+                <input asp-for="Price" class="form-control" type="number" maxlength="9"/>
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
 
             <div class="row">
                 <div class="col-md-6">
-                    <input type="submit" value="Editar" style="background-color:#00A3A1" class="btn btn-primary pull-left" />
+                    <input type="submit" value="Editar" style="background-color:#002147" class="btn btn-primary pull-left" />
                 </div>
                 <div class="col-md-6">
-                    <a asp-action="Index" asp-route-lotId="@Model.Lot_ID" class="btn btn-default pull-right">Cancelar</a>
+                    <a asp-action="Index" class="btn btn-default pull-right">Cancelar</a>
                 </div>
             </div>
+
         </form>
     </div>
+
+    <script src="~/libman/cdnjs/jquery/jquery.js"></script>
+    <script src="~/js/site.js"></script>
 </div>
-
-<script> //Validacion para que permita solo numeros
-    function onlyNumber(e) {
-        key = e.keyCode || e.which; //Almacena la entrada del teclado
-
-        teclado = String.fromCharCode(key);
-
-        numeros = "0123456789";
-
-        especiales = "8-37-38-46";
-
-        teclado_especial = false;
-
-        for (var i in especiales) {
-            if (key == especiales[i]) {
-                teclado_especial = true;
-            }
-        }
-
-        if (numeros.indexOf(teclado) == -1 && !teclado_especial) {
-            return false;
-        }
-
-    }
-</script>
