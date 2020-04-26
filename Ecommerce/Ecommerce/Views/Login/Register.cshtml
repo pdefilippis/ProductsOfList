@@ -39,7 +39,7 @@
 <body>
     <div class="page-wrapper bg-image p-t-100 p-b-100 font-robo" style="background-image: url('images/bg-01.jpg');">
         <div class="wrapper wrapper--w680">
-            <div class="card card-1">
+            <div class="card card-1" style="border-radius: 13px">
 
                 <div class="card-body">
                     <h2 class="title">Completá tus datos</h2>
@@ -48,37 +48,45 @@
 
                         <div class="input-group">
                             <input asp-for="Input.Email" class="input--style-1" type="text" placeholder="E-MAIL">
+                            <span class="focus-input100" asp-validation-for="Input.Email"></span>
                         </div>
+
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
-                                    <input asp-for="Input" class="input--style-1" type="text" placeholder="NOMBRE">
+                                    <input asp-for="Input.Name" class="input--style-1" type="text" placeholder="NOMBRE">
+                                    <span class="focus-input100" asp-validation-for="Input.Name"></span>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
                                     <div class="rs-select2 js-select-simple select--no-search">
-                                        <input asp-for="Input" class="input--style-1" type="text" placeholder="APELLIDO">
+                                        <input asp-for="Input.Surname" class="input--style-1" type="text" placeholder="APELLIDO">
+                                        <span class="focus-input100" asp-validation-for="Input.Surname"></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
                                     <input asp-for="Input.User" class="input--style-1" type="text" placeholder="USUARIO">
+                                    <span class="focus-input100" asp-validation-for="Input.User"></span>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
                                     <div class="rs-select2 js-select-simple select--no-search">
                                         <input asp-for="Input.Password" class="input--style-1" type="password" placeholder="CONTRASEÑA">
+                                        <span class="focus-input100" asp-validation-for="Input.Password"></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="p-t-20">
-                            <button class="btn btn--radius btn--blue">Registrarse</button>
+
+                        <div class="p-t-20" style="padding-left:63px">
+                            <a class="btn btn--radius btn--blue">Registrarse</a>
                         </div>
                     </form>
                 </div>
