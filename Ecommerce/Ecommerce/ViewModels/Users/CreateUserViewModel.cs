@@ -8,20 +8,20 @@ namespace Ecommerce.ViewModels.Users
 {
     public class CreateUserViewModel
     {
-        [Display(Name = "Username")]
+        [Display(Name = "Usuario")]
         [Required(ErrorMessage = "Required")]
-        public string Username { get; set; }
+        public string User { get; set; }
 
         [Display(Name = "Mail")]
         [Required(ErrorMessage = "Required")]
         [EmailAddress(ErrorMessage = "InvalidFormat")]
-        public string Mail { get; set; }
+        public string Email { get; set; }
 
-        [Display(Name = "Name")]
+        [Display(Name = "Nombre")]
         [Required(ErrorMessage = "Required")]
         public string Name { get; set; }
 
-        [Display(Name = "Surname")]
+        [Display(Name = "Apellido")]
         [Required(ErrorMessage = "Required")]
         public string Surname { get; set; }
     }
