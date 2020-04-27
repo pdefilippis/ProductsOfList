@@ -8,6 +8,29 @@ namespace Ecommerce.Controllers
 {
     public class UserController : Controller
     {
+        public IActionResult Index()
+        {
+            return View();
+        }
 
+        public IActionResult CreateUser()
+        {
+            return View();
+        }
+
+        public IActionResult EditUser()
+        {
+            return View();
+        }
+
+        public IActionResult EnableUserConfirmation()
+        {
+            return View();
+        }
+
+        public IActionResult DisableUserConfirmation()
+        {
+            return View();
+        }
     }
 }
