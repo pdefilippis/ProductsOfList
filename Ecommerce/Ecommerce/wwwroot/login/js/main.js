@@ -90,10 +90,10 @@ function showHidePassword() {
     var x = document.getElementById("passws");
     var y = document.getElementById("eyePassw");
     if (x.type === "password") {
-        y.className = "fa fa-eye-slash eye-style";
+        y.className = "fa fa-eye-slash eye-style fa-lg";
         x.type = "text";
     } else {
-        y.className = "fa fa-eye eye-style";
+        y.className = "fa fa-eye eye-style fa-lg";
         x.type = "password";
     }
 }
