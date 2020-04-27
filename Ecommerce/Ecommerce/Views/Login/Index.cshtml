@@ -1,4 +1,4 @@
-@model Ecommerce.ViewModels.Login.LoginViewModel
+﻿@model Ecommerce.ViewModels.Login.LoginViewModel
 
 
 @{
@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="~/login/vendor/css-hamburgers/hamburgers.min.css" />
     <link rel="stylesheet" href="~/login/vendor/animsition/css/animsition.min.css" />
     <link rel="stylesheet" href="~/login/vendor/select2/select2.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
 </head>
@@ -51,9 +52,10 @@
                         <span class="focus-input100" data-placeholder="&#xe82a;"></span>
                     </div>
 
-                    <div class="wrap-input100 validate-input" data-validate="Ingrese contraseña">
-                        <input asp-for="Input.Password" class="input100" type="password" placeholder="Contraseña">
+                    <div class="wrap-input100 validate-input flex-container" data-validate="Ingrese contraseña">
+                        <input asp-for="Input.Password" class="input100" type="password" placeholder="Contraseña" id="passws">
                         <span class="focus-input100" asp-validation-for="Input.Password" data-placeholder="&#xe80f;"></span>
+                        <span class="fa fa-eye eye-style" onclick="showHidePassword()" id="eyePassw"></span>
                     </div>
 
                     <div class="container-login100-form-btn m-t-32">
@@ -64,7 +66,7 @@
                             Registrarse
                         </a>
                     </div>
-                    <hr style="border-top:none"/>
+                    <hr style="border-top:none" />
                     <a href="#" style="text-decoration:none; padding-left:138px"><small>¿Olvidó la contraseña?</small></a>
 
                 </form>
