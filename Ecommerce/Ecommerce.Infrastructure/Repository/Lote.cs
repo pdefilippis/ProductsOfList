@@ -6,20 +6,23 @@ using Output = Ecommerce.Common.DataMembers.Output;
 using Domain = Ecommerce.Domain.Models;
 using System.Linq;
 using Ecommerce.Infrastructure.Mappers;
+using Ecommerce.Domain;
 
 namespace Ecommerce.Infrastructure.Repository
 {
     public class Lote : ILoteInfrastructure
     {
         private readonly ITransformMapper _transformMapper;
-        public Lote(ITransformMapper transformMapper)
+        private readonly IConnectionContext _context;
+        public Lote(ITransformMapper transformMapper, IConnectionContext context)
         {
             _transformMapper = transformMapper;
+            _context = context;
         }
 
         public Output.Lote Create(Input.Lote lote)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var item = new Domain.Models.Lote
                 {
@@ -38,7 +41,7 @@ namespace Ecommerce.Infrastructure.Repository
 
         public void Delete(int id)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var item = context.Lote.Where(x => x.Id.Equals(id)).FirstOrDefault();
                 item.Activo = false;
@@ -48,7 +51,7 @@ namespace Ecommerce.Infrastructure.Repository
 
         public ICollection<Output.Lote> Get()
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var items = context.Lote.Where(x => x.Activo).ToList();
                 return _transformMapper.Transform<List<Domain.Models.Lote>, ICollection<Output.Lote>>(items);
@@ -74,7 +77,7 @@ namespace Ecommerce.Infrastructure.Repository
 
         public Output.Lote Update(Input.Lote lote)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var item = context.Lote.Where(x => x.Id.Equals(lote.Id)).FirstOrDefault();
 
@@ -83,8 +86,8 @@ namespace Ecommerce.Infrastructure.Repository
                 item.Imagen = lote.Imagen;
 
                 context.SaveChanges();
+                return _transformMapper.Transform<Domain.Models.Lote, Output.Lote>(item);
             }
-            throw new NotImplementedException();
         }
     }
 }

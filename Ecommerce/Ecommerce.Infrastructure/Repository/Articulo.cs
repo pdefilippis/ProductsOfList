@@ -6,20 +6,23 @@ using Output = Ecommerce.Common.DataMembers.Output;
 using Domain = Ecommerce.Domain.Models;
 using System.Linq;
 using Ecommerce.Infrastructure.Mappers;
+using Ecommerce.Domain;
 
 namespace Ecommerce.Infrastructure.Repository
 {
     public class Articulo : IArticuloInfrastructure
     {
         private readonly ITransformMapper _transformMapper;
-        public Articulo(ITransformMapper transformMapper)
+        private readonly IConnectionContext _context;
+        public Articulo(ITransformMapper transformMapper, IConnectionContext context)
         {
             _transformMapper = transformMapper;
+            _context = context;
         }
 
         public Output.Articulo Create(Input.Articulo articulo)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var item = new Domain.Models.Articulo
                 {
@@ -40,7 +43,7 @@ namespace Ecommerce.Infrastructure.Repository
 
         public void Delete(int id)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var item = context.Articulo.Where(x => x.Id.Equals(id)).FirstOrDefault();
                 item.Activo = false;
@@ -50,7 +53,7 @@ namespace Ecommerce.Infrastructure.Repository
 
         public ICollection<Output.Articulo> Get()
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var items = context.Articulo.Where(x => x.Activo).ToList();
                 return _transformMapper.Transform<List<Domain.Models.Articulo>, ICollection<Output.Articulo>>(items);
@@ -59,7 +62,7 @@ namespace Ecommerce.Infrastructure.Repository
 
         public Output.Articulo GetById(int id)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var item = context.Articulo.Where(x => x.Id.Equals(id)).FirstOrDefault();
                 return _transformMapper.Transform<Domain.Models.Articulo, Output.Articulo>(item);
@@ -68,7 +71,7 @@ namespace Ecommerce.Infrastructure.Repository
 
         public ICollection<Output.Articulo> GetByLote(int lote)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var items = context.Articulo.Where(x => x.Activo && x.IdLote.Equals(lote)).ToList();
                 return _transformMapper.Transform<List<Domain.Models.Articulo>, ICollection<Output.Articulo>>(items);
@@ -85,7 +88,7 @@ namespace Ecommerce.Infrastructure.Repository
 
         public Output.Articulo Update(Input.Articulo articulo)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var item = context.Articulo.Where(x => x.Id.Equals(articulo.Id)).FirstOrDefault();
 

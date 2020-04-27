@@ -27,7 +27,7 @@ namespace Ecommerce.Core.Managers
         public Common.DataMembers.Output.Usuario Login(Common.DataMembers.Input.Usuario usuario)
         {
             var usr = _usuarioInfrastructure.Get(usuario.UserName);
-            if (usr.Password == usuario.Password)
+            if (usr != null && usr.Password == usuario.Password)
                 return usr;
 
             return null;

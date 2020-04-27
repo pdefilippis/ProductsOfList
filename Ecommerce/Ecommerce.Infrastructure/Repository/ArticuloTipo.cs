@@ -6,20 +6,23 @@ using Output = Ecommerce.Common.DataMembers.Output;
 using Domain = Ecommerce.Domain.Models;
 using System.Linq;
 using Ecommerce.Infrastructure.Mappers;
+using Ecommerce.Domain;
 
 namespace Ecommerce.Infrastructure.Repository
 {
     public class ArticuloTipo : IArticuloTipoInfrastructure
     {
         private readonly ITransformMapper _transformMapper;
-        public ArticuloTipo(ITransformMapper transformMapper)
+        private readonly IConnectionContext _context;
+        public ArticuloTipo(ITransformMapper transformMapper, IConnectionContext context)
         {
             _transformMapper = transformMapper;
+            _context = context;
         }
 
         public ICollection<Output.ArticuloTipo> Get()
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var items = context.ArticuloTipo.Where(x => x.Activo).ToList();
                 return _transformMapper.Transform<List<Domain.Models.ArticuloTipo>, ICollection<Output.ArticuloTipo>>(items);
@@ -28,7 +31,7 @@ namespace Ecommerce.Infrastructure.Repository
 
         public Common.DataMembers.Output.ArticuloTipo GetByCodigo(string codigo)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var item = context.ArticuloTipo.Where(x => x.Activo && x.Codigo.Equals(codigo)).FirstOrDefault();
                 return _transformMapper.Transform<Domain.Models.ArticuloTipo, Output.ArticuloTipo>(item);
@@ -37,7 +40,7 @@ namespace Ecommerce.Infrastructure.Repository
 
         public Output.ArticuloTipo GetById(int id)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var item = context.ArticuloTipo.Where(x => x.Activo && x.Id.Equals(id)).FirstOrDefault();
                 return _transformMapper.Transform<Domain.Models.ArticuloTipo, Output.ArticuloTipo>(item);

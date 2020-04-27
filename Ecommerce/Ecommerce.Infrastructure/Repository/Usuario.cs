@@ -6,15 +6,19 @@ using Output = Ecommerce.Common.DataMembers.Output;
 using Domain = Ecommerce.Domain.Models;
 using System.Linq;
 using Ecommerce.Infrastructure.Mappers;
+using Microsoft.EntityFrameworkCore;
+using Ecommerce.Domain;
 
 namespace Ecommerce.Infrastructure.Repository
 {
     public class Usuario : IUsuarioInfrastructure
     {
+        private readonly IConnectionContext _context;
         private readonly ITransformMapper _transformMapper;
-        public Usuario(ITransformMapper transformMapper)
+        public Usuario(ITransformMapper transformMapper, IConnectionContext context)
         {
             _transformMapper = transformMapper;
+            _context = context;
         }
 
         public Output.Usuario ChangePassword(string usuario, string password)
@@ -31,7 +35,7 @@ namespace Ecommerce.Infrastructure.Repository
 
         public Output.Usuario Create(Input.Usuario usuario)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var item = new Domain.Models.Usuario
                 {
@@ -50,7 +54,7 @@ namespace Ecommerce.Infrastructure.Repository
 
         public Output.Usuario Get(string usuario)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var item = context.Usuario.Where(x => x.Usuario1.Equals(usuario)).FirstOrDefault();
                 return _transformMapper.Transform<Domain.Models.Usuario, Output.Usuario>(item);
@@ -67,7 +71,7 @@ namespace Ecommerce.Infrastructure.Repository
 
         public Output.Usuario Update(Input.Usuario usuario)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var item = context.Usuario.Where(x => x.Usuario1.Equals(usuario)).FirstOrDefault();
 
