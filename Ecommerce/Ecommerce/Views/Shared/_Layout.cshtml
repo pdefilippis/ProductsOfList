@@ -32,9 +32,19 @@
             <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
                 <ul class="nav navbar-nav navbar-right">
 
-                    <li>
-                        <a  title="Administrar usuarios">Usuarios</a>
+                    
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" style="cursor:pointer;padding-left: 18px;padding-right: 47px;" data-toggle="dropdown">Usuarios&nbsp;<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="User" asp-action="CreateUser">Crear</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="User" asp-action="EditUser">Editar</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="User" asp-action="EnableUserConfirmation">Habilitar</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="User" asp-action="DisableUserConfirmation">Deshabilitar</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="User" asp-action="Index">Index</a></li>
+                        </ul>
                     </li>
+                    
+                    
                     <li>
                         <a asp-controller="Lot" asp-action="Index" title="Lotes">Lotes (Admin)</a>
                     </li>
