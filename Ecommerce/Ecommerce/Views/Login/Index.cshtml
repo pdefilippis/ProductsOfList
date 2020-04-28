@@ -1,4 +1,4 @@
-﻿@model Ecommerce.ViewModels.Login.LoginViewModel
+@model Ecommerce.ViewModels.Login.LoginViewModel
 
 
 @{
@@ -47,15 +47,15 @@
                 <form class="login100-form validate-form p-b-33 p-t-5" asp-controller="Login" asp-action="Index" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <div class="wrap-input100 validate-input" data-validate="Ingrese usuario">
+                    <div class="wrap-input100">
                         <input asp-for="Input.User" class="input100" type="text" placeholder="Usuario">
-                        <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+                        <span class="focus-input100" asp-validation-for="Input.User" data-placeholder="&#xe82a;"></span>
                     </div>
 
-                    <div class="wrap-input100 validate-input flex-container" data-validate="Ingrese contraseña">
+                    <div class="wrap-input100 flex-container">
                         <input asp-for="Input.Password" class="input100" type="password" placeholder="Contraseña" id="passws">
                         <span class="focus-input100" asp-validation-for="Input.Password" data-placeholder="&#xe80f;"></span>
-                        <span class="fa fa-eye eye-style fa-lg" onclick="showHidePassword()" id="eyePassw"></span>
+                        <span class="fa fa-eye eye-style fa-lg" style="width:6px;height:6px" onclick="showHidePassword()" id="eyePassw"></span>
                     </div>
 
                     <div class="container-login100-form-btn m-t-32">
@@ -67,7 +67,7 @@
                         </a>
                     </div>
                     <hr style="border-top:none" />
-                    <a href="#" style="text-decoration:none; padding-left:138px"><small>¿Olvidó la contraseña?</small></a>
+                    <a href="/login/ResetPassword" style="text-decoration:none; padding-left:138px"><small>¿Olvidó la contraseña?</small></a>
                 </form>
             </div>
         </div>
