@@ -9,6 +9,6 @@ namespace Ecommerce.ViewModels.Account
     public class ResetPasswordViewModel
     {
         [Required(ErrorMessage = "Required")]
-        public string User { get; set; }
+        public string Email { get; set; }
     }
 }
