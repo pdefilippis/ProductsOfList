@@ -54,6 +54,7 @@
                         <ul class="dropdown-menu">
                             <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Login" asp-action="Index">Login</a></li>
                             <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Login" asp-action="Register">Registrarse</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Login" asp-action="ResetPassword">Restablecer contraseña</a></li>
                             <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Article" asp-action="CreateArticle">Crear Artículos</a></li>
                             <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Article" asp-action="EditArticle">Editar Artículos</a></li>
                             <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Lot" asp-action="CreateLot">Crear Lote</a></li>
@@ -77,6 +78,8 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle" style="cursor:pointer;padding-left: 18px;padding-right: 47px;" data-toggle="dropdown">Name user&nbsp;<b class="caret"></b></a>
                         <ul class="dropdown-menu">
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Account" asp-action="UserData">Datos del usuario</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Account" asp-action="ChangePassword">Cambiar contraseña</a></li>
                             <li style="font-family: 'Open Sans', sans-serif;"><a href="#">Salir</a></li>
                         </ul>
                     </li>
