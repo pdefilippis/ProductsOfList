@@ -33,6 +33,11 @@ namespace Ecommerce.Controllers
         {
             return View();
         }
+        
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
 
     }
 }
