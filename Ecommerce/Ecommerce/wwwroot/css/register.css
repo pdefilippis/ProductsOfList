@@ -241,15 +241,53 @@ h6 {
 .btn--blue {
     background: #00338D;
     border-radius: 21px;
-    font-size: 18px;
+    font-size: 14px;
     text-transform: uppercase;
     padding: 0 20px;
-    height: 42px;
+    height: 39px;
 }
 
     .btn--blue:hover {
         background: #337ab7;
     }
+
+
+  
+.btn2 {
+    line-height: 40px;
+    display: inline-block;
+    padding: 0 25px;
+    cursor: pointer;
+    font-family: "Roboto", "Arial", "Helvetica Neue", sans-serif;
+    color: #fff;
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.btn2--radius {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.btn2--blue {
+    background: #7e8285;
+    border-radius: 21px;
+    font-size: 14px;
+    text-transform: uppercase;
+    padding: 0 20px;
+    height: 39px;
+}
+
+.btn2--blue:hover {
+    background: #AEB1B3;
+}
+
+
 
 /* ==========================================================================
    #DATE PICKER
