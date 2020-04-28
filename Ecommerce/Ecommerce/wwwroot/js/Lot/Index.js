@@ -1,4 +1,4 @@
-﻿(function (self, $, undefined) {
+(function (self, $, undefined) {
     var lot_actions_btn_group = $("#lot-actions-btn-group");
 
     Index.Start = function () {
@@ -25,38 +25,43 @@
                     render: $.fn.dataTable.render.text(),
                     responsivePriority: 2
                 },
+                //{
+                //    title: $("#state-column-title").html(),
+                //    data: "state",
+                //    render: function (data, type, full, meta) {
+                //        var priority = data;
+                //        switch (priority) {
+                //            case "CERRADO":
+                //                priority = $("#closed-field").html();
+                //                break;
+                //            case "ACTIVO":
+                //                priority = $("#active-field").html();
+                //                break;
+                //            case "INACTIVO":
+                //                priority = $("#inactive-field").html();
+                //                break;
+                //            default:
+                //                priority = "";
+                //        }
+                //        return priority;
+                //    },
+                //    responsivePriority: 3
+                //},
                 {
                     title: $("#state-column-title").html(),
                     data: "state",
-                    render: function (data, type, full, meta) {
-                        var priority = data;
-                        switch (priority) {
-                            case "CERRADO":
-                                priority = $("#closed-field").html();
-                                break;
-                            case "ACTIVO":
-                                priority = $("#active-field").html();
-                                break;
-                            case "INACTIVO":
-                                priority = $("#inactive-field").html();
-                                break;
-                            default:
-                                priority = "";
-                        }
-                        return priority;
-                    },
-                    responsivePriority: 3
+                    responsivePriority: 6
                 },
-                {
-                    title: $("#createDate-column-title").html(),
-                    data: { _: "create_Date", sort: "create_Date" },
-                    responsivePriority: 4
-                },
-                {
-                    title: $("#upDate-column-title").html(),
-                    data: { _: "update_Date", sort: "update_Date" },
-                    responsivePriority: 5
-                },
+                //{
+                //    title: $("#createDate-column-title").html(),
+                //    data: { _: "create_Date", sort: "create_Date" },
+                //    responsivePriority: 4
+                //},
+                //{
+                //    title: $("#upDate-column-title").html(),
+                //    data: { _: "update_Date", sort: "update_Date" },
+                //    responsivePriority: 5
+                //},
                 {
                     title: $("#lotArticles-column-title").html(),
                     data: "lot_Articles",
@@ -95,64 +100,64 @@
         /////////////
 
         // #region Toggle modal
-        $(document).delegate('#btnLotClosure', 'click', function (e) {
-            var lotId = $(this).attr('item-id');
+        //$(document).delegate('#btnLotClosure', 'click', function (e) {
+        //    var lotId = $(this).attr('item-id');
 
-            Swal.fire({
-                title: $("#are-you-sure").text(),
-                text: $("#this-operation-can-not-be-revert").text(),
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#28a745',
-                cancelButtonColor: '#dc3545',
-                confirmButtonText: $("#yes-text").text(),
-                cancelButtonText: $("#no-text").text()
-            }).then(function (result) {
-                if (result.value) {
-                    var data = {
-                        lotId: lotId
-                    };
-                    $.ajax({
-                        url: '/Lot/LotClosure',
-                        data: data,
-                        success: function (data) {
-                            if (data === true) {
-                                Swal.fire({
-                                    title: $("#success-text").text(),
-                                    text: $("#approved").text(),
-                                    type: 'success',
-                                    icon: "success",
-                                    confirmButtonText: $("#btnsuccess-text").text(),
-                                    timer: 1500
-                                }).then(function (result) {
-                                    window.location.reload();
-                                });
-                            }
-                            else if (data === false) {
+        //    Swal.fire({
+        //        title: $("#are-you-sure").text(),
+        //        text: $("#this-operation-can-not-be-revert").text(),
+        //        icon: 'warning',
+        //        showCancelButton: true,
+        //        confirmButtonColor: '#28a745',
+        //        cancelButtonColor: '#dc3545',
+        //        confirmButtonText: $("#yes-text").text(),
+        //        cancelButtonText: $("#no-text").text()
+        //    }).then(function (result) {
+        //        if (result.value) {
+        //            var data = {
+        //                lotId: lotId
+        //            };
+        //            $.ajax({
+        //                url: '/Lot/LotClosure',
+        //                data: data,
+        //                success: function (data) {
+        //                    if (data === true) {
+        //                        Swal.fire({
+        //                            title: $("#success-text").text(),
+        //                            text: $("#approved").text(),
+        //                            type: 'success',
+        //                            icon: "success",
+        //                            confirmButtonText: $("#btnsuccess-text").text(),
+        //                            timer: 1500
+        //                        }).then(function (result) {
+        //                            window.location.reload();
+        //                        });
+        //                    }
+        //                    else if (data === false) {
 
-                                Swal.fire(
-                                    $("#error-text").text(),
-                                    $("#couldnt-rejected").text(),
-                                    "error"
-                                )
-                            }
-                            else {
-                                window.location.reload();
-                            }
-                        },
-                        error: function () {
-                            Swal.fire(
-                                $("#error-text").text(),
-                                $("#couldnt-rejected").text(),
-                                "error"
-                            )
-                        }
-                    });
-                }
-                swal.close();
-            }
-            );
-        });
+        //                        Swal.fire(
+        //                            $("#error-text").text(),
+        //                            $("#couldnt-rejected").text(),
+        //                            "error"
+        //                        )
+        //                    }
+        //                    else {
+        //                        window.location.reload();
+        //                    }
+        //                },
+        //                error: function () {
+        //                    Swal.fire(
+        //                        $("#error-text").text(),
+        //                        $("#couldnt-rejected").text(),
+        //                        "error"
+        //                    )
+        //                }
+        //            });
+        //        }
+        //        swal.close();
+        //    }
+        //    );
+        //});
 
         // #endregion
 
