@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Domain.Models;
 using Ecommerce.Helpers;
 using Ecommerce.ViewModels.Lot;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Controllers
 {
+    [Authorize]
     public class LotController : Controller
     {
         private readonly Core.ILoteManager _loteManager;

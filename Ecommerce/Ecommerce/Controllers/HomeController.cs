@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
     
@@ -29,6 +31,7 @@ namespace Ecommerce.Controllers
         
         public IActionResult Index()
         {
+            var algo = HttpContext.User.Identity.IsAuthenticated;
             return View();
         }
 

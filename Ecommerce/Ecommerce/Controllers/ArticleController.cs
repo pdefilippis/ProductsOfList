@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Helpers;
 using Ecommerce.ViewModels.Article;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Controllers
 {
+    [Authorize]
     public class ArticleController : Controller
     {
     
