@@ -1,5 +1,5 @@
-﻿using Ecommerce.Helpers;
-using Ecommerce.Tables;
+﻿using Ecommerce.Domain.Models;
+using Ecommerce.Helpers;
 using Ecommerce.ViewModels.Lot;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -9,14 +9,12 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using static Ecommerce.Lot;
-using static Ecommerce.Tables.LotHistory;
 
 namespace Ecommerce.Controllers
 {
     public class LotController : Controller
     {
-        private readonly ProductsManagerContext _loteManager;
+        private readonly Core.ILoteManager _loteManager;
         private readonly ProductsManagerContext context;
 
         //static Random random = new Random();
