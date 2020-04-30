@@ -78,6 +78,14 @@ namespace Ecommerce.Domain.Models
 
                 entity.Property(e => e.Usuario1).IsUnicode(false);
             });
+            
+            modelBuilder.Entity<ArticuloTipo>().HasData(
+                new ArticuloTipo { Descripcion = "CPU", Id = 1 },
+                new ArticuloTipo { Descripcion = "Teclado", Id = 2 },
+                new ArticuloTipo { Descripcion = "Monitor", Id = 3 },
+                new ArticuloTipo { Descripcion = "Notebook", Id = 4 },
+                new ArticuloTipo { Descripcion = "Mouse", Id = 5 }
+                );
         }
     }
 }
