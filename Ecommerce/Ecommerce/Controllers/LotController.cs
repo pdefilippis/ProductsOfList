@@ -16,12 +16,15 @@ namespace Ecommerce.Controllers
 {
     public class LotController : Controller
     {
-    private readonly ProductsManagerContext context;
+        private readonly ProductsManagerContext _loteManager;
+        private readonly ProductsManagerContext context;
+
         //static Random random = new Random();
 
-        public LotController(ProductsManagerContext productsManagerContext)
+        public LotController(ProductsManagerContext productsManagerContext, Core.ILoteManager loteManager)
         {
             this.context = productsManagerContext;
+            _loteManager = loteManager;
         }
 
         public IActionResult Index()
@@ -31,17 +34,17 @@ namespace Ecommerce.Controllers
 
         public JsonResult GetLots()
         {
-            //Agarro los valores del lote y los mapeo
-            var Lots = context.Lote.Select(l => new
+            var items = _loteManager.Get();
+            items.Select(l => new
             {
                 lot_id = l.Id,
                 lot_Description = l.Descripcion,
                 //create_Date = l.CreateDate.ToString("dd/MM/yyyy HH:mm:ss"),
                 //update_Date = l.UpdateDate.ToString("dd/MM/yyyy HH:mm:ss"),
-                lot_Articles = l.Articulo.Count,
-                state = l.Activo,
+                lot_article = l.Articulos.Count
             }).ToList();
-            return Json(Lots);
+
+            return Json(items);
         }
 
         [HttpGet]
