@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Helpers;
 using Ecommerce.Tables;
 using Ecommerce.ViewModels.Lot;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
@@ -14,6 +15,7 @@ using static Ecommerce.Tables.LotHistory;
 
 namespace Ecommerce.Controllers
 {
+    [Authorize]
     public class LotController : Controller
     {
     

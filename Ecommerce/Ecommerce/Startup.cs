@@ -6,11 +6,14 @@ using AutoMapper;
 using Ecommerce.Domain;
 using Ecommerce.Domain.Models;
 using Ecommerce.Infrastructure.Mappers;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -53,12 +56,34 @@ namespace Ecommerce
 
             services.AddSingleton<Infra.Mappers.ITransformMapper, Infra.Mappers.TransformMapper>();
 
+            //app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+
             services.AddScoped<IConnectionContext>(x => new ConnectionContext(Configuration.GetConnectionString("DeRemate")));
 
             
             services.AddDbContext<ProductsManagerContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DeRemate"))
                 );
+
+            services.AddMvc(config =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            }).AddXmlSerializerFormatters();
+
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.Cookie.HttpOnly = true;
+            //    options.Cookie.Expiration = TimeSpan.FromDays(5);
+            //    options.LoginPath = "/Login/Index";
+            //});
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Login/Index";
+                    //options.AccessDeniedPath
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,12 +112,13 @@ namespace Ecommerce
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Login}/{action=Index}/{id?}");
             });
         }
     }
