@@ -1,15 +1,10 @@
-﻿using Ecommerce.Domain.Models;
-using Ecommerce.Helpers;
+﻿using Ecommerce.Common.DataMembers.Input;
 using Ecommerce.ViewModels.Lot;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Ecommerce.Controllers
 {
@@ -17,13 +12,9 @@ namespace Ecommerce.Controllers
     public class LotController : Controller
     {
         private readonly Core.ILoteManager _loteManager;
-        private readonly ProductsManagerContext context;
 
-        //static Random random = new Random();
-
-        public LotController(ProductsManagerContext productsManagerContext, Core.ILoteManager loteManager)
+        public LotController(Core.ILoteManager loteManager)
         {
-            this.context = productsManagerContext;
             _loteManager = loteManager;
         }
 
@@ -50,232 +41,100 @@ namespace Ecommerce.Controllers
         [HttpGet]
         public IActionResult CreateLot()
         {
-            var model = new CreateLotViewModel();
-            return View(model);
+            return View(new CreateLotViewModel());
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateLot(CreateLotViewModel createLotViewModel)
+        public IActionResult CreateLot(CreateLotViewModel loteModel)
         {
             if (ModelState.IsValid)
             {
-                Lote lot = new Lote
+                var lote = new Lote
                 {
-                    Descripcion = createLotViewModel.Descripcion
-                    //Estado = Lote.EstadoLote.ENABLED,
-                    //CreateDate = DateTime.Now,
-                    //UpdateDate = DateTime.Now,
+                    Id = loteModel.LotId,
+                    Descripcion = loteModel.Descripcion,
+                    NombreImagen = loteModel.Imagen?.FileName,
+                    Imagen = ConvertFileToByte(loteModel.Imagen)
                 };
 
-                if (createLotViewModel.Imagen != null)
-                {
-                    //lot.ContentLength = createLotViewModel.Image.Length;
-                    //lot.ContentType = createLotViewModel.Image.ContentType;
-                    lot.NombreImagen = createLotViewModel.Imagen.FileName;
-                    using (var ms = new MemoryStream())
-                    {
-                        createLotViewModel.Imagen.CopyTo(ms);
-                        lot.Imagen = ms.ToArray();
-                    }
-                }
 
-                context.Lote.Add(lot);
-                context.SaveChanges();
-
-                //NewHistory(lot.Id, AccionLote.CREATE, DateTime.Now, CurrentUserId);
+                _loteManager.Save(lote);
 
                 return RedirectToAction("Index");
             }
             else
             {
-                if (createLotViewModel.Imagen == null)
+                if (loteModel.Imagen == null)
                     ModelState.AddModelError("Image", "Error al cargar la imagen");
 
-                return View(createLotViewModel);
+                return View(loteModel);
             }
         }
 
 
         [HttpGet]
-        public IActionResult EditLot(int lotId)
+        public IActionResult EditLot(int id)
         {
-            var lot = context.Lote.FirstOrDefault(u => u.Id == lotId);
-            if (lot == null)
+            var lote = _loteManager.GetById(id);
+
+            if (lote == null)
                 return RedirectToAction("Status", "Error", new { code = 404 });
-            else
-                return View(new EditLotViewModel
-                {
-                    Descripcion = lot.Descripcion,
-                    LotId = lot.Id,
-                    NombreImagen = lot.NombreImagen,
-                    FlagImage = true
-                });
+
+
+            return View(new EditLotViewModel
+            {
+                Descripcion = lote.Descripcion,
+                LotId = lote.Id,
+                NombreImagen = lote.NombreImagen,
+                FlagImage = lote != null
+            });
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditLot(EditLotViewModel editLotViewModel)
+        public IActionResult EditLot(EditLotViewModel loteModel)
         {
             if (ModelState.IsValid)
             {
-                var lot = context.Lote.FirstOrDefault(u => u.Id == editLotViewModel.LotId);
-                if (lot != null)
+                var lote = new Lote
                 {
-                    lot.Descripcion = editLotViewModel.Descripcion;
-                    //lot.UpdateDate = DateTime.Now;
+                    Id = loteModel.LotId,
+                    Descripcion = loteModel.Descripcion,
+                    NombreImagen = loteModel.Imagen?.FileName,
+                    Imagen = ConvertFileToByte(loteModel.Imagen)
+                };
 
-                    if (editLotViewModel.Imagen != null)
-                    {
-                        //lot.ContentLength = editLotViewModel.Image.Length;
-                        //lot.ContentType = editLotViewModel.Image.ContentType;
-                        lot.NombreImagen = editLotViewModel.Imagen.FileName;
-                        using (var ms = new MemoryStream())
-                        {
-                            editLotViewModel.Imagen.CopyTo(ms);
-                            lot.Imagen = ms.ToArray();
-                        }
-                    }
-                    else
-                    if (!editLotViewModel.FlagImage)
-                    {
-                        //lot.ContentLength = 0;
-                        //lot.ContentType = null;
-                        lot.NombreImagen = null;
-                        lot.Imagen = null;
-                    }
 
-                    context.SaveChanges();
-
-                    //NewHistory(lot.Id, AccionLote.EDIT, DateTime.Now, CurrentUserId);
-                }
+                _loteManager.Save(lote);
 
                 return RedirectToAction("Index");
             }
-            else
-                return View(editLotViewModel);
+            
+            return View(loteModel);
         }
-
-
-        //public IActionResult EnableDisable(int lotId)
-        //{
-        //    var lot = context.Lote.FirstOrDefault(u => u.Id == lotId);
-
-        //    if (lot == null)
-        //        return RedirectToAction("Index");
-        //    else
-        //    {
-        //        switch (lot.Estado)
-        //        {
-        //            case EstadoLote.DISABLED:
-        //                lot.Estado = EstadoLote.ENABLED;
-        //                NewHistory(lot.Id, AccionLote.ENABLE, DateTime.Now, CurrentUserId);
-        //                break;
-
-        //            case EstadoLote.ENABLED:
-        //                lot.Estado = EstadoLote.DISABLED;
-        //                NewHistory(lot.Id, AccionLote.DISABLE, DateTime.Now, CurrentUserId);
-        //                break;
-        //        }
-        //    }
-        //    context.SaveChanges();
-
-        //    return RedirectToAction("Index");
-        //}
-
-
-        //public IActionResult History(int lotId)
-        //{
-
-        //    if (context.Lote.Any(x => x.Id == lotId))
-        //    {
-        //        HistoryLotViewModel historyLotViewModel = new HistoryLotViewModel();
-        //        historyLotViewModel.LotId = lotId;
-
-        //        return View(historyLotViewModel);
-        //    }
-        //    else
-        //        return RedirectToAction("Status", "Error", new { code = 404 });
-
-        //}
-
-        //public JsonResult GetHistory(int lotId)
-        //{
-
-        //    var lotHistory = context.LoteHistoriales.Where(x => x.Lote.Id == lotId).Select(x => new
-        //    {
-        //        description = x.Lote.Descripcion,
-        //        user = x.Usuario.Usuario1,
-        //        action = localizer[x.Action.GetAttribute<DisplayAttribute>().Name].Value,
-        //        date = x.Date.ToString("dd/MM/yyyy HH:mm:ss")
-        //    }).ToList();
-
-        //    return Json(lotHistory);
-        //}
-
-        //public JsonResult LotClosure(int lotId)
-        //{
-        //    var lot = context.Lote.FirstOrDefault(l => l.Id == lotId);
-
-        //    if (lot != null)
-        //    {
-        //        foreach (var article in lot.Articulo)
-        //        {
-        //            if (article.UserArticles.Count > 0)
-        //            {
-        //                int r = random.Next(article.UserArticles.Count);
-        //                article.IdUsuarioAdjudicado = article.UserArticles.ElementAt(r).UserId;
-        //            }
-        //        }
-
-        //        lot.Estado = EstadoLote.CLOSED;
-
-        //        context.SaveChanges();
-
-        //        NewHistory(lot.Id, AccionLote.CLOSE, DateTime.Now, CurrentUserId);
-
-        //        return Json(true);
-        //    }
-        //    return Json(false);
-        //}
-
-        //public void NewHistory(int lotId, AccionLote lotAction, DateTime dateAction, int userId)
-        //{
-
-        //    LoteHistorial lotHistory = new LoteHistorial
-        //    {
-        //        LotId = lotId,
-        //        Action = lotAction,
-        //        Date = dateAction,
-        //        UserId = userId
-        //    };
-
-        //    context.LoteHistoriales.Add(lotHistory);
-        //    context.SaveChanges();
-        //}
-
-
-        //public IActionResult CreateLot()
-        //{
-        //    return View();
-        //}
-
-        //public IActionResult EditLot()
-        //{
-        //    return View();
-        //}
-
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
 
         public IActionResult History()
         {
             return View();
         }
-        
+
+        private byte[] ConvertFileToByte(IFormFile image)
+        {
+            byte[] img = null;
+
+            if (image != null)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    image.CopyTo(ms);
+                    img = ms.ToArray();
+                }
+            }
+
+            return img;
+        }
     }
 }

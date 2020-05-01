@@ -17,6 +17,6 @@ namespace Ecommerce.ViewModels.Lot
         [Display(Name = "Imagen")]
         public IFormFile Imagen { get; set; }
 
-        public int LotId { get; set; }
+        public int? LotId { get; set; }
     }
 }
