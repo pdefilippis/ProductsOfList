@@ -20,6 +20,8 @@ namespace Ecommerce.Controllers
 
         public IActionResult Index()
         {
+            //TODO: Aca tenes la lista de lotes activos. Para poder completar la Grilla.
+            var lotes = _loteManager.Get();
             return View();
         }
 
