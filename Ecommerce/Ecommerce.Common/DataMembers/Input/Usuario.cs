@@ -7,7 +7,19 @@ namespace Ecommerce.Common.DataMembers.Input
     public class Usuario
     {
         public string UserName { get; set; }
-        public string Password { get; set; }
+        private string password;
+        public string Password
+        {
+            get
+            {
+                return password;
+            }
+            set
+            {
+                if (value != null)
+                    password = Ecommerce.Common.Password.EncryptPassword(value);
+            }
+        }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
     }
