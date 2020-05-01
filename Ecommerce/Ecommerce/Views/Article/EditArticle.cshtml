@@ -1,0 +1,80 @@
+@using Ecommerce.ViewModels.Article
+@model EditArticleViewModel
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+@section scripts{
+<script src="~/js/Article/Edit.js"></script>
+}
+
+@section Breadcrumb {
+    <li><a asp-action="Index" asp-controller="Lot" style="color:#002147">Lotes</a></li>
+    <li><a asp-action="Index" style="color:#002147">Artículos</a></li>
+    <li class="active"><strong>@ViewData["Title"]</strong></li>
+}
+
+
+
+<h2 style="padding-bottom: 37px; font-family:'Blippo'; font-size:295%; color:#676A6C">Editar Artículo</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditArticle" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="ArticleId" hidden />
+
+            <div class="form-group">
+                <label asp-for="TypeId" class="control-label"></label>
+                <select id="articles-multiselect" @*asp-for="TypeId" asp-items="Model.Types"*@ class="form-control">
+                    <option>CPU</option>
+                    <option>Teclado</option>
+                    <option>Monitor</option>
+                    <option>Notebook</option>
+                    <option>Mouse</option>
+                </select>
+                <span asp-validation-for="TypeId" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                    <label asp-for="TypeId" class="control-label"></label>
+                    <select id="articles-multiselect" asp-for="TypeId" asp-items="Model.Types" class="form-control"></select>
+                    <span asp-validation-for="TypeId" class="text-danger"></span>
+                </div>*@
+
+            <div class="form-group">
+                <label asp-for="Brand" class="control-label required"></label>
+                <input asp-for="Brand" class="form-control" maxlength="30" />
+                <span asp-validation-for="Brand" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SerialNumber" class="control-label required"></label>
+                <input asp-for="SerialNumber" class="form-control" maxlength="30" />
+                <span asp-validation-for="SerialNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label required"></label>
+                <input asp-for="Description" class="form-control" maxlength="50" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label required"></label>
+                <input asp-for="Price" class="form-control" type="number" maxlength="9"/>
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="submit" value="Editar" style="background-color:#002147" class="btn btn-primary pull-left" />
+                </div>
+                <div class="col-md-6">
+                    <a asp-action="Index" class="btn btn-default pull-right">Cancelar</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <script src="~/libman/cdnjs/jquery/jquery.js"></script>
+    <script src="~/js/site.js"></script>
+</div>

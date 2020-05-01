@@ -1,0 +1,34 @@
+﻿@*@model Ecommerce.ViewModels.Account.UserDataViewModel
+
+        @{
+            ViewData["Title"] = "Datos del usuario";
+        }
+
+        @section Breadcrumb {
+        <li class="active"><strong>@ViewData["Title"]</strong></li>
+        }
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Surname" class="control-label"></label>
+                    <input asp-for="Surname" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label asp-for="User" class="control-label"></label>
+                    <input asp-for="User" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreationTimestamp" class="control-label"></label>
+                    <input asp-for="CreationTimestamp" class="form-control" readonly />
+                </div>
+            </div>
+        </div>*@

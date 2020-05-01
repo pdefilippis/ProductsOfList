@@ -1,0 +1,12 @@
+﻿@model Ecommerce.ViewModels.Error.StatusViewModel
+
+
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div style="text-align:center; margin-top:50px; margin-bottom:200px">
+    <p style="font-size:200px"><i class="far fa-frown" style="color:#002147"></i></p>
+    <p style="font-size:50px; color:brown">Error @Model.HTTPStatusCode</p>
+    <p style="font-size:25px">@Model.HTTPStatusCode.ToString()]</p>
+</div>

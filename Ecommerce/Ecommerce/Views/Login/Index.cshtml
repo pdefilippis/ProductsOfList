@@ -1,0 +1,92 @@
+@model Ecommerce.ViewModels.Login.LoginViewModel
+
+
+@{
+    Layout = null;
+}
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="icon" href="~/images/icons/favicon.ico" />
+    <link rel="stylesheet" href="~/login/vendor/animate/animate.css" />
+    <link rel="stylesheet" href="~/login/vendor/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="~/login/fonts/font-awesome-4.7.0/css/font-awesome.css" />
+    <link rel="stylesheet" href="~/login/vendor/select2/select2.css" />
+    <link rel="stylesheet" href="~/login/css/util.css" />
+    <link rel="stylesheet" href="~/login/css/main.css" />
+    <link rel="stylesheet" href="~/libman/cdnjs/twitter-bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/login/vendor/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css" />
+    <link rel="stylesheet" href="~/login/vendor/css-hamburgers/hamburgers.min.css" />
+    <link rel="stylesheet" href="~/login/vendor/animsition/css/animsition.min.css" />
+    <link rel="stylesheet" href="~/login/vendor/select2/select2.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+</head>
+<body>
+
+    <div class="limiter">
+        <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+            <div class="wrap-login100 p-t-30 p-b-50">
+                <span class="login100-form-title p-b-41">
+                    Login
+                </span>
+                <form class="login100-form validate-form p-b-33 p-t-5" asp-controller="Login" asp-action="Index" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="wrap-input100">
+                        <input asp-for="Input.User" class="input100" type="text" placeholder="Usuario">
+                        <span class="focus-input100 text-danger" asp-validation-for="Input.User" data-placeholder="&#xe82a;"></span>
+                    </div>
+
+                    <div class="wrap-input100 flex-container">
+                        <input asp-for="Input.Password" class="input100" type="password" placeholder="Contraseña" id="passws">
+                        <span class="focus-input100 text-danger" asp-validation-for="Input.Password" data-placeholder="&#xe80f;"></span>
+                        <span class="fa fa-eye eye-style fa-lg" style="width:6px;height:6px" onclick="showHidePassword()" id="eyePassw"></span>
+                    </div>
+
+                    <div class="container-login100-form-btn m-t-32">
+                        <button type="submit" class="login100-form-btn">Iniciar sesión</button>
+                    </div>
+                    <div class="container-login100-form-btn m-t-32">
+                        <a href="/login/Register" style="font-size:16px; color:black">
+                            Registrarse
+                        </a>
+                    </div>
+                    <hr style="border-top:none" />
+                    <a href="/login/ResetPassword" style="text-decoration:none; padding-left:138px"><small>¿Olvidó la contraseña?</small></a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="~/libman/cdnjs/jquery/jquery.min.js"></script>
+    <script src="~/login/vendor/jquery/jquery-3.2.1.min.js"></script>
+
+    <script src="~/login/vendor/bootstrap/js/popper.js"></script>
+    <script src="~/login/vendor/daterangepicker/daterangepicker.js"></script>
+    <script src="~/login/vendor/countdowntime/countdowntime.js"></script>
+    <script src="~/login/js/main.js"></script>
+
+    <script src="~/login/vendor/animsition/js/animsition.min.js"></script>
+    <script src="~/login/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/login/vendor/select2/select2.min.js"></script>
+    <script src="~/login/vendor/daterangepicker/moment.min.js"></script>
+    <script src="~/login/vendor/bootstrap/js/popper.min.js"></script>
+
+</body>
+</html>
