@@ -78,6 +78,22 @@ namespace Ecommerce.Infrastructure.Repository
             }
         }
 
+        public void Postular(Input.ArticuloPostulacion postulacion)
+        {
+            using (var context = _context.Get())
+            {
+                var item = new Domain.Models.Solicitud
+                {
+                    IdArticulo = postulacion.IdArticulo,
+                    IdUsuario = postulacion.IdUsuario
+                };
+
+                context.Solicitud.Add(item);
+                context.SaveChanges();
+            }
+        }
+
+
         public Output.Articulo Save(Input.Articulo articulo)
         {
             if (articulo.Id.HasValue)
@@ -100,6 +116,37 @@ namespace Ecommerce.Infrastructure.Repository
                 context.SaveChanges();
 
                 return _transformMapper.Transform<Domain.Models.Articulo, Output.Articulo>(item);
+            }
+        }
+
+        public bool ExistsPostulacion(Input.ArticuloPostulacion postulacion)
+        {
+            using (var context = _context.Get())
+            {
+                return context.Solicitud.Any(x => x.IdArticulo.Equals(postulacion.IdArticulo) &&
+                    x.IdUsuario.Equals(postulacion.IdUsuario));
+            }
+        }
+
+        public void DeclinarPostulacion(Input.ArticuloPostulacion postulacion)
+        {
+            using (var context = _context.Get())
+            {
+                var items = context.Solicitud.Where(x => x.IdArticulo.Equals(postulacion.IdArticulo) &&
+                x.IdUsuario.Equals(postulacion.IdUsuario)).ToList();
+
+                items.ForEach(x => context.Solicitud.Remove(x));
+                context.SaveChanges();
+            }
+        }
+
+        public void AdjudicarArticulo(int idArticulo, int idUsuario)
+        {
+            using (var context = _context.Get())
+            {
+                var art = context.Articulo.Where(x => x.Id.Equals(idArticulo)).FirstOrDefault();
+                art.UsuarioAdjudicado = idUsuario;
+                context.SaveChanges();
             }
         }
     }

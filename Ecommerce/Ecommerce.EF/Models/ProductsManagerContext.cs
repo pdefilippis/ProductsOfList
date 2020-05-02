@@ -18,6 +18,7 @@ namespace Ecommerce.Domain.Models
         public virtual DbSet<Articulo> Articulo { get; set; }
         public virtual DbSet<ArticuloTipo> ArticuloTipo { get; set; }
         public virtual DbSet<Lote> Lote { get; set; }
+        public virtual DbSet<Solicitud> Solicitud { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -39,8 +40,6 @@ namespace Ecommerce.Domain.Models
 
                 entity.Property(e => e.NumeroSerie).IsUnicode(false);
 
-                entity.Property(e => e.UsuarioAdjudicado).IsUnicode(false);
-
                 entity.HasOne(d => d.IdLoteNavigation)
                     .WithMany(p => p.Articulo)
                     .HasForeignKey(d => d.IdLote)
@@ -52,6 +51,11 @@ namespace Ecommerce.Domain.Models
                     .HasForeignKey(d => d.IdTipo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Articulo_ArticuloTipo");
+
+                entity.HasOne(d => d.UsuarioAdjudicadoNavigation)
+                    .WithMany(p => p.Articulo)
+                    .HasForeignKey(d => d.UsuarioAdjudicado)
+                    .HasConstraintName("FK_Articulo_Usuario");
             });
 
             modelBuilder.Entity<ArticuloTipo>(entity =>
@@ -68,6 +72,21 @@ namespace Ecommerce.Domain.Models
                 entity.Property(e => e.NombreImagen).IsUnicode(false);
             });
 
+            modelBuilder.Entity<Solicitud>(entity =>
+            {
+                entity.HasOne(d => d.IdArticuloNavigation)
+                    .WithMany(p => p.Solicitud)
+                    .HasForeignKey(d => d.IdArticulo)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Solicitud_Articulo");
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.Solicitud)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Solicitud_Usuario");
+            });
+
             modelBuilder.Entity<Usuario>(entity =>
             {
                 entity.Property(e => e.Apellido).IsUnicode(false);
@@ -78,14 +97,6 @@ namespace Ecommerce.Domain.Models
 
                 entity.Property(e => e.Usuario1).IsUnicode(false);
             });
-            
-            modelBuilder.Entity<ArticuloTipo>().HasData(
-                new ArticuloTipo { Descripcion = "CPU", Id = 1 },
-                new ArticuloTipo { Descripcion = "Teclado", Id = 2 },
-                new ArticuloTipo { Descripcion = "Monitor", Id = 3 },
-                new ArticuloTipo { Descripcion = "Notebook", Id = 4 },
-                new ArticuloTipo { Descripcion = "Mouse", Id = 5 }
-                );
         }
     }
 }

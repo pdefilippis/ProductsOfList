@@ -16,6 +16,7 @@ namespace Ecommerce.Infrastructure
         Output.Usuario Update(Input.Usuario usuario);
         Output.Usuario Save(Input.Usuario usuario);
         Output.Usuario ChangePassword(string usuario, string password);
+        ICollection<Output.Usuario> GetByArticulo(int idArticulo);
 
     }
 }

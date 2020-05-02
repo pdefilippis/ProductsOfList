@@ -15,6 +15,7 @@ namespace Ecommerce.Infrastructure.Mappers
         protected static void InitializeUsuario(IMapperConfigurationExpression mapper)
         {
             mapper.CreateMap<Domain.Models.Usuario, Output.Usuario>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(d => d.Apellido, opt => opt.MapFrom(src => src.Apellido))
                 .ForMember(d => d.Nombre, opt => opt.MapFrom(src => src.Nombre))
                 .ForMember(d => d.Password, opt => opt.MapFrom(src => src.Clave))

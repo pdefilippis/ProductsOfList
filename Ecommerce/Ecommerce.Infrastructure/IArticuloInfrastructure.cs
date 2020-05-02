@@ -14,6 +14,9 @@ namespace Ecommerce.Infrastructure
         ICollection<Member.Output.Articulo> GetByLote(int lote);
         ICollection<Member.Output.Articulo> Get();
         void Delete(int id);
-
+        void Postular(Member.Input.ArticuloPostulacion postulacion);
+        void DeclinarPostulacion(Member.Input.ArticuloPostulacion postulacion);
+        bool ExistsPostulacion(Member.Input.ArticuloPostulacion postulacion);
+        void AdjudicarArticulo(int idArticulo, int idUsuario);
     }
 }

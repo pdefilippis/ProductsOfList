@@ -61,6 +61,15 @@ namespace Ecommerce.Infrastructure.Repository
             }
         }
 
+        public ICollection<Output.Usuario> GetByArticulo(int idArticulo)
+        {
+            using (var context = _context.Get())
+            {
+                var items = context.Solicitud.Where(x => x.IdArticulo.Equals(idArticulo)).Select(x => x.IdUsuarioNavigation).ToList();
+                return _transformMapper.Transform<List<Domain.Models.Usuario>, ICollection<Output.Usuario>>(items);
+            }
+        }
+
         public Output.Usuario Save(Input.Usuario usuario)
         {
             if (Exists(usuario.UserName))

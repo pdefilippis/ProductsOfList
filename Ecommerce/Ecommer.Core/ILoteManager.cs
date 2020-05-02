@@ -10,5 +10,6 @@ namespace Ecommerce.Core
         Member.Output.Lote GetById(int id);
         ICollection<Member.Output.Lote> Get();
         Member.Output.Lote Save(Member.Input.Lote lote);
+        void Sorteo(int lote);
     }
 }

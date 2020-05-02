@@ -16,7 +16,7 @@ namespace Ecommerce.Infrastructure.Mappers
                 .ForMember(d => d.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(d => d.NumeroSerie, opt => opt.MapFrom(src => src.NumeroSerie))
                 .ForMember(d => d.Precio, opt => opt.MapFrom(src => src.Precio))
-                .ForMember(d => d.UsuarioAdjudicado, opt => opt.MapFrom(src => src.UsuarioAdjudicado))
+                .ForMember(d => d.UsuarioAdjudicado, opt => opt.MapFrom(src => src.UsuarioAdjudicadoNavigation))
                 .ForMember(d => d.Lote, opt => opt.Ignore())
                 .ForMember(d => d.Tipo, opt => opt.Ignore())
                 .ReverseMap();

@@ -15,6 +15,12 @@ namespace Ecommerce.Core.Managers
             _articuloInfrastructure = articuloInfrastructure;
         }
 
+        public void DeclinarPostulacionArticulo(ArticuloPostulacion postulacion)
+        {
+            if (_articuloInfrastructure.ExistsPostulacion(postulacion))
+                _articuloInfrastructure.DeclinarPostulacion(postulacion);
+        }
+
         public ICollection<Common.DataMembers.Output.Articulo> Get()
         {
             return _articuloInfrastructure.Get();
@@ -28,6 +34,12 @@ namespace Ecommerce.Core.Managers
         public ICollection<Common.DataMembers.Output.Articulo> GetLote(int lote)
         {
             return _articuloInfrastructure.GetByLote(lote);
+        }
+
+        public void PostularArticulo(ArticuloPostulacion postulacion)
+        {
+            if (!_articuloInfrastructure.ExistsPostulacion(postulacion))
+                _articuloInfrastructure.Postular(postulacion);
         }
 
         public Common.DataMembers.Output.Articulo Save(Common.DataMembers.Input.Articulo articulo)
