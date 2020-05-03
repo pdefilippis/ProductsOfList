@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Linq;
+using Lote = Ecommerce.Common.DataMembers.Input.Lote;
 
 namespace Ecommerce.Controllers
 {
@@ -27,17 +28,15 @@ namespace Ecommerce.Controllers
 
         public JsonResult GetLots()
         {
-            var items = _loteManager.Get();
-            items.Select(l => new
+            var Lots = context.Lote.Select(l => new
             {
+                state = l.Activo == true ? "Activado" : "Desactivado",
                 lot_id = l.Id,
                 lot_Description = l.Descripcion,
-                //create_Date = l.CreateDate.ToString("dd/MM/yyyy HH:mm:ss"),
-                //update_Date = l.UpdateDate.ToString("dd/MM/yyyy HH:mm:ss"),
-                lot_article = l.Articulos.Count
+                lot_article = l.Articulo.Count == null ? 0 : l.Articulo.Count
             }).ToList();
 
-            return Json(items);
+            return Json(Lots);
         }
 
         [HttpGet]
