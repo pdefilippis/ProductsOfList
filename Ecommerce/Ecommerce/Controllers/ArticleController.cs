@@ -9,7 +9,6 @@ using Articulo = Ecommerce.Common.DataMembers.Input.Articulo;
 
 namespace Ecommerce.Controllers
 {
-    [Authorize]
     public class ArticleController : Controller
     {
     
@@ -29,6 +28,7 @@ namespace Ecommerce.Controllers
                 article_Description = l.Descripcion,
                 serialNumber = l.NumeroSerie,
                 type = l.IdTipoNavigation.Descripcion,
+                state = l.Activo == true ? "Activado" : "Desactivado",
                 article_id = l.Id,
                 //brand = l.Marca,
                 price = "$\n" + l.Precio.ToString(),
