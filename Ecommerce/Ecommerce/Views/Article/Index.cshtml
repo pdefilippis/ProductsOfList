@@ -33,31 +33,31 @@
     <div id="article-actions-btn-group">
         <div class="btn-group" style="display:flex">
 
-            <a asp-action="EditArticle" class="btn btn-default btn-xs" title="Editar" style="color:#00A3A1" id="editArticle">
+            <a asp-action="EditArticle" class="btn btn-default btn-xs" title="Editar" style="color:#2A0CC0" id="editArticle">
                 <i class="fas fa-pencil-alt"></i>
             </a>
-            <a asp-action="EnableDisable" class="btn btn-default btn-xs btn-enable-article" title="Habilitar/Deshabilitar" style="color:#00A3A1">
+            <a asp-action="EnableDisable" class="btn btn-default btn-xs btn-enable-article" title="Habilitar/Deshabilitar" style="color:#2A0CC0">
                 <i id="toggleAble" class="fa fa-toggle-on fa-fw"></i>
                 <i id="toggleDisable" class="fa fa-toggle-off fa-fw"></i>
             </a>
-            <a asp-action="CreateArticle" class="btn btn-default btn-xs" title="Duplicar" style="color: #00A3A1
-">
+            <a asp-action="CreateArticle" class="btn btn-default btn-xs" title="Duplicar" style="color: #2A0CC0">
                 <i class="far fa-clone"></i>
             </a>
         </div>
     </div>
 
-    @*<div id="inactivate-field">
-        <span class="badge" style="background-color:#DB2C2C; color:white; font-size:smaller">Inactivo</span>
+
+    <div id="active-field">
+        <span class="badge" style="background-color:#37B22C; color:white; font-size:smaller">Activado</span>
     </div>
-    <div id="activate-field">
-        <span class="badge" style="background-color:#37B22C; color:white; font-size:smaller">Activo</span>
-    </div>*@
+    <div id="inactive-field">
+        <span class="badge" style="background-color: #DB2C2C;color: white; font-size: smaller">Desactivado</span>
+    </div>
 
 
     <div id="id-column-title">ID</div>
     <div id="articleDescription-column-title">Descripción</div>
-    @*<div id="state-column-title">Estado</div>*@
+    <div id="state-column-title">Estado</div>
     <div id="type-column-title">Tipo</div>
     @*<div id="brand-column-title">Marca</div>*@
     <div id="serialNumber-column-title">Nro de serie</div>
