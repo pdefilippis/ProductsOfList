@@ -32,7 +32,7 @@ namespace Ecommerce.Controllers
                 article_id = l.Id,
                 //brand = l.Marca,
                 price = "$\n" + l.Precio.ToString(),
-                adjudicated = l.UsuarioAdjudicado == null ? "Sin usuario" : l.UsuarioAdjudicado,
+                //adjudicated = l.UsuarioAdjudicado == null ? "Sin usuario" : l.UsuarioAdjudicado,
                 //userCount = l.UserArticles.Count
             }).ToList();
 
