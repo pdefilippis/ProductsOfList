@@ -8,5 +8,6 @@ namespace Ecommerce.ViewModels.Error
     public class StatusViewModel
     {
         public int HTTPStatusCode { get; set; }
+        public string Message { get; set; }
     }
 }

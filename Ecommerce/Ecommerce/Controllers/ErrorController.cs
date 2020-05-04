@@ -1,4 +1,5 @@
 ﻿using Ecommerce.ViewModels.Error;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Controllers
 {
+    [Authorize]
     public class ErrorController : Controller
     {
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -16,10 +18,11 @@ namespace Ecommerce.Controllers
             return View(new IndexViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [Route("[controller]/[action]/{code}")]
-        public IActionResult Status(int code)
+        [AllowAnonymous]
+        //[Route("[controller]/[action]/{code}")]
+        public IActionResult Status()
         {
-            return View(new StatusViewModel { HTTPStatusCode = code });
-         }
+            return View(new StatusViewModel { HTTPStatusCode = 500, Message = "Ups detectamos un error!!!" });
+        }
     }
 }

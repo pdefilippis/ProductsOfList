@@ -3,30 +3,57 @@ using System.Collections.Generic;
 using System.Text;
 using Ecommerce.Common.DataMembers.Output;
 using Ecommerce.Infrastructure;
+using Microsoft.Extensions.Logging;
 
 namespace Ecommerce.Core.Managers
 {
     public class ArticuloTipo : IArticuloTipoManager
     {
         private readonly IArticuloTipoInfrastructure _articuloTipoInfrastructure;
-        public ArticuloTipo(IArticuloTipoInfrastructure articuloTipoInfrastructure)
+        private readonly ILogger<ArticuloTipo> _logger;
+        public ArticuloTipo(IArticuloTipoInfrastructure articuloTipoInfrastructure, ILogger<ArticuloTipo> logger)
         {
             _articuloTipoInfrastructure = articuloTipoInfrastructure;
+            _logger = logger;
         }
 
         public ICollection<Common.DataMembers.Output.ArticuloTipo> Get()
         {
-            return _articuloTipoInfrastructure.Get();
+            try
+            {
+                return _articuloTipoInfrastructure.Get();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                throw;
+            }
         }
 
         public Common.DataMembers.Output.ArticuloTipo GetByCodigo(string codigo)
         {
-            return _articuloTipoInfrastructure.GetByCodigo(codigo);
+            try
+            {
+                return _articuloTipoInfrastructure.GetByCodigo(codigo);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                throw;
+            }
         }
 
         public Common.DataMembers.Output.ArticuloTipo GetById(int id)
         {
-            return _articuloTipoInfrastructure.GetById(id);
+            try
+            {
+                return _articuloTipoInfrastructure.GetById(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                throw;
+            }
         }
     }
 }

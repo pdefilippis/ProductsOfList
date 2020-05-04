@@ -5,70 +5,129 @@ using Ecommerce.Common.DataMembers.Input;
 using Ecommerce.Common.DataMembers.Output;
 using Ecommerce.Infrastructure;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace Ecommerce.Core.Managers
 {
     public class Lote : ILoteManager
     {
+        private readonly ILogger<Lote> _logger;
         private readonly ILoteInfrastructure _loteInfrastructure;
         private readonly IArticuloInfrastructure _articuloInfrastructure;
         private readonly IUsuarioInfrastructure _usuarioInfrastructure;
         public Lote(ILoteInfrastructure loteInfrastructure, IArticuloInfrastructure articuloInfrastructure,
-            IUsuarioInfrastructure usuarioInfrastructure)
+            IUsuarioInfrastructure usuarioInfrastructure, ILogger<Lote> logger)
         {
             _loteInfrastructure = loteInfrastructure;
             _articuloInfrastructure = articuloInfrastructure;
             _usuarioInfrastructure = usuarioInfrastructure;
+            _logger = logger;
         }
 
         public void Enable(int lote)
         {
-            var item = _loteInfrastructure.GetById(lote);
-            if (!item.Activo)
-                _loteInfrastructure.ChangeStatus(lote);
+            try
+            {
+                var item = _loteInfrastructure.GetById(lote);
+                if (!item.Activo)
+                    _loteInfrastructure.ChangeStatus(lote);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                throw;
+            }
         }
 
         public void Disable(int lote)
         {
-            var item = _loteInfrastructure.GetById(lote);
-            if (item.Activo)
-                _loteInfrastructure.ChangeStatus(lote);
+            try
+            {
+                var item = _loteInfrastructure.GetById(lote);
+                if (item.Activo)
+                    _loteInfrastructure.ChangeStatus(lote);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                throw;
+            }
         }
 
         public ICollection<Common.DataMembers.Output.Lote> Get()
         {
-            return _loteInfrastructure.Get();
+            try
+            {
+                return _loteInfrastructure.Get();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                throw;
+            }            
         }
 
         public Common.DataMembers.Output.Lote GetById(int id)
         {
-            return _loteInfrastructure.GetById(id);
+            try
+            {
+                return _loteInfrastructure.GetById(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                throw;
+            }
         }
 
         public Common.DataMembers.Output.Lote Save(Common.DataMembers.Input.Lote lote)
         {
-            return _loteInfrastructure.Save(lote);
+            try
+            {
+                return _loteInfrastructure.Save(lote);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                throw;
+            }
         }
 
         public void Sorteo(int lote)
         {
-            var articulos = _articuloInfrastructure.GetByLote(lote);
+            try
+            {
+                var articulos = _articuloInfrastructure.GetByLote(lote);
 
-            articulos.ToList().ForEach(x => {
-                var users = _usuarioInfrastructure.GetByArticulo(x.Id);
-                if (!users.Any()) return;
+                articulos.ToList().ForEach(x => {
+                    var users = _usuarioInfrastructure.GetByArticulo(x.Id);
+                    if (!users.Any()) return;
 
-                var ganador = new Random().Next(1, users.Count);
+                    var ganador = new Random().Next(1, users.Count);
 
-                var usr = users.Skip(ganador - 1).Take(1).FirstOrDefault();
+                    var usr = users.Skip(ganador - 1).Take(1).FirstOrDefault();
 
-                _articuloInfrastructure.AdjudicarArticulo(x.Id, usr.Id);
-            });
+                    _articuloInfrastructure.AdjudicarArticulo(x.Id, usr.Id);
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                throw;
+            }
         }
 
         public ICollection<Common.DataMembers.Output.Lote> GetAll()
         {
-            return _loteInfrastructure.GetAll();
+            try
+            {
+                return _loteInfrastructure.GetAll();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                throw;
+            }
         }
     }
 }
