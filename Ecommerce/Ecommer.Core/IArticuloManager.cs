@@ -10,6 +10,7 @@ namespace Ecommerce.Core
         Member.Output.Articulo GetById(int id);
         Member.Output.Articulo Save(Member.Input.Articulo articulo);
         ICollection<Member.Output.Articulo> Get();
+        ICollection<Member.Output.Articulo> GetAll();
         ICollection<Member.Output.Articulo> GetLote(int lote);
         void PostularArticulo(Member.Input.ArticuloPostulacion postulacion);
         void DeclinarPostulacionArticulo(Member.Input.ArticuloPostulacion postulacion);

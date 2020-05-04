@@ -65,5 +65,10 @@ namespace Ecommerce.Core.Managers
                 _articuloInfrastructure.AdjudicarArticulo(x.Id, usr.Id);
             });
         }
+
+        public ICollection<Common.DataMembers.Output.Lote> GetAll()
+        {
+            return _loteInfrastructure.GetAll();
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace Ecommerce.Infrastructure
         void Delete(int id);
         Member.Output.Lote GetById(int id);
         ICollection<Member.Output.Lote> Get();
+        ICollection<Member.Output.Lote> GetAll();
         void ChangeStatus(int id);
     }
 }

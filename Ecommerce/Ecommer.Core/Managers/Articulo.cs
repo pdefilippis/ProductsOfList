@@ -40,6 +40,11 @@ namespace Ecommerce.Core.Managers
             return _articuloInfrastructure.Get();
         }
 
+        public ICollection<Common.DataMembers.Output.Articulo> GetAll()
+        {
+            return _articuloInfrastructure.GetAll();
+        }
+
         public Common.DataMembers.Output.Articulo GetById(int id)
         {
             return _articuloInfrastructure.GetById(id);

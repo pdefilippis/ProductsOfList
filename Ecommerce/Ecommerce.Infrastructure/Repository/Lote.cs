@@ -69,6 +69,15 @@ namespace Ecommerce.Infrastructure.Repository
             }
         }
 
+        public ICollection<Output.Lote> GetAll()
+        {
+            using (var context = _context.Get())
+            {
+                var items = context.Lote.ToList();
+                return _transformMapper.Transform<List<Domain.Models.Lote>, ICollection<Output.Lote>>(items);
+            }
+        }
+
         public Output.Lote GetById(int id)
         {
             using (var context = new Domain.Models.ProductsManagerContext())

@@ -12,6 +12,5 @@ namespace Ecommerce.Common.DataMembers.Input
         public int IdTipo { get; set; }
         public string NroSerie { get; set; }
         public decimal Precio { get; set; }
-        public virtual Usuario Adjudicado { get; set; }
     }
 }

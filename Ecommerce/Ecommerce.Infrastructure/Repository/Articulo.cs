@@ -160,5 +160,14 @@ namespace Ecommerce.Infrastructure.Repository
                 context.SaveChanges();
             }
         }
+
+        public ICollection<Output.Articulo> GetAll()
+        {
+            using (var context = _context.Get())
+            {
+                var items = context.Articulo.ToList();
+                return _transformMapper.Transform<List<Domain.Models.Articulo>, ICollection<Output.Articulo>>(items);
+            }
+        }
     }
 }
