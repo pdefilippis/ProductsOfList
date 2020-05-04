@@ -11,7 +11,7 @@
 
 @section Breadcrumb {
     <li><a asp-action="Index" asp-controller="Lot" style="color:#002147">Lotes</a></li>
-    <li><a asp-action="Index" style="color:#002147">Articulos</a></li>
+    <li><a asp-action="Index" asp-route-lotId="@Model.LotId" style="color:#002147">Articulos</a></li>
     <li class="active"><strong>@ViewData["Title"]</strong></li>
 }
 
@@ -26,21 +26,8 @@
 
             <div class="form-group">
                 <label asp-for="TypeId" class="control-label"></label>
-                <select id="articles-multiselect" @*asp-for="TypeId" asp-items="Model.Types"*@ class="form-control">
-                    <option>CPU</option>
-                    <option>Teclado</option>
-                    <option>Monitor</option>
-                    <option>Notebook</option>
-                    <option>Mouse</option>
-                </select>
-
+                <select id="articles-multiselect" asp-for="TypeId" asp-items="Model.Types" class="form-control"></select>
                 <span asp-validation-for="TypeId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Brand" class="control-label required"></label>
-                <input asp-for="Brand" class="form-control" maxlength="30" autofocus />
-                <span asp-validation-for="Brand" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SerialNumber" class="control-label required"></label>
@@ -64,7 +51,7 @@
                     <input type="submit" style="background-color:#002147" value="Crear" class="btn btn-primary pull-left" />
                 </div>
                 <div class="col-md-6">
-                    <a asp-action="Index" class="btn btn-default pull-right">Cancelar</a>
+                    <a asp-action="Index" asp-route-lotId="@Model.LotId" class="btn btn-default pull-right">Cancelar</a>
                 </div>
             </div>
 
