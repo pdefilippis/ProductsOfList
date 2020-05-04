@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace Ecommerce.Controllers
 {
@@ -15,10 +17,12 @@ namespace Ecommerce.Controllers
     public class LoginController : Controller
     {
         private readonly Core.IUsuarioManager _usuarioManager;
+        private readonly ILogger<LoginController> _logger;
 
-        public LoginController(Core.IUsuarioManager usuarioManager)
+        public LoginController(Core.IUsuarioManager usuarioManager, ILogger<LoginController> logger)
         {
             _usuarioManager = usuarioManager;
+            _logger = logger;
         }
 
         [AllowAnonymous]
@@ -62,7 +66,7 @@ namespace Ecommerce.Controllers
         {
             return View();
         }
-        
+
         public IActionResult ResetPassword()
         {
             return View();
