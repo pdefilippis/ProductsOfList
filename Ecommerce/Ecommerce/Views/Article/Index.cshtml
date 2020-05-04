@@ -27,8 +27,6 @@
     </div>
 </div>
 
-
-
 <table id="articles-table" class="table table-striped table-bordered table-hover table-responsive text-nowrap" style="width:100%"></table>
 
 <div id="templates" hidden>
@@ -42,29 +40,29 @@
                 <i id="toggleAble" class="fa fa-toggle-on fa-fw"></i>
                 <i id="toggleDisable" class="fa fa-toggle-off fa-fw"></i>
             </a>
-            <a asp-action="CreateArticle" class="btn btn-default btn-xs" title="Duplicar" style="        color: #00A3A1
+            <a asp-action="CreateArticle" class="btn btn-default btn-xs" title="Duplicar" style="color: #00A3A1
 ">
                 <i class="far fa-clone"></i>
             </a>
         </div>
     </div>
 
-    <div id="inactivate-field">
+    @*<div id="inactivate-field">
         <span class="badge" style="background-color:#DB2C2C; color:white; font-size:smaller">Inactivo</span>
     </div>
     <div id="activate-field">
         <span class="badge" style="background-color:#37B22C; color:white; font-size:smaller">Activo</span>
-    </div>
+    </div>*@
 
 
     <div id="id-column-title">ID</div>
     <div id="articleDescription-column-title">Descripción</div>
-    <div id="state-column-title">Estado</div>
+    @*<div id="state-column-title">Estado</div>*@
     <div id="type-column-title">Tipo</div>
-    <div id="brand-column-title">Marca</div>
+    @*<div id="brand-column-title">Marca</div>*@
     <div id="serialNumber-column-title">Nro de serie</div>
     <div id="price-column-title">Precio</div>
-    <div id="userCount-column-title">Usuarios interesados</div>
+    @*<div id="userCount-column-title">Usuarios interesados</div>*@
     <div id="adjudicatedUser-column-title">Usuario adjudicado</div>
     <div id="actions-column-title">Acciones</div>
 </div>
