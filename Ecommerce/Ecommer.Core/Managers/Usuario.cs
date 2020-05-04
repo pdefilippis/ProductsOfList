@@ -40,7 +40,6 @@ namespace Ecommerce.Core.Managers
         {
             try
             {
-                throw new Exception("Error loco");
                 var usr = _usuarioInfrastructure.Get(usuario.UserName);
                 if (usr != null && usr.Password == usuario.Password)
                     return usr;
