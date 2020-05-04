@@ -16,5 +16,6 @@ namespace Ecommerce.Common.DataMembers.Output
         public byte[] Imagen { get; set; }
         public string NombreImagen { get; set; }
         public List<Articulo> Articulos { get; set; }
+        public bool Activo { get; set; }
     }
 }

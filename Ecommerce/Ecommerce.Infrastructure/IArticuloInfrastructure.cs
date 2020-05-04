@@ -18,5 +18,6 @@ namespace Ecommerce.Infrastructure
         void DeclinarPostulacion(Member.Input.ArticuloPostulacion postulacion);
         bool ExistsPostulacion(Member.Input.ArticuloPostulacion postulacion);
         void AdjudicarArticulo(int idArticulo, int idUsuario);
+        void ChangeStatus(int id);
     }
 }

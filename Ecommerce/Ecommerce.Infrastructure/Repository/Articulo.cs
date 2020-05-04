@@ -149,5 +149,16 @@ namespace Ecommerce.Infrastructure.Repository
                 context.SaveChanges();
             }
         }
+
+        public void ChangeStatus(int id)
+        {
+            using (var context = _context.Get())
+            {
+                var item = context.Articulo.Where(x => x.Id.Equals(id)).FirstOrDefault();
+
+                item.Activo = !item.Activo;
+                context.SaveChanges();
+            }
+        }
     }
 }

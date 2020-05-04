@@ -21,6 +21,20 @@ namespace Ecommerce.Core.Managers
             _usuarioInfrastructure = usuarioInfrastructure;
         }
 
+        public void Enable(int lote)
+        {
+            var item = _loteInfrastructure.GetById(lote);
+            if (!item.Activo)
+                _loteInfrastructure.ChangeStatus(lote);
+        }
+
+        public void Disable(int lote)
+        {
+            var item = _loteInfrastructure.GetById(lote);
+            if (item.Activo)
+                _loteInfrastructure.ChangeStatus(lote);
+        }
+
         public ICollection<Common.DataMembers.Output.Lote> Get()
         {
             return _loteInfrastructure.Get();

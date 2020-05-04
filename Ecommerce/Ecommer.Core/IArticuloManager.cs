@@ -13,5 +13,7 @@ namespace Ecommerce.Core
         ICollection<Member.Output.Articulo> GetLote(int lote);
         void PostularArticulo(Member.Input.ArticuloPostulacion postulacion);
         void DeclinarPostulacionArticulo(Member.Input.ArticuloPostulacion postulacion);
+        void Enable(int articulo);
+        void Disable(int articulo);
     }
 }

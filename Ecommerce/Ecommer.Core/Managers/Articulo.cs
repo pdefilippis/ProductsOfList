@@ -21,6 +21,20 @@ namespace Ecommerce.Core.Managers
                 _articuloInfrastructure.DeclinarPostulacion(postulacion);
         }
 
+        public void Disable(int articulo)
+        {
+            var item = _articuloInfrastructure.GetById(articulo);
+            if (item.Activo)
+                _articuloInfrastructure.ChangeStatus(articulo);
+        }
+
+        public void Enable(int articulo)
+        {
+            var item = _articuloInfrastructure.GetById(articulo);
+            if (!item.Activo)
+                _articuloInfrastructure.ChangeStatus(articulo);
+        }
+
         public ICollection<Common.DataMembers.Output.Articulo> Get()
         {
             return _articuloInfrastructure.Get();

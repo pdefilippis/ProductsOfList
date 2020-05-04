@@ -13,5 +13,6 @@ namespace Ecommerce.Common.DataMembers.Output
         public Lote Lote { get; set; }
         public decimal Precio { get; set; }
         public string UsuarioAdjudicado { get; set; }
+        public bool Activo { get; set; }
     }
 }

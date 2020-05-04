@@ -11,5 +11,7 @@ namespace Ecommerce.Core
         ICollection<Member.Output.Lote> Get();
         Member.Output.Lote Save(Member.Input.Lote lote);
         void Sorteo(int lote);
+        void Enable(int lote);
+        void Disable(int lote);
     }
 }

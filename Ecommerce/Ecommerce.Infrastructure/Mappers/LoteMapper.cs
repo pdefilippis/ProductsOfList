@@ -16,7 +16,8 @@ namespace Ecommerce.Infrastructure.Mappers
                 .ForMember(d => d.Descripcion, opt => opt.MapFrom(src => src.Descripcion))
                 .ForMember(d => d.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(d => d.Imagen, opt => opt.MapFrom(src => src.Imagen))
-                .ForMember(d => d.NombreImagen, opt => opt.MapFrom(src => src.NombreImagen));
+                .ForMember(d => d.NombreImagen, opt => opt.MapFrom(src => src.NombreImagen))
+                .ForMember(d => d.Activo, opt => opt.MapFrom(src => src.Activo));
 
             mapper.CreateMap<Output.Lote, Domain.Models.Lote>()
                 .ForMember(d => d.Articulo, opt => opt.MapFrom(src => src.Articulos))
@@ -24,7 +25,7 @@ namespace Ecommerce.Infrastructure.Mappers
                 .ForMember(d => d.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(d => d.Imagen, opt => opt.MapFrom(src => src.Imagen))
                 .ForMember(d => d.NombreImagen, opt => opt.MapFrom(src => src.NombreImagen))
-                .ForMember(d => d.Activo, opt => opt.Ignore());
+                .ForMember(d => d.Activo, opt => opt.MapFrom(src => src.Activo));
         }
     }
 }

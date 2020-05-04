@@ -20,6 +20,17 @@ namespace Ecommerce.Infrastructure.Repository
             _context = context;
         }
 
+        public void ChangeStatus(int id)
+        {
+            using (var context = _context.Get())
+            {
+                var item = context.Lote.Where(x => x.Id.Equals(id)).FirstOrDefault();
+
+                item.Activo = !item.Activo;
+                context.SaveChanges();
+            }
+        }
+
         public Output.Lote Create(Input.Lote lote)
         {
             using (var context = _context.Get())
