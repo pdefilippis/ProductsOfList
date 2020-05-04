@@ -79,12 +79,12 @@
                 //    render: $.fn.dataTable.render.text(),
                 //    responsivePriority: 8
                 //},
-                {
-                    title: $("#adjudicatedUser-column-title").html(),
-                    data: "adjudicated",
-                    render: $.fn.dataTable.render.text(),
-                    responsivePriority: 7
-                },
+                //{
+                //    title: $("#adjudicatedUser-column-title").html(),
+                //    data: "adjudicated",
+                //    render: $.fn.dataTable.render.text(),
+                //    responsivePriority: 7
+                //},
                 {
                     title: $("#actions-column-title").html(),
                     visible: article_actions_btn_group.children().first().children().length > 0,
