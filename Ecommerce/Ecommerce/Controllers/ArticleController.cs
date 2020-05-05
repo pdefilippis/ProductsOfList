@@ -128,7 +128,7 @@ namespace Ecommerce.Controllers
                     //Marca = vm.Brand, TODO => Hay que agregar el campo a la base
                     IdLote = vm.LotId,
                     Descripcion = vm.Description,
-                    Precio = Convert.ToInt32(Decimal.ToInt32(vm.Price))
+                    Precio = vm.Price
                 };
 
                 _articuloManager.Save(article);
