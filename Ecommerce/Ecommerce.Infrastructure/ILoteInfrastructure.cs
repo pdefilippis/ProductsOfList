@@ -12,6 +12,7 @@ namespace Ecommerce.Infrastructure
         Member.Output.Lote Create(Member.Input.Lote lote);
         void Delete(int id);
         Member.Output.Lote GetById(int id);
+        ICollection<Member.Output.Lote> GetByDescripcion(string descripcion);
         ICollection<Member.Output.Lote> Get();
         ICollection<Member.Output.Lote> GetAll();
         void ChangeStatus(int id);

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Ecommerce.Common.DataMembers.Input;
 using Ecommerce.Common.DataMembers.Output;
+using Ecommerce.Common.FaultContracts;
+using Ecommerce.Core.Validations;
 using Ecommerce.Infrastructure;
 using Microsoft.Extensions.Logging;
 
@@ -132,6 +135,12 @@ namespace Ecommerce.Core.Managers
         {
             try
             {
+                var validation = new ArticuloValidation(_articuloInfrastructure);
+                var results = validation.Validate(articulo);
+
+                //if (!results.IsValid)
+                //    throw new InvalidDataException(results.Errors.Select(x => x.ErrorMessage).ToList());
+
                 return _articuloInfrastructure.Save(articulo);
             }
             catch (Exception ex)
