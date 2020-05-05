@@ -14,32 +14,68 @@ namespace Ecommerce.Controllers
     
         private readonly Core.IArticuloManager _articuloManager;
         private readonly ProductsManagerContext context;
+        private readonly Core.IArticuloTipoManager _articuloTipoManager;
 
-        public ArticleController(ProductsManagerContext productsManagerContext, Core.IArticuloManager articuloManager)
+        public ArticleController(ProductsManagerContext productsManagerContext, Core.IArticuloManager articuloManager, Core.IArticuloTipoManager articuloTipoManager)
         {
             this.context = productsManagerContext;
             _articuloManager = articuloManager;
+            _articuloTipoManager = articuloTipoManager;
         }
         
         public JsonResult GetArticles(int lotId)
         {
-            var article = context.Articulo.Where(a => a.IdLoteNavigation.Id == lotId).Select(l => new
+            var article = _articuloManager.GetAll();
+
+            var items = article.Where(a => a.Tipo.Id == lotId).Select(l => new
             {
                 article_Description = l.Descripcion,
                 serialNumber = l.NumeroSerie,
-                type = l.IdTipoNavigation.Descripcion,
+                type = l.Tipo.Descripcion,
                 state = l.Activo == true ? "Activado" : "Desactivado",
                 article_id = l.Id,
-                //brand = l.Marca,
                 price = "$\n" + l.Precio.ToString(),
-                //adjudicated = l.UsuarioAdjudicado == null ? "Sin usuario" : l.UsuarioAdjudicado,
-                //userCount = l.UserArticles.Count
+                adjudicated = l.UsuarioAdjudicado == null ? "Sin usuario" : l.UsuarioAdjudicado
             }).ToList();
 
-            return Json(article);
+            return Json(items);
         }
         
         [HttpGet]
+        public IActionResult CreateArticle()
+        {
+            return View(new CreateArticleViewModel()
+            {
+                Types = _articuloTipoManager.Get().Select(x => new SelectListItem { Text = x.Descripcion, Value = x.Id.ToString() }).ToList()
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateArticle(CreateArticleViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var article = new Articulo
+                {
+                    IdTipo = vm.TypeId,
+                    NroSerie = vm.SerialNumber,
+                    //Marca = vm.Brand, TODO => Hay que agregar el campo a la base
+                    IdLote = vm.LotId,
+                    Descripcion = vm.Description,
+                    Precio = Convert.ToInt32(Decimal.ToInt32(vm.Price))
+                };
+
+                _articuloManager.Save(article);
+
+                return RedirectToAction("Index", new { lotId = article.IdLote });                      
+            }
+            return View(vm);
+        }
+        
+        
+        
+        /*[HttpGet]
         public IActionResult CreateArticle(int lotId, int articleId)
         {
             
@@ -180,7 +216,7 @@ namespace Ecommerce.Controllers
 
             return View(vm);
         }
-    }
+    }*/
         
         
         public IActionResult Index(int lotId)
@@ -202,7 +238,8 @@ namespace Ecommerce.Controllers
         public IActionResult IndexPublic()
         {
             return View();
-        } 
+        }
+        
         //public IActionResult Index(int lotId)
         //{
         //    var lot = context.Lote.FirstOrDefault(l => l.Id == lotId);
