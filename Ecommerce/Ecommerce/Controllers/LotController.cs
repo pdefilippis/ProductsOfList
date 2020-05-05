@@ -26,18 +26,20 @@ namespace Ecommerce.Controllers
             return View();
         }
 
-        //public JsonResult GetLots()
-        //{
-        //    //var Lots = context.Lote.Select(l => new
-        //    //{
-        //    //    state = l.Activo == true ? "Activado" : "Desactivado",
-        //    //    lot_id = l.Id,
-        //    //    lot_Description = l.Descripcion,
-        //    //    lot_article = l.Articulo.Count == null ? 0 : l.Articulo.Count
-        //    //}).ToList();
+        public JsonResult GetLots()
+        {
+            var lotes = _loteManager.GetAll();
 
-        //    //return Json(Lots);
-        //}
+            var items = lotes.Select(l => new
+            {
+                state = l.Activo == true ? "Activado" : "Desactivado",
+                lot_id = l.Id,
+                lot_Description = l.Descripcion,
+                lot_article = l.Articulos.Count,
+            }).ToList();
+
+            return Json(items);
+        }
 
         [HttpGet]
         public IActionResult CreateLot()
