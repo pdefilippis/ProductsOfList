@@ -62,9 +62,27 @@ namespace Ecommerce.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        [HttpGet]
         public IActionResult Register()
         {
-            return View();
+            return View(new LoginViewModel());
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult Register(LoginViewModel registerModel)
+        {
+            var user = _usuarioManager.Register(new Usuario
+            {
+                Password = registerModel.Input.Password,
+                Apellido = registerModel.Input.Surname,
+                Nombre = registerModel.Input.Name,
+                UserName = registerModel.Input.User
+            });
+
+            return View("Index");
         }
 
         public IActionResult ResetPassword()
