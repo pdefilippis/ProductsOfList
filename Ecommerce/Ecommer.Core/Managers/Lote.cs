@@ -6,6 +6,8 @@ using Ecommerce.Common.DataMembers.Output;
 using Ecommerce.Infrastructure;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using Ecommerce.Core.Validations;
+using Ecommerce.Common.FaultContracts;
 
 namespace Ecommerce.Core.Managers
 {
@@ -84,6 +86,12 @@ namespace Ecommerce.Core.Managers
         {
             try
             {
+                var validation = new LoteValidation(_loteInfrastructure);
+                var results = validation.Validate(lote);
+
+                //if (!results.IsValid)
+                //    throw new InvalidDataException(results.Errors.Select(x => x.ErrorMessage).ToList());
+
                 return _loteInfrastructure.Save(lote);
             }
             catch (Exception ex)
