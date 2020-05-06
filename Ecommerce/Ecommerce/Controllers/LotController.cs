@@ -78,9 +78,9 @@ namespace Ecommerce.Controllers
 
 
         [HttpGet]
-        public IActionResult EditLot(int id)
+        public IActionResult EditLot(int LotId)
         {
-            var lote = _loteManager.GetById(id);
+            var lote = _loteManager.GetById(LotId);
 
             if (lote == null)
                 return RedirectToAction("Status", "Error", new { code = 404 });
