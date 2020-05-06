@@ -80,7 +80,7 @@ namespace Ecommerce.Infrastructure.Repository
 
         public ICollection<Output.Lote> GetByDescripcion(string descripcion)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var items = context.Lote.Where(x => x.Descripcion.ToLower().Equals(descripcion.ToLower())).ToList();
                 return _transformMapper.Transform<List<Domain.Models.Lote>, ICollection<Output.Lote>>(items);
@@ -89,7 +89,7 @@ namespace Ecommerce.Infrastructure.Repository
 
         public Output.Lote GetById(int id)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var item = context.Lote.Where(x => x.Id.Equals(id)).FirstOrDefault();
                 return _transformMapper.Transform<Domain.Models.Lote, Output.Lote>(item);

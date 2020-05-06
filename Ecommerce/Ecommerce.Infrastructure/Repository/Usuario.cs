@@ -23,7 +23,7 @@ namespace Ecommerce.Infrastructure.Repository
 
         public Output.Usuario ChangePassword(string usuario, string password)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var item = context.Usuario.Where(x => x.Usuario1.Equals(usuario)).FirstOrDefault();
                 item.Clave = password;
