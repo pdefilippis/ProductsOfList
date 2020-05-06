@@ -84,7 +84,8 @@ namespace Ecommerce.Controllers
 
             return View("Index");
         }
-
+        
+        [AllowAnonymous]
         public IActionResult ResetPassword()
         {
             return View();
