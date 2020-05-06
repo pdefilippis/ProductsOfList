@@ -7,6 +7,7 @@ using Domain = Ecommerce.Domain.Models;
 using System.Linq;
 using Ecommerce.Infrastructure.Mappers;
 using Ecommerce.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Infrastructure.Repository
 {
@@ -55,7 +56,11 @@ namespace Ecommerce.Infrastructure.Repository
         {
             using (var context = _context.Get())
             {
-                var items = context.Articulo.Where(x => x.Activo).ToList();
+                var items = context.Articulo
+                    .Include("IdLoteNavigation")
+                    .Include("IdTipoNavigation")
+                    .Where(x => x.Activo).ToList();
+
                 return _transformMapper.Transform<List<Domain.Models.Articulo>, ICollection<Output.Articulo>>(items);
             }
         }
@@ -64,7 +69,12 @@ namespace Ecommerce.Infrastructure.Repository
         {
             using (var context = _context.Get())
             {
-                var item = context.Articulo.Where(x => x.Id.Equals(id)).FirstOrDefault();
+                var item = context.Articulo
+                    .Include("IdLoteNavigation")
+                    .Include("IdTipoNavigation")
+                    .Where(x => x.Id.Equals(id))
+                    .FirstOrDefault();
+
                 return _transformMapper.Transform<Domain.Models.Articulo, Output.Articulo>(item);
             }
         }
@@ -73,7 +83,12 @@ namespace Ecommerce.Infrastructure.Repository
         {
             using (var context = _context.Get())
             {
-                var items = context.Articulo.Where(x => x.Activo && x.IdLote.Equals(lote)).ToList();
+                var items = context.Articulo
+                    .Include("IdLoteNavigation")
+                    .Include("IdTipoNavigation")
+                    .Where(x => x.Activo && x.IdLote.Equals(lote))
+                    .ToList();
+
                 return _transformMapper.Transform<List<Domain.Models.Articulo>, ICollection<Output.Articulo>>(items);
             }
         }
@@ -106,7 +121,11 @@ namespace Ecommerce.Infrastructure.Repository
         {
             using (var context = _context.Get())
             {
-                var item = context.Articulo.Where(x => x.Id.Equals(articulo.Id)).FirstOrDefault();
+                var item = context.Articulo
+                    .Include("IdLoteNavigation")
+                    .Include("IdTipoNavigation")
+                    .Where(x => x.Id.Equals(articulo.Id))
+                    .FirstOrDefault();
 
                 item.IdLote = articulo.IdLote;
                 item.IdTipo = articulo.IdTipo;
@@ -144,7 +163,12 @@ namespace Ecommerce.Infrastructure.Repository
         {
             using (var context = _context.Get())
             {
-                var art = context.Articulo.Where(x => x.Id.Equals(idArticulo)).FirstOrDefault();
+                var art = context.Articulo
+                    .Include("IdLoteNavigation")
+                    .Include("IdTipoNavigation")
+                    .Where(x => x.Id.Equals(idArticulo))
+                    .FirstOrDefault();
+
                 art.UsuarioAdjudicado = idUsuario;
                 context.SaveChanges();
             }
@@ -154,7 +178,11 @@ namespace Ecommerce.Infrastructure.Repository
         {
             using (var context = _context.Get())
             {
-                var item = context.Articulo.Where(x => x.Id.Equals(id)).FirstOrDefault();
+                var item = context.Articulo
+                    .Include("IdLoteNavigation")
+                    .Include("IdTipoNavigation")
+                    .Where(x => x.Id.Equals(id))
+                    .FirstOrDefault();
 
                 item.Activo = !item.Activo;
                 context.SaveChanges();
@@ -165,7 +193,10 @@ namespace Ecommerce.Infrastructure.Repository
         {
             using (var context = _context.Get())
             {
-                var items = context.Articulo.ToList();
+                var items = context.Articulo
+                    .Include("IdLoteNavigation")
+                    .Include("IdTipoNavigation")
+                    .ToList();
                 return _transformMapper.Transform<List<Domain.Models.Articulo>, ICollection<Output.Articulo>>(items);
             }
         }
