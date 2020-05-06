@@ -12,6 +12,8 @@ namespace Ecommerce.Core.Validations
         private readonly IUsuarioInfrastructure _usuarioInfrastructure;
         public UsuarioValidation(IUsuarioInfrastructure usuarioInfrastructure)
         {
+            _usuarioInfrastructure = usuarioInfrastructure;
+
             RuleFor(x => x.UserName).NotNull().NotEmpty().WithMessage("Se debe especificar un usuario.");
             RuleFor(x => x.Apellido).NotNull().NotEmpty().WithMessage("Se debe especificar el apellido.");
             RuleFor(x => x.Nombre).NotNull().NotEmpty().WithMessage("Se debe especificar el nombre.");
