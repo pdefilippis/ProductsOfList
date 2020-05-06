@@ -24,7 +24,7 @@ namespace Ecommerce.Core.Validations
         public bool ExistsDescripcion(Articulo articulo, string descripcion)
         {
             var items = _articuloInfrastructure.Get();
-            return items.ToList().Any(x =>
+            return items != null && items.ToList().Any(x =>
                 x.Descripcion.Equals(descripcion) &&
                 x.Lote.Id.Equals(articulo.IdLote) &&
                 !x.Id.Equals(articulo.Id));
