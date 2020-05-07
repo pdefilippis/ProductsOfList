@@ -13,12 +13,10 @@ namespace Ecommerce.Controllers
     public class LotController : Controller
     {
         private readonly Core.ILoteManager _loteManager;
-        private readonly IConnectionContext _context;
 
-        public LotController(Core.ILoteManager loteManager, IConnectionContext context)
+        public LotController(Core.ILoteManager loteManager)
         {
             _loteManager = loteManager;
-            _context = context;
         }
 
         public IActionResult Index()
