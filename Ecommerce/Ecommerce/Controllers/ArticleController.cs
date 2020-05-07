@@ -48,7 +48,7 @@ namespace Ecommerce.Controllers
         {
             var article = _articuloManager.GetAll();
 
-             var items = article.Where(a => a.Id == LotId).Select(l => new
+             var items = article.Where(a => a.Lote.Id == LotId).Select(l => new
             {
                 article_Description = l.Descripcion,
                 serialNumber = l.NumeroSerie,
