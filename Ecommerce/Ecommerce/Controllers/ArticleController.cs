@@ -66,6 +66,32 @@ namespace Ecommerce.Controllers
 
             return Json(items);
         }
+        
+        public IActionResult EnableDisable(int ArticleId, int LotId)
+        {
+            using (var context = _context.Get())
+            {
+                var article = context.Articulo.FirstOrDefault(u => u.Id == ArticleId);
+                if (article == null)
+                    return RedirectToAction("Index");
+                else
+                {
+                    switch (article.Activo)
+                    {
+                        case true:
+                            article.Activo = false;
+                            break;
+
+                        case false:
+                            article.Activo = true;
+                            break;
+                    }
+                }
+                context.SaveChanges();
+            }
+
+            return RedirectToAction("Index", new { LotId = LotId });
+        }
 
         [HttpGet]
         public IActionResult CreateArticle(int LotId, int ArticleId)
