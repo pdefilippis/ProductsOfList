@@ -13,10 +13,12 @@ namespace Ecommerce.Controllers
     public class LotController : Controller
     {
         private readonly Core.ILoteManager _loteManager;
+        private readonly IConnectionContext _context;
 
-        public LotController(Core.ILoteManager loteManager)
+        public LotController(Core.ILoteManager loteManager, IConnectionContext context)
         {
             _loteManager = loteManager;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -32,7 +34,7 @@ namespace Ecommerce.Controllers
 
             var items = lotes.Select(l => new
             {
-                state = l.Activo == true ? "Activado" : "Desactivado",
+                state = l.Activo == true ? "Activo" : "Inactivo",
                 lot_id = l.Id,
                 lot_Description = l.Descripcion,
                 lot_article = l.Articulos.Count,
@@ -118,7 +120,33 @@ namespace Ecommerce.Controllers
             
             return View(loteModel);
         }
+             
+        public IActionResult EnableDisable(int LotId)
+        {
+            using (var context = _context.Get())
+            {
+                var article = context.Lote.FirstOrDefault(u => u.Id == LotId);
+                if (article == null)
+                    return RedirectToAction("Index");
+                else
+                {
+                    switch (article.Activo)
+                    {
+                        case true:
+                            article.Activo = false;
+                            break;
 
+                        case false:
+                            article.Activo = true;
+                            break;
+                    }
+                }
+                context.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+        
         public IActionResult History()
         {
             return View();
