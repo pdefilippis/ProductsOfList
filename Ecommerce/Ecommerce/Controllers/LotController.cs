@@ -102,12 +102,16 @@ namespace Ecommerce.Controllers
         {
             if (ModelState.IsValid)
             {
+                var loteDB = _loteManager.GetById(loteModel.LotId);
+
+                var imgModificada = loteDB.NombreImagen.Equals(loteModel.Imagen?.FileName);
+
                 var lote = new Input.Lote
                 {
                     Id = loteModel.LotId,
                     Descripcion = loteModel.Descripcion,
-                    NombreImagen = loteModel.Imagen?.FileName,
-                    Imagen = ConvertFileToByte(loteModel.Imagen)
+                    NombreImagen = imgModificada ? loteModel.Imagen?.FileName : loteDB.NombreImagen,
+                    Imagen = imgModificada ? ConvertFileToByte(loteModel.Imagen) : loteDB.Imagen
                 };
 
 
