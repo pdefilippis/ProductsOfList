@@ -58,7 +58,7 @@ namespace Ecommerce.Controllers
                 article_Description = l.Descripcion,
                 serialNumber = l.NumeroSerie,
                 type = l.Tipo.Descripcion,
-                state = l.Activo == true ? "Activado" : "Desactivado",
+                state = l.Activo == true ? "Activo" : "Inactivo",
                 article_id = l.Id,
                 price = "$\n" + l.Precio.ToString(),
                 adjudicated = l.UsuarioAdjudicado == null ? "Sin usuario" : l.UsuarioAdjudicado
