@@ -17,7 +17,7 @@
             responsive: true,
             autoWidth: true,
             rowId: "article_id",
-            order: [[0, "asc"]],
+            order: [[0, "desc"]],
             columns: [
                 {
                     title: $("#id-column-title").html(),
@@ -36,10 +36,10 @@
                 render: function (data, type, full, meta) {
                     var priority = data;
                     switch (priority) {
-                        case "Activado":
+                        case "Activo":
                             priority = $("#active-field").html();
                             break;
-                        case "Desactivado":
+                        case "Inactivo":
                             priority = $("#inactive-field").html();
                             break;
                         default:
@@ -55,12 +55,6 @@
                     render: $.fn.dataTable.render.text(),
                     responsivePriority: 7
                 },
-                //{
-                //    title: $("#brand-column-title").html(),
-                //    data: "brand",
-                //    render: $.fn.dataTable.render.text(),
-                //    responsivePriority: 5
-                //},
                 {
                     title: $("#serialNumber-column-title").html(),
                     data: "serialNumber",
@@ -73,12 +67,6 @@
                     render: $.fn.dataTable.render.text(),
                     responsivePriority: 5
                 },
-                //{
-                //    title: $("#userCount-column-title").html(),
-                //    data: "userCount",
-                //    render: $.fn.dataTable.render.text(),
-                //    responsivePriority: 8
-                //},
                 {
                     title: $("#adjudicatedUser-column-title").html(),
                     data: "adjudicated",
@@ -93,10 +81,10 @@
                     render: function (data, type, full, meta) {
                         var btn_group = article_actions_btn_group.clone();
 
-                        if (full.state === "Activado")
+                        if (full.state === "Activo")
                             btn_group.find("#toggleAble").remove();
 
-                        if (full.state === "Desactivado")
+                        if (full.state === "Inactivo")
                             btn_group.find("#toggleDisable").remove();
 
                         return btn_group.html().replace(/_articleID_/g, full.article_id).replace(/_lotID_/g, lotId);
