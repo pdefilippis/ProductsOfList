@@ -58,10 +58,10 @@
 
                         var btn_group = lot_actions_btn_group.clone();
 
-                        if (full.state === "Activado")
+                        if (full.state === "Activo")
                             btn_group.find("#toggleAble").remove();
 
-                        if (full.state === "Desactivado") {
+                        if (full.state === "Inactivo") {
                             btn_group.find("#toggleDisable").remove();
                             btn_group.find("#btnLotClosure").hide();
                         }
