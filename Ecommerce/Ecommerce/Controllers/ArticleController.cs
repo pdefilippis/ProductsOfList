@@ -1,6 +1,9 @@
+using Ecommerce.Domain;
 using Ecommerce.ViewModels.Article;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Articulo = Ecommerce.Common.DataMembers.Input.Articulo;
@@ -13,12 +16,14 @@ namespace Ecommerce.Controllers
         private readonly Core.IArticuloManager _articuloManager;
         private readonly Core.IArticuloTipoManager _articuloTipoManager;
         private readonly Core.ILoteManager _loteManager;
+        private readonly IConnectionContext _context;
 
-        public ArticleController(Core.ILoteManager loteManager, Core.IArticuloManager articuloManager, Core.IArticuloTipoManager articuloTipoManager)
+        public ArticleController(Core.ILoteManager loteManager, Core.IArticuloManager articuloManager, Core.IArticuloTipoManager articuloTipoManager, IConnectionContext context)
         {
             _articuloManager = articuloManager;
             _articuloTipoManager = articuloTipoManager;
             _loteManager = loteManager;
+            _context = context;
         }
 
         public IActionResult Index(int LotId)
@@ -48,7 +53,7 @@ namespace Ecommerce.Controllers
         {
             var article = _articuloManager.GetAll();
 
-             var items = article.Where(a => a.Id == LotId).Select(l => new
+            var items = article.Where(a => a.Lote.Id == LotId).Select(l => new
             {
                 article_Description = l.Descripcion,
                 serialNumber = l.NumeroSerie,
@@ -162,6 +167,78 @@ namespace Ecommerce.Controllers
             //    return RedirectToAction("Index", new { lotId = article.IdLote });                      
             //}
             //return View(vm);
+        }
+
+        [HttpGet]
+        public IActionResult EditArticle(int articleId, int lotId)
+        {
+            var article = _articuloManager.GetById(articleId);
+            var article2 = _articuloTipoManager.Get();
+
+            if (article == null)
+                return RedirectToAction("Index", new { lotId = lotId });
+            else
+            {
+                var model = new EditArticleViewModel
+                {
+                    TypeId = article.Id,
+                    //Brand = article.Marca,
+                    Description = article.Descripcion,
+                    SerialNumber = article.NumeroSerie,
+                    ArticleId = articleId,
+                    Price = Convert.ToInt32(Decimal.ToInt32(article.Precio))
+                };
+
+                var typeList = new List<SelectListItem>();
+
+                foreach (var item in article2)
+                {
+                    typeList.Add(new SelectListItem { Text = item.Descripcion, Value = item.Id.ToString() });
+                }
+                model.Types = typeList;
+
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditArticle(EditArticleViewModel vm)
+        {
+            var article = _articuloManager.GetById(vm.ArticleId);
+            var article2 = _articuloTipoManager.Get();
+
+            if (ModelState.IsValid)
+            {
+                using (var context = _context.Get())
+                {
+                    var item = context.Articulo
+                        .Include("IdLoteNavigation")
+                        .Include("IdTipoNavigation")
+                        .Where(x => x.Id.Equals(vm.ArticleId))
+                        .FirstOrDefault();
+
+                    item.IdTipo = vm.TypeId;
+                    item.NumeroSerie = vm.SerialNumber;
+                    item.Precio = vm.Price;
+                    item.Descripcion = vm.Description;
+
+                    context.SaveChanges();
+                }
+                return RedirectToAction("Index", new { lotId = article.Lote.Id });
+            }
+            else
+            {
+                var typeList = new List<SelectListItem>();
+
+                foreach (var item in article2)
+                {
+                    typeList.Add(new SelectListItem { Text = item.Descripcion, Value = item.Id.ToString() });
+                }
+                vm.Types = typeList;
+
+                return View(vm);
+            }
         }
 
 
@@ -310,7 +387,7 @@ namespace Ecommerce.Controllers
     }*/
 
 
-        
+
 
         //public IActionResult Index(int lotId)
         //{
