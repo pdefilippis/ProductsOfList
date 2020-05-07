@@ -98,64 +98,64 @@
         /////////////
 
         // #region Toggle modal
-        //$(document).delegate('#btnLotClosure', 'click', function (e) {
-        //    var lotId = $(this).attr('item-id');
+        $(document).delegate('#btnLotClosure', 'click', function (e) {
+            var lotId = $(this).attr('item-id');
 
-        //    Swal.fire({
-        //        title: $("#are-you-sure").text(),
-        //        text: $("#this-operation-can-not-be-revert").text(),
-        //        icon: 'warning',
-        //        showCancelButton: true,
-        //        confirmButtonColor: '#28a745',
-        //        cancelButtonColor: '#dc3545',
-        //        confirmButtonText: $("#yes-text").text(),
-        //        cancelButtonText: $("#no-text").text()
-        //    }).then(function (result) {
-        //        if (result.value) {
-        //            var data = {
-        //                lotId: lotId
-        //            };
-        //            $.ajax({
-        //                url: '/Lot/LotClosure',
-        //                data: data,
-        //                success: function (data) {
-        //                    if (data === true) {
-        //                        Swal.fire({
-        //                            title: $("#success-text").text(),
-        //                            text: $("#approved").text(),
-        //                            type: 'success',
-        //                            icon: "success",
-        //                            confirmButtonText: $("#btnsuccess-text").text(),
-        //                            timer: 1500
-        //                        }).then(function (result) {
-        //                            window.location.reload();
-        //                        });
-        //                    }
-        //                    else if (data === false) {
+            Swal.fire({
+                title: $("#are-you-sure").text(),
+                text: $("#this-operation-can-not-be-revert").text(),
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#dc3545',
+                confirmButtonText: $("#yes-text").text(),
+                cancelButtonText: $("#no-text").text()
+            }).then(function (result) {
+                if (result.value) {
+                    var data = {
+                        lotId: lotId
+                    };
+                    $.ajax({
+                        url: '/Lot/LotClosure',
+                        data: data,
+                        success: function (data) {
+                            if (data === true) {
+                                Swal.fire({
+                                    title: $("#success-text").text(),
+                                    text: $("#approved").text(),
+                                    type: 'success',
+                                    icon: "success",
+                                    confirmButtonText: $("#btnsuccess-text").text(),
+                                    timer: 1500
+                                }).then(function (result) {
+                                    window.location.reload();
+                                });
+                            }
+                            else if (data === false) {
 
-        //                        Swal.fire(
-        //                            $("#error-text").text(),
-        //                            $("#couldnt-rejected").text(),
-        //                            "error"
-        //                        )
-        //                    }
-        //                    else {
-        //                        window.location.reload();
-        //                    }
-        //                },
-        //                error: function () {
-        //                    Swal.fire(
-        //                        $("#error-text").text(),
-        //                        $("#couldnt-rejected").text(),
-        //                        "error"
-        //                    )
-        //                }
-        //            });
-        //        }
-        //        swal.close();
-        //    }
-        //    );
-        //});
+                                Swal.fire(
+                                    $("#error-text").text(),
+                                    $("#couldnt-rejected").text(),
+                                    "error"
+                                )
+                            }
+                            else {
+                                window.location.reload();
+                            }
+                        },
+                        error: function () {
+                            Swal.fire(
+                                $("#error-text").text(),
+                                $("#couldnt-rejected").text(),
+                                "error"
+                            )
+                        }
+                    });
+                }
+                swal.close();
+            }
+            );
+        });
 
         // #endregion
 
