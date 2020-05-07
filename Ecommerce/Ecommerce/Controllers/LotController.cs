@@ -1,11 +1,11 @@
-﻿using Ecommerce.Common.DataMembers.Input;
+﻿using Ecommerce.Domain;
 using Ecommerce.ViewModels.Lot;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Linq;
-using Lote = Ecommerce.Common.DataMembers.Input.Lote;
+using Input = Ecommerce.Common.DataMembers.Input;
 
 namespace Ecommerce.Controllers
 {
@@ -32,7 +32,7 @@ namespace Ecommerce.Controllers
 
             var items = lotes.Select(l => new
             {
-                state = l.Activo == true ? "Activado" : "Desactivado",
+                state = l.Activo == true ? "Activo" : "Inactivo",
                 lot_id = l.Id,
                 lot_Description = l.Descripcion,
                 lot_article = l.Articulos.Count,
@@ -54,7 +54,7 @@ namespace Ecommerce.Controllers
         {
             if (ModelState.IsValid)
             {
-                var lote = new Lote
+                var lote = new Input.Lote
                 {
                     Id = loteModel.LotId,
                     Descripcion = loteModel.Descripcion,
@@ -102,7 +102,7 @@ namespace Ecommerce.Controllers
         {
             if (ModelState.IsValid)
             {
-                var lote = new Lote
+                var lote = new Input.Lote
                 {
                     Id = loteModel.LotId,
                     Descripcion = loteModel.Descripcion,
@@ -118,7 +118,19 @@ namespace Ecommerce.Controllers
             
             return View(loteModel);
         }
+            
+        //TODO: Modificar por dos acciones diferentes
+        public IActionResult EnableDisable(int LotId)
+        {
+            var lote = _loteManager.GetById(LotId);
+            if (lote.Activo)
+                _loteManager.Disable(LotId);
+            else
+                _loteManager.Enable(LotId);
 
+            return RedirectToAction("Index");
+        }
+        
         public IActionResult History()
         {
             return View();

@@ -58,13 +58,39 @@ namespace Ecommerce.Controllers
                 article_Description = l.Descripcion,
                 serialNumber = l.NumeroSerie,
                 type = l.Tipo.Descripcion,
-                state = l.Activo == true ? "Activado" : "Desactivado",
+                state = l.Activo == true ? "Activo" : "Inactivo",
                 article_id = l.Id,
                 price = "$\n" + l.Precio.ToString(),
                 adjudicated = l.UsuarioAdjudicado == null ? "Sin usuario" : l.UsuarioAdjudicado
             }).ToList();
 
             return Json(items);
+        }
+        
+        public IActionResult EnableDisable(int ArticleId, int LotId)
+        {
+            using (var context = _context.Get())
+            {
+                var article = context.Articulo.FirstOrDefault(u => u.Id == ArticleId);
+                if (article == null)
+                    return RedirectToAction("Index");
+                else
+                {
+                    switch (article.Activo)
+                    {
+                        case true:
+                            article.Activo = false;
+                            break;
+
+                        case false:
+                            article.Activo = true;
+                            break;
+                    }
+                }
+                context.SaveChanges();
+            }
+
+            return RedirectToAction("Index", new { LotId = LotId });
         }
 
         [HttpGet]
