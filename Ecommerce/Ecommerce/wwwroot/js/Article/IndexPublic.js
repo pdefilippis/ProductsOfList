@@ -13,7 +13,7 @@
             responsive: true,
             autoWidth: true,
             rowId: "article_id",
-            order: [[0, "desc"]],
+            order: [[0, "asc"]],
             columns: [
                 {
                     title: $("#id-column-title").html(),
