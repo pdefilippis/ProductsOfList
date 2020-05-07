@@ -12,7 +12,7 @@
             responsive: true,
             autoWidth: true,
             rowId: "lot_id",
-            order: [[0, "asc"]],
+            order: [[0, "desc"]],
             columns: [
                 {
                     title: $("#id-column-title").html(),
@@ -31,10 +31,10 @@
                     render: function (data, type, full, meta) {
                         var priority = data;
                         switch (priority) {
-                            case "Activado":
+                            case "Activo":
                                 priority = $("#active-field").html();
                                 break;
-                            case "Desactivado":
+                            case "Inactivo":
                                 priority = $("#inactive-field").html();
                                 break;
                             default:
@@ -44,21 +44,6 @@
                     },
                     responsivePriority: 3
                 },
-                //{
-                //    title: $("#state-column-title").html(),
-                //    data: "state",
-                //    responsivePriority: 6
-                //},
-                //{
-                //    title: $("#createDate-column-title").html(),
-                //    data: { _: "create_Date", sort: "create_Date" },
-                //    responsivePriority: 4
-                //},
-                //{
-                //    title: $("#upDate-column-title").html(),
-                //    data: { _: "update_Date", sort: "update_Date" },
-                //    responsivePriority: 5
-                //},
                 {
                     title: $("#lotArticles-column-title").html(),
                     data: "lot_article",
@@ -78,17 +63,16 @@
 
                         if (full.state === "Desactivado") {
                             btn_group.find("#toggleDisable").remove();
-                            //btn_group.find("#btnLotClosure").hide();
+                            btn_group.find("#btnLotClosure").hide();
                         }
 
-                        //if (full.state === "CERRADO") {
-                        //    btn_group.find("#edit").hide();
-                        //    btn_group.find("#enableDisable").hide();
-                        //    btn_group.find("#toggleAble").remove();
-                        //    btn_group.find("#btnLotClosure").hide();
-                        //}
-
-                        console.log()
+                        if (full.state === "CERRADO") {
+                            btn_group.find("#edit").hide();
+                            btn_group.find("#enableDisable").hide();
+                            btn_group.find("#toggleAble").remove();
+                            btn_group.find("#btnLotClosure").hide();
+                        }
+                        
                         return btn_group.html().replace(/_lotID_/g, full.lot_id);
                     }
                 }
