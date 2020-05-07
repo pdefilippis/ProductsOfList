@@ -7,6 +7,7 @@ using Domain = Ecommerce.Domain.Models;
 using System.Linq;
 using Ecommerce.Infrastructure.Mappers;
 using Ecommerce.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Infrastructure.Repository
 {
@@ -64,7 +65,9 @@ namespace Ecommerce.Infrastructure.Repository
         {
             using (var context = _context.Get())
             {
-                var items = context.Lote.Where(x => x.Activo).ToList();
+                var items = context.Lote
+                    .Include("Articulo")
+                    .Where(x => x.Activo).ToList();
                 return _transformMapper.Transform<List<Domain.Models.Lote>, ICollection<Output.Lote>>(items);
             }
         }
@@ -73,7 +76,9 @@ namespace Ecommerce.Infrastructure.Repository
         {
             using (var context = _context.Get())
             {
-                var items = context.Lote.ToList();
+                var items = context.Lote
+                    .Include("Articulo")
+                    .ToList();
                 return _transformMapper.Transform<List<Domain.Models.Lote>, ICollection<Output.Lote>>(items);
             }
         }
@@ -82,7 +87,9 @@ namespace Ecommerce.Infrastructure.Repository
         {
             using (var context = _context.Get())
             {
-                var items = context.Lote.Where(x => x.Descripcion.ToLower().Equals(descripcion.ToLower())).ToList();
+                var items = context.Lote
+                    .Include("Articulo")
+                    .Where(x => x.Descripcion.ToLower().Equals(descripcion.ToLower())).ToList();
                 return _transformMapper.Transform<List<Domain.Models.Lote>, ICollection<Output.Lote>>(items);
             }
         }
@@ -91,7 +98,9 @@ namespace Ecommerce.Infrastructure.Repository
         {
             using (var context = _context.Get())
             {
-                var item = context.Lote.Where(x => x.Id.Equals(id)).FirstOrDefault();
+                var item = context.Lote
+                    .Include("Articulo")
+                    .Where(x => x.Id.Equals(id)).FirstOrDefault();
                 return _transformMapper.Transform<Domain.Models.Lote, Output.Lote>(item);
             }
         }
@@ -108,7 +117,9 @@ namespace Ecommerce.Infrastructure.Repository
         {
             using (var context = _context.Get())
             {
-                var item = context.Lote.Where(x => x.Id.Equals(lote.Id)).FirstOrDefault();
+                var item = context.Lote
+                    .Include("Articulo")
+                    .Where(x => x.Id.Equals(lote.Id)).FirstOrDefault();
 
                 item.Descripcion = lote.Descripcion;
                 item.NombreImagen = lote.NombreImagen;
