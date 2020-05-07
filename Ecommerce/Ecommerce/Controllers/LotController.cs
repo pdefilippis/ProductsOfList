@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Common.DataMembers.Input;
+using Ecommerce.Domain;
 using Ecommerce.ViewModels.Lot;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
