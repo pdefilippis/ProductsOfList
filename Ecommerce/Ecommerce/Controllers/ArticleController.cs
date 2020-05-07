@@ -163,7 +163,8 @@ namespace Ecommerce.Controllers
                     Description = article.Descripcion,
                     SerialNumber = article.NumeroSerie,
                     ArticleId = ArticleId,
-                    Price = article.Precio
+                    Price = article.Precio,
+                    Lot_ID = article.Lote.Id
                 };
 
                 var typeList = new List<SelectListItem>();
