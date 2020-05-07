@@ -241,8 +241,6 @@ namespace Ecommerce.Controllers
             }
         }
 
-
-
         /*[HttpGet]
         public IActionResult CreateArticle(int lotId, int articleId)
         {
