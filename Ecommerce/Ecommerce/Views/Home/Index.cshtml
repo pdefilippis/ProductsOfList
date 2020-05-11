@@ -6,8 +6,149 @@
 }
 
 @section Breadcrumb {
-    <li class="active"><strong>@ViewData["Title"]</strong></li>
+    <li class="active" style="padding-left:1px"><strong>@ViewData["Title"]</strong></li>
 }
 
+<link rel="stylesheet" type="text/css" href="~/css/home.css">
 
- <div style="margin-left: -70rem;width: 190rem;margin-top: -2rem;margin-bottom: -34rem;height: 94rem;background-image: url('images/2020-05-07.jpg');"></div>
+<div class="home_img">
+
+
+
+
+    @*<div class="col-md-3">
+            <div class="ibox">
+                <div class="ibox-content product-box">
+                    <div class="product-imitation">
+                        [ SIN FOTO ]
+                    </div>
+                    <div class="product-desc">
+                        <a class="product-name">Descripcion del lote</a>
+                        <div class="m-t text-righ">
+                            <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+
+    <div class="container" style="padding-top:126px">
+        <div class="row portfolio" style="padding-top:2px">
+            <div class="col-sm-6 col-md-3">
+            </div>
+            <div class="col-sm-6 col-md-3">
+
+                <div class="ibox">
+                    <div class="ibox-content product-box">
+                        <div class="product-imitation">
+                            [ SIN FOTO ]
+                        </div>
+                        <div class="product-desc">
+                            <span class="product-price">
+                                1
+                            </span>
+                            <a class="product-name">Descripcion del lote</a>
+                            <div class="m-t text-righ">
+                                <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-sm-6 col-md-3">
+
+                <div class="ibox">
+                    <div class="ibox-content product-box">
+                        <div class="product-imitation">
+                            [ SIN FOTO ]
+                        </div>
+                        <div class="product-desc">
+                            <span class="product-price">
+                                2
+                            </span>
+                            <a class="product-name">Descripcion del lote</a>
+                            <div class="m-t text-righ">
+                                <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <br />
+        <div class="row portfolio" style="padding-top:2px">
+            <div class="col-sm-6 col-md-3">
+            </div>
+            <div class="col-sm-6 col-md-3">
+
+                <div class="ibox">
+                    <div class="ibox-content product-box">
+                        <div class="product-imitation">
+                            [ SIN FOTO ]
+                        </div>
+                        <div class="product-desc">
+                            <span class="product-price">
+                                3
+                            </span>
+                            <a class="product-name">Descripcion del lote</a>
+                            <div class="m-t text-righ">
+                                <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-sm-6 col-md-3">
+
+                <div class="ibox">
+                    <div class="ibox-content product-box">
+                        <div class="product-imitation">
+                            [ SIN FOTO ]
+                        </div>
+                        <div class="product-desc">
+                            <span class="product-price">
+                                4
+                            </span>
+                            <a class="product-name">Descripcion del lote</a>
+                            <div class="m-t text-righ">
+                                <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .home_img {
+        margin-left: -62px;
+        width: 1265px;
+        margin-top: -2rem;
+        margin-bottom: -86rem;
+        position: relative;
+        height: 105rem;
+        background-image: url('images/sq_img_2.jpg');
+        background-position: bottom;
+    }
+
+        .home_img:before {
+            z-index: 0;
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            background: rgba(121, 127, 128, 0.7);
+        }
+</style>
