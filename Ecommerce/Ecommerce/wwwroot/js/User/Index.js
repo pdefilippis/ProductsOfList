@@ -1,4 +1,4 @@
-﻿(function (self, $, undefined) {
+(function (self, $, undefined) {
     var user_actions_btn_group = $("#user-actions-btn-group");
 
     Index.Start = function () {
@@ -52,11 +52,6 @@
                     title: $("#created-column-title").html(),
                     data: { _: "creation_timestamp", sort: "creation_timestamp_ticks" },
                     responsivePriority: 8
-                },
-                {
-                    title: $("#last-enabled-column-title").html(),
-                    data: { _: "last_enabled_timestamp", sort: "last_enabled_timestamp_ticks" },
-                    responsivePriority: 9
                 },
                 {
                     title: $("#last-login-column-title").html(),
