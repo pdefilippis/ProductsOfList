@@ -22,7 +22,7 @@ namespace Ecommerce.Controllers
         //[Route("[controller]/[action]/{code}")]
         public IActionResult Status()
         {
-            return View(new StatusViewModel { HTTPStatusCode = 500, Message = "Ups detectamos un error!!!" });
+            return View(new StatusViewModel { HTTPStatusCode = 500, Message = "Solicitud inválida" });
         }
     }
 }
