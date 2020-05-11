@@ -1,4 +1,4 @@
-﻿@model Ecommerce.ViewModels.Users.EditUserViewModel
+@model Ecommerce.ViewModels.Users.EditUserViewModel
 
 
 @{
@@ -11,7 +11,7 @@
     <li class="active"><strong>@ViewData["Title"]</strong></li>
 }
 
-<h2 style="padding-bottom: 37px; font-family:'Blippo'; font-size:295%; color:#676A6C">Editar usuario</h2>
+<h2 style="padding-bottom: 37px; text-decoration: underline ;color:#002147; font-family:sans-serif; font-size: 237%">Editar usuario</h2>
 
 <div class="row">
     <div class="col-md-4">
@@ -38,7 +38,7 @@
                 <span asp-validation-for="User" class="text-danger"></span>
             </div>
 
-            <input type="submit" style="background-color:#002147; color:white" value="Crear" class="btn btn-default pull-left" />
+            <input type="submit" value="Crear" class="btn btn-primary pull-left" />
             <a asp-action="Index" class="btn btn-default pull-right">Cancelar</a>
 
         </form>
