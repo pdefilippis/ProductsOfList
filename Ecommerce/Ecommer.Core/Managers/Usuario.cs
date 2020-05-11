@@ -45,7 +45,10 @@ namespace Ecommerce.Core.Managers
             {
                 var usr = _usuarioInfrastructure.Get(usuario.UserName);
                 if (usr != null && usr.Password == usuario.Password)
+                {
+                    _usuarioInfrastructure.RegistrarLogin(usr.Id);
                     return usr;
+                }
 
                 return null;
             }

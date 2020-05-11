@@ -61,7 +61,7 @@ namespace Ecommerce.Controllers
                 state = l.Activo == true ? "Activo" : "Inactivo",
                 article_id = l.Id,
                 price = "$\n" + l.Precio.ToString(),
-                adjudicated = l.UsuarioAdjudicado == null ? "Sin usuario" : l.UsuarioAdjudicado
+                adjudicated = l.UsuarioAdjudicado == null ? "Sin usuario" : l.UsuarioAdjudicado.UserName
             }).ToList();
 
             return Json(items);

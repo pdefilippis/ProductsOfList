@@ -18,6 +18,7 @@ namespace Ecommerce.Domain.Models
         public virtual DbSet<Articulo> Articulo { get; set; }
         public virtual DbSet<ArticuloTipo> ArticuloTipo { get; set; }
         public virtual DbSet<Lote> Lote { get; set; }
+        public virtual DbSet<Marca> Marca { get; set; }
         public virtual DbSet<Solicitud> Solicitud { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
 
@@ -46,6 +47,11 @@ namespace Ecommerce.Domain.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Articulo_Lote");
 
+                entity.HasOne(d => d.IdMarcaNavigation)
+                    .WithMany(p => p.Articulo)
+                    .HasForeignKey(d => d.IdMarca)
+                    .HasConstraintName("FK_Articulo_Marca");
+
                 entity.HasOne(d => d.IdTipoNavigation)
                     .WithMany(p => p.Articulo)
                     .HasForeignKey(d => d.IdTipo)
@@ -67,9 +73,22 @@ namespace Ecommerce.Domain.Models
 
             modelBuilder.Entity<Lote>(entity =>
             {
+                entity.Property(e => e.Actualizacion).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Creacion).HasDefaultValueSql("(getdate())");
+
                 entity.Property(e => e.Descripcion).IsUnicode(false);
 
                 entity.Property(e => e.NombreImagen).IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Marca>(entity =>
+            {
+                entity.Property(e => e.Activo).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Codigo).IsUnicode(false);
+
+                entity.Property(e => e.Descripcion).IsUnicode(false);
             });
 
             modelBuilder.Entity<Solicitud>(entity =>
@@ -93,7 +112,13 @@ namespace Ecommerce.Domain.Models
 
                 entity.Property(e => e.Clave).IsUnicode(false);
 
+                entity.Property(e => e.Creacion).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Mail).IsUnicode(false);
+
                 entity.Property(e => e.Nombre).IsUnicode(false);
+
+                entity.Property(e => e.UltimoIngreso).HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.Usuario1).IsUnicode(false);
             });

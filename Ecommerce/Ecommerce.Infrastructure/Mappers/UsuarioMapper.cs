@@ -20,6 +20,9 @@ namespace Ecommerce.Infrastructure.Mappers
                 .ForMember(d => d.Nombre, opt => opt.MapFrom(src => src.Nombre))
                 .ForMember(d => d.Password, opt => opt.MapFrom(src => src.Clave))
                 .ForMember(d => d.UserName, opt => opt.MapFrom(src => src.Usuario1))
+                .ForMember(d => d.UltimoIngreso, opt => opt.MapFrom(src => src.UltimoIngreso))
+                .ForMember(d => d.Creacion, opt => opt.MapFrom(src => src.Creacion))
+                .ForMember(d => d.Email, opt => opt.MapFrom(src => src.Mail))
                 .ReverseMap();
 
 

@@ -12,5 +12,8 @@ namespace Ecommerce.Common.DataMembers.Output
         public string Apellido { get; set; }
         public string Password { get; set; }
         public string[] Acciones { get; set; }
+        public DateTime Creacion { get; set; }
+        public DateTime UltimoIngreso { get; set; }
+        public string Email { get; set; }
     }
 }
