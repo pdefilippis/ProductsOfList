@@ -8,6 +8,21 @@
         var table = $('#articles-table').DataTable({
 
             language: datatablesLangES,
+            dom:
+                "<'row'<'col-sm-5'B><'col-sm-4'l><'col-sm-3'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            buttons: [
+                { extend: 'excelHtml5', className: "fa fa-file-excel-o btn-rounded btn-success", text: $("#excel-text").html(), titleAttr: $("#excel-title").html(), filename: $("#filename").html(), exportOptions: { columns: 'th:not(:last-child)' } },
+                {
+                    extend: 'pdfHtml5',
+                    customize: function (doc) {
+                        doc.content[1].margin = [0, 0, 0, 0]; //left, top, right, bottom
+                        doc.styles.tableHeader.fontSize = 12;
+                    }, className: "fa fa-file-pdf-o btn-danger", text: $("#pdf-text").html(), titleAttr: $("#pdf-title").html(), filename: $("#filename").html(), exportOptions: { columns: 'th:not(:last-child)' }
+                },
+                { extend: 'print', className: "fa fa-print btn-rounded btn-primary", text: $("#print-text").html(), titleAttr: $("#print-text").html(), filename: $("#filename").html(), exportOptions: { columns: 'th:not(:last-child)' } }
+            ],
             ajax: {
                 url: "/Article/GetArticles",
                 data: { lotId: lotId },
