@@ -40,8 +40,8 @@ namespace Ecommerce.Controllers
                     LotId = item.Id
                 });
             }
-
-            return View();
+            else
+                return RedirectToAction("Status", "Error", new { code = 404 });
         }
 
         public IActionResult IndexPublic()
