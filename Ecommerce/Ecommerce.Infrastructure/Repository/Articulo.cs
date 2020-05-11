@@ -32,7 +32,8 @@ namespace Ecommerce.Infrastructure.Repository
                     IdLote = articulo.IdLote,
                     IdTipo = articulo.IdTipo,
                     NumeroSerie = articulo.NroSerie,
-                    Precio = articulo.Precio
+                    Precio = articulo.Precio,
+                    IdMarca = articulo.IdMarca
                 };
 
                 context.Add(item);
@@ -59,6 +60,7 @@ namespace Ecommerce.Infrastructure.Repository
                 var items = context.Articulo
                     .Include("IdLoteNavigation")
                     .Include("IdTipoNavigation")
+                    .Include("IdMarcaNavigation")
                     .Where(x => x.Activo).ToList();
 
                 return _transformMapper.Transform<List<Domain.Models.Articulo>, ICollection<Output.Articulo>>(items);
@@ -72,6 +74,7 @@ namespace Ecommerce.Infrastructure.Repository
                 var item = context.Articulo
                     .Include("IdLoteNavigation")
                     .Include("IdTipoNavigation")
+                    .Include("IdMarcaNavigation")
                     .Where(x => x.Id.Equals(id))
                     .FirstOrDefault();
 
@@ -86,6 +89,7 @@ namespace Ecommerce.Infrastructure.Repository
                 var items = context.Articulo
                     .Include("IdLoteNavigation")
                     .Include("IdTipoNavigation")
+                    .Include("IdMarcaNavigation")
                     .Where(x => x.Activo && x.IdLote.Equals(lote))
                     .ToList();
 
@@ -124,6 +128,7 @@ namespace Ecommerce.Infrastructure.Repository
                 var item = context.Articulo
                     .Include("IdLoteNavigation")
                     .Include("IdTipoNavigation")
+                    .Include("IdMarcaNavigation")
                     .Where(x => x.Id.Equals(articulo.Id))
                     .FirstOrDefault();
 
@@ -131,6 +136,7 @@ namespace Ecommerce.Infrastructure.Repository
                 item.IdTipo = articulo.IdTipo;
                 item.NumeroSerie = articulo.NroSerie;
                 item.Precio = articulo.Precio;
+                item.IdMarca = articulo.IdMarca;
 
                 context.SaveChanges();
 
@@ -166,6 +172,7 @@ namespace Ecommerce.Infrastructure.Repository
                 var art = context.Articulo
                     .Include("IdLoteNavigation")
                     .Include("IdTipoNavigation")
+                    .Include("IdMarcaNavigation")
                     .Where(x => x.Id.Equals(idArticulo))
                     .FirstOrDefault();
 
@@ -181,6 +188,7 @@ namespace Ecommerce.Infrastructure.Repository
                 var item = context.Articulo
                     .Include("IdLoteNavigation")
                     .Include("IdTipoNavigation")
+                    .Include("IdMarcaNavigation")
                     .Where(x => x.Id.Equals(id))
                     .FirstOrDefault();
 
@@ -196,7 +204,9 @@ namespace Ecommerce.Infrastructure.Repository
                 var items = context.Articulo
                     .Include("IdLoteNavigation")
                     .Include("IdTipoNavigation")
+                    .Include("IdMarcaNavigation")
                     .ToList();
+
                 return _transformMapper.Transform<List<Domain.Models.Articulo>, ICollection<Output.Articulo>>(items);
             }
         }

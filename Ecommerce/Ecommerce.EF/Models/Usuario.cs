@@ -17,12 +17,19 @@ namespace Ecommerce.Domain.Models
         [Column("Usuario")]
         [StringLength(50)]
         public string Usuario1 { get; set; }
-        [StringLength(50)]
+        [Required]
+        [StringLength(200)]
         public string Clave { get; set; }
         [StringLength(50)]
         public string Nombre { get; set; }
         [StringLength(50)]
         public string Apellido { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime Creacion { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime UltimoIngreso { get; set; }
+        [StringLength(100)]
+        public string Mail { get; set; }
 
         [InverseProperty("UsuarioAdjudicadoNavigation")]
         public virtual ICollection<Articulo> Articulo { get; set; }

@@ -17,5 +17,7 @@ namespace Ecommerce.Common.DataMembers.Output
         public string NombreImagen { get; set; }
         public List<Articulo> Articulos { get; set; }
         public bool Activo { get; set; }
+        public DateTime Creacion { get; set; }
+        public DateTime Actualizacion { get; set; }
     }
 }

@@ -21,6 +21,10 @@ namespace Ecommerce.Domain.Models
         [StringLength(50)]
         public string NombreImagen { get; set; }
         public bool Activo { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime Creacion { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime Actualizacion { get; set; }
 
         [InverseProperty("IdLoteNavigation")]
         public virtual ICollection<Articulo> Articulo { get; set; }

@@ -28,6 +28,7 @@ namespace Ecommerce.Infrastructure.Repository
                 var item = context.Lote.Where(x => x.Id.Equals(id)).FirstOrDefault();
 
                 item.Activo = !item.Activo;
+                item.Actualizacion = DateTime.Now;
                 context.SaveChanges();
             }
         }
@@ -57,6 +58,7 @@ namespace Ecommerce.Infrastructure.Repository
             {
                 var item = context.Lote.Where(x => x.Id.Equals(id)).FirstOrDefault();
                 item.Activo = false;
+                item.Actualizacion = DateTime.Now;
                 context.SaveChanges();
             }
         }
@@ -124,6 +126,7 @@ namespace Ecommerce.Infrastructure.Repository
                 item.Descripcion = lote.Descripcion;
                 item.NombreImagen = lote.NombreImagen;
                 item.Imagen = lote.Imagen;
+                item.Actualizacion = DateTime.Now;
 
                 context.SaveChanges();
                 return _transformMapper.Transform<Domain.Models.Lote, Output.Lote>(item);

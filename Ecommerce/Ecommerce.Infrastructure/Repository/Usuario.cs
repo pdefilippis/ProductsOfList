@@ -42,7 +42,8 @@ namespace Ecommerce.Infrastructure.Repository
                     Apellido = usuario.Apellido,
                     Clave = usuario.Password,
                     Nombre = usuario.Nombre,
-                    Usuario1 = usuario.UserName
+                    Usuario1 = usuario.UserName,
+                    Mail = usuario.Email
                 };
 
                 context.Add(item);
@@ -67,6 +68,17 @@ namespace Ecommerce.Infrastructure.Repository
             {
                 var items = context.Solicitud.Where(x => x.IdArticulo.Equals(idArticulo)).Select(x => x.IdUsuarioNavigation).ToList();
                 return _transformMapper.Transform<List<Domain.Models.Usuario>, ICollection<Output.Usuario>>(items);
+            }
+        }
+
+        public void RegistrarLogin(int idUsuario)
+        {
+            using (var context = _context.Get())
+            {
+                var item = context.Usuario.Where(x => x.Id.Equals(idUsuario)).FirstOrDefault();
+
+                item.UltimoIngreso = DateTime.Now;
+                context.SaveChanges();
             }
         }
 
