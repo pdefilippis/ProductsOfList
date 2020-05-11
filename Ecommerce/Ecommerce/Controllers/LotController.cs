@@ -104,7 +104,7 @@ namespace Ecommerce.Controllers
             {
                 var loteDB = _loteManager.GetById(loteModel.LotId);
 
-                var imgModificada = loteDB.NombreImagen.Equals(loteModel.Imagen?.FileName);
+                var imgModificada = false;
 
                 var lote = new Input.Lote
                 {
