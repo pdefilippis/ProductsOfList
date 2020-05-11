@@ -1,15 +1,70 @@
-﻿
 @{
-    Layout = null;
+    ViewData["Title"] = "About";
 }
 
-<!DOCTYPE html>
+@section Breadcrumb {
+    <li class="active"><strong>@ViewData["Title"]</strong></li>
+}
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>About</title>
-</head>
-<body>
-</body>
-</html>
+<section class="jumbotron">
+        <div class="row">
+            <div class="col-md  content-wrapper" style="margin-left:437px">
+                <h1 class="jumbotron-title display-1">
+                    <p style="color:#89D6F3; margin-top:0px;font-size: 4.875rem;font-family: 'Roboto Slab';">The Moz Story</p>
+                </h1>
+                <h4 class="jumbotron-subtitle" ">
+                    <p>We know SEO. In fact, we wrote the blog on it.</p>
+                </h4>
+            </div>
+        </div>
+        <div class="overlay"></div>
+
+        <div class="jumbotron-overlay"></div>
+</section>
+<div class="col-6 jumbotron2">
+    <div class="page-section-headline" style="text-align:center;padding:62px">
+        <p style="text-align: center;
+        font-size: 16px;
+        font-weight: 400;
+        width: 46%;
+        height: 100%;
+        margin-left:274px;
+        padding-left:inherit;">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit rem eum fugiat quo voluptas Nemo enim non numquam anim cupidatat id est laborum.
+        </p>
+    </div>
+</div>
+
+
+
+
+
+<style>
+
+
+
+    .jumbotron2 {
+        background-color: #F0F7F7 !important;
+        margin-right: -63px;
+        margin-left: -65px;
+        padding: 1px;
+        margin-bottom: -285px;
+    }
+
+
+    .jumbotron {
+        padding: 8rem 0;
+        margin: -20px;
+        color: #fff;
+        background-color: #1D6B87;
+        margin-right: -62px;
+        margin-left: -62px;
+    }
+
+    .container .jumbotron, .container-fluid .jumbotron {
+        border-radius: 0px;
+    }
+</style>
