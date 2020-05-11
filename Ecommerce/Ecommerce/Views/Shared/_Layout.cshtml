@@ -14,74 +14,100 @@
     <link rel="stylesheet" href="~/libman/unpkg/datatables.net-responsive-bs/css/responsive.bootstrap.css" />
     <link rel="stylesheet" href="~/bundles/css/datatables.responsive.min.css" />
 
+    <link rel="stylesheet" href="~/libman/unpkg/datatables.net-buttons-bs/datatables.css" />
+    <link rel="stylesheet" href="~/libman/unpkg/datatables.net-buttons-bs/datatables.min.css" />
+
+
     <link rel="stylesheet" href="~/libman/cdnjs/twitter-bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/fontawesome.css" />
     <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/all.css" />
     <link rel="stylesheet" href="~/libman/unpkg/sweetalert2/dist/sweetalert2.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/navbar_style.css" />
 
 </head>
 
-<body>
+<body style="margin:0; margin-bottom:18%;background-color:#f5f0f0;">
     <div style="background-color:#f5f0f0;">
 
+
+
         @* --> Navbar <--*@
-        <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+        <section class="header" style="margin-right:31px">
+            <div class="overlay">
+                <div class="row">
+                    <div class="navbar navbar-default">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <div class="navlogo col-lg-2">
+                                    <a asp-controller="Home" asp-action="Index" class="navbar-brand">RE-MATE</a>
+                                </div>
 
-            <a asp-controller="Home" asp-action="Index" class="navbar-brand" style="padding-left:20px">RE-MATE</a>
-            <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
-                <ul class="nav navbar-nav navbar-right">
+                            </div>
 
-                    
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" style="cursor:pointer;padding-left: 18px;padding-right: 47px;" data-toggle="dropdown">Usuarios&nbsp;<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="User" asp-action="CreateUser">Crear</a></li>
-                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="User" asp-action="EditUser">Editar</a></li>
-                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="User" asp-action="EnableUserConfirmation">Habilitar</a></li>
-                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="User" asp-action="DisableUserConfirmation">Deshabilitar</a></li>
-                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="User" asp-action="Index">Index</a></li>
-                        </ul>
-                    </li>
-                    
-                    
-                    <li>
-                        <a asp-controller="Lot" asp-action="Index" title="Lotes">Lotes (Admin)</a>
-                    </li>
+                            <!-- Collect the nav links, forms, and other content for toggling -->
 
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" style="cursor:pointer;padding-left: 18px;padding-right: 47px;" data-toggle="dropdown">Views&nbsp;<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Article" asp-action="IndexPublic">Index publico</a></li>
-                        </ul>
-                    </li>
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <div class="col-lg-6">
+                                    <ul class="nav navbar-nav nav-links">
+                                        <li><a asp-controller="User" asp-action="Index">Usuarios</a></li>
+                                        <li><a asp-controller="Lot" asp-action="Index">Lotes</a></li>
+                                        <li><a asp-controller="Home" asp-action="About">About</a></li>
+                                        <li><a asp-controller="Home" asp-action="Contact">Contacto</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-4 right">
+                                    <ul class="nav navbar-nav navbar-left" style="padding-left:106px">
+                                        <li><a href="#"><i class="fa fa-shopping-cart fa-2x"></i></a></li>
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" style="cursor:pointer" data-toggle="dropdown">Name user&nbsp;<b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                                <li style="font-size:20px; font-family:'Corbel'"><a asp-controller="Account" asp-action="UserData">Datos del usuario</a></li>
+                                                <li style="font-size:20px; font-family:'Corbel'"><a asp-controller="Account" asp-action="ChangePassword">Cambiar contraseña</a></li>
+                                                <li style="font-size:20px; font-family:'Corbel'"><a id="btnLogOut" item-id="_LogOutID_" data-toggle="modal" data-target="#modalApply" asp-controller="Login" asp-action="LogOut">Salir</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                    <li>
-                        <a asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li>
-                        <a asp-controller="Home" asp-action="About">About</a>
-                    </li>
-                    <li class="active">
-                        <a asp-controller="Home" asp-action="Contact">Contact</a>
-                    </li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" style="cursor:pointer;padding-left: 18px;padding-right: 47px;" data-toggle="dropdown">Name user&nbsp;<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Account" asp-action="UserData">Datos del usuario</a></li>
-                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Account" asp-action="ChangePassword">Cambiar contraseña</a></li>
-                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Login" asp-action="LogOut">Salir</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-        </header>
+
+
+        <div id="templates" hidden>
+            <div id="are-you-sure2">Confirmación</div>
+            <div id="this-operation-can-not-be-revert2">¿Estás seguro que queres salir?</div>
+            <div id="yes-text2">Si</div>
+            <div id="no-text2">No</div>
+
+            <div id="error-text2">Error</div>
+            <div id="couldnt-approve2">Ocurrió un error al momento de realizar la solicitud</div>
+
+            <div id="rejected2">Rechazado</div>
+            <div id="couldnt-rejected2">Ocurrió un error al momento de realizar la solicitud</div>
+        </div>
+
+
+
+
+
 
         <div style=" visibility: hidden; display: none; padding-top: 1.5em; visibility: visible; display: block; background-color:#dce1e3">
             @{
                 if (IsSectionDefined("Breadcrumb"))
                 {
-                    <ol class="breadcrumb" style="margin-top: -15px; background-color:#dce1e3">
+                    <ol class="breadcrumb" style="margin-top: -26px; margin-right:0px;background-color:#ECE3E3; position:relative; border-radius:0">
                         @RenderSection("Breadcrumb", false)
                     </ol>
                 }
@@ -97,11 +123,10 @@
 
 
         @* --> Footer <--*@
-        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-        <footer style="padding-top:10px;">
-            <div class="footer" style="padding: 25px" />
+        <footer>
+            <div class="footer" style="padding: 25px;margin-left: -11px;" />
             <div class="container">
-                <p class="pull-left copyright"> Copyright © Footer 2020 RE-MATE </p>
+                <p style="color: #ff8d1e" class="pull-left copyright"> Copyright © Footer 2020 RE-MATE </p>
 
             </div>
         </footer>
@@ -118,11 +143,14 @@
         <script src="~/libman/cdnjs/select2/js/select2.js"></script>
         <script src="~/libman/cdnjs/select2/js/select2.min.js"></script>
 
+
+
         <script src="~/libman/unpkg/datatables.net/js/jquery.dataTables.js"></script>
         <script src="~/libman/unpkg/datatables.net-bs/js/dataTables.bootstrap.js"></script>
         <script src="~/libman/unpkg/datatables.net-responsive/js/dataTables.responsive.js"></script>
         <script src="~/libman/unpkg/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
         <script src="~/bundles/js/datatables.responsive.min.js"></script>
+        <script src="~/js/Home/logOut.js"></script>
 
         @RenderSection("Scripts", required: false)
 
@@ -133,13 +161,15 @@
 
 <style>
     .footer {
-        background-color: #9da3a6;
+        background-color: #252525;
         height: auto;
         padding-bottom: 30px;
         position: relative;
-        width: 100%;
-        border-bottom: 6px solid white;
-        border-top: 6px solid white;
+        width: 101%;
+        border-bottom: 6px solid #0A2151;
+        border-top: 6px solid #0A2151;
+        bottom:-284px;
+
     }
 
         .footer p {
