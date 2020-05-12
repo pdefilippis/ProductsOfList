@@ -56,6 +56,7 @@ namespace Ecommerce.Controllers
             var items = article.Where(a => a.Lote.Id == LotId).Select(l => new
             {
                 article_Description = l.Descripcion,
+                brand = l.Marca,
                 serialNumber = l.NumeroSerie,
                 type = l.Tipo.Descripcion,
                 state = l.Activo == true ? "Activo" : "Inactivo",
@@ -124,6 +125,7 @@ namespace Ecommerce.Controllers
                         model.SerialNumber = item.NumeroSerie;
                         model.Description = item.Descripcion;
                         model.TypeId = item.Tipo.Id;
+                        model.Brand = item.Marca;
                     }
                     else
                     {
@@ -152,6 +154,7 @@ namespace Ecommerce.Controllers
                     IdLote = vm.LotId,
                     Descripcion = vm.Description,
                     Precio = vm.Price
+                    Marca = vm.Brand
                 };
 
                 _articuloManager.Save(article);
@@ -185,7 +188,7 @@ namespace Ecommerce.Controllers
                 var model = new EditArticleViewModel
                 {
                     TypeId = article.Id,
-                    //Brand = article.Marca,
+                    Brand = article.Marca,
                     Description = article.Descripcion,
                     SerialNumber = article.NumeroSerie,
                     ArticleId = ArticleId,
@@ -226,7 +229,8 @@ namespace Ecommerce.Controllers
                     item.NumeroSerie = vm.SerialNumber;
                     item.Precio = vm.Price;
                     item.Descripcion = vm.Description;
-
+                    item.Marca = vm.Brand;
+                    
                     context.SaveChanges();
                 }
                 return RedirectToAction("Index", new { LotId = article.Lote.Id });
