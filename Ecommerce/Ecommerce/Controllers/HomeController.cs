@@ -1,39 +1,44 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Ecommerce.Domain;
+using Ecommerce.Domain.Models;
+using Ecommerce.ViewModels.Home;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using Lote = Ecommerce.Common.DataMembers.Output.Lote;
+
 
 namespace Ecommerce.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
-    
-        //private readonly ProductsManagerContext context;
 
-        //public HomeController(ProductsManagerContext productsManagerContext)
-        //{
-        //    this.context = productsManagerContext;
-        //}
+        private readonly Core.ILoteManager _loteManager;
 
 
-        //public IActionResult Index()
-        //{
-        //    HomeViewModel model = new HomeViewModel();
+        public HomeController(Core.ILoteManager loteManager)
+        {
+            _loteManager = loteManager;
+        }
 
-        //    List<Lote> lots = context.Lote.Where(x => x.Estado == Lote.EstadoLote.ENABLED).OrderByDescending(x => x.Id).ToList();
 
-        //    model = new HomeViewModel
-        //    {
-        //        Lots = lots,
-        //    };
-
-        //    return View(model);
-        //}
-        
         public IActionResult Index()
         {
-            var algo = HttpContext.User.Identity.IsAuthenticated;
-            return View();
+            HomeViewModel model = new HomeViewModel();
+
+            var lote = _loteManager.Get();
+
+            List<Lote> lots = lote.Where(l => l.Activo == true).OrderByDescending(l => l.Id).ToList();
+
+            model = new HomeViewModel
+            {
+                Lots = lots,
+            };
+
+            return View(model);
         }
+
 
         public IActionResult Contact()
         {
