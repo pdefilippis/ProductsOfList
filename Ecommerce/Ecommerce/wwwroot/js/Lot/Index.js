@@ -60,6 +60,16 @@
                     responsivePriority: 3
                 },
                 {
+                    title: $("#createDate-column-title").html(),
+                    data: { _: "create_Date", sort: "create_Date" },
+                    responsivePriority: 4
+                },
+                {
+                    title: $("#upDate-column-title").html(),
+                    data: { _: "update_Date", sort: "update_Date" },
+                    responsivePriority: 5
+                },
+                {
                     title: $("#lotArticles-column-title").html(),
                     data: "lot_article",
                     responsivePriority: 6
