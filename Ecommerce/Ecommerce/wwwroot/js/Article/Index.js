@@ -71,6 +71,12 @@
                     responsivePriority: 7
                 },
                 {
+                    title: $("#brand-column-title").html(),
+                    data: "brand",
+                    render: $.fn.dataTable.render.text(),
+                    responsivePriority: 5
+                },
+                {
                     title: $("#serialNumber-column-title").html(),
                     data: "serialNumber",
                     render: $.fn.dataTable.render.text(),
