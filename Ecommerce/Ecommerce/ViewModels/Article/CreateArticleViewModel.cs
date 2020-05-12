@@ -14,12 +14,12 @@ namespace Ecommerce.ViewModels.Article
         [Required(ErrorMessage = "El campo 'Tipo' es obligatorio.")]
         public int TypeId { get; set; }
         [MaxLength(30, ErrorMessage = "Permite hasta 30 caracteres")]
+        [Display(Name = "Marca")]
+        [Required(ErrorMessage = "El campo 'Marca' es obligatorio.")]
+        public string Brand { get; set; }
+        [MaxLength(30, ErrorMessage = "Permite hasta 30 caracteres")]
         [Display(Name = "Numero de serie")]
         [Required(ErrorMessage = "El campo 'Numero de serie' es obligatorio.")]
-        //public string Brand { get; set; }
-        //[MaxLength(30, ErrorMessage = "Permite hasta 30 caracteres")]
-        //[Display(Name = "Número de serie")]
-        //[Required(ErrorMessage = "El campo 'Número de serie' es obligatorio.")]
         public string SerialNumber { get; set; }
         [MaxLength(50, ErrorMessage = "Permite hasta 50 caracteres")]
         [Display(Name = "Descripción")]
