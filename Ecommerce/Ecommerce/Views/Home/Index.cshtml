@@ -1,3 +1,4 @@
+@using Ecommerce.ViewModels.Home
 @model HomeViewModel
 
 
@@ -15,14 +16,75 @@
 
 
 
+        @*@if (Model.Lots.Count > 0)
+        {
 
-    @*<div class="col-md-3">
+            @if (Model.Lots.Count == 1)
+            {
+                foreach (var item in Model.Lots)
+                {
+
+                    @if (item.Imagen == null)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+            else
+            {
+                foreach (var item in Model.Lots)
+                {
+                    if (item.Imagen == null)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+
+
+
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <i class="fas fa-box-open fa-5x" style="color:beige"></i>
+                    <h2 style="padding-bottom: 37px;color:beige; font-family:sans-serif; font-size:295%">No hay lotes disponibles</h2>
+                </div>
+            </div>
+        }
+
+    </div>*@
+
+
+
+
+
+
+
+           *<div class="container" style="padding-top:126px">
+    <div class="row portfolio" style="padding-top:2px">
+        <div class="col-sm-6 col-md-3">
+        </div>
+        <div class="col-sm-6 col-md-3">
+
             <div class="ibox">
                 <div class="ibox-content product-box">
                     <div class="product-imitation">
                         [ SIN FOTO ]
                     </div>
                     <div class="product-desc">
+                        <span class="product-price">
+                            1
+                        </span>
                         <a class="product-name">Descripcion del lote</a>
                         <div class="m-t text-righ">
                             <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
@@ -30,106 +92,83 @@
                     </div>
                 </div>
             </div>
-        </div>*@
 
 
-    <div class="container" style="padding-top:126px">
-        <div class="row portfolio" style="padding-top:2px">
-            <div class="col-sm-6 col-md-3">
-            </div>
-            <div class="col-sm-6 col-md-3">
-
-                <div class="ibox">
-                    <div class="ibox-content product-box">
-                        <div class="product-imitation">
-                            [ SIN FOTO ]
-                        </div>
-                        <div class="product-desc">
-                            <span class="product-price">
-                                1
-                            </span>
-                            <a class="product-name">Descripcion del lote</a>
-                            <div class="m-t text-righ">
-                                <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="col-sm-6 col-md-3">
-
-                <div class="ibox">
-                    <div class="ibox-content product-box">
-                        <div class="product-imitation">
-                            [ SIN FOTO ]
-                        </div>
-                        <div class="product-desc">
-                            <span class="product-price">
-                                2
-                            </span>
-                            <a class="product-name">Descripcion del lote</a>
-                            <div class="m-t text-righ">
-                                <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
         </div>
-        <br />
-        <div class="row portfolio" style="padding-top:2px">
-            <div class="col-sm-6 col-md-3">
-            </div>
-            <div class="col-sm-6 col-md-3">
+        <div class="col-sm-6 col-md-3">
 
-                <div class="ibox">
-                    <div class="ibox-content product-box">
-                        <div class="product-imitation">
-                            [ SIN FOTO ]
-                        </div>
-                        <div class="product-desc">
-                            <span class="product-price">
-                                3
-                            </span>
-                            <a class="product-name">Descripcion del lote</a>
-                            <div class="m-t text-righ">
-                                <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
-                            </div>
+            <div class="ibox">
+                <div class="ibox-content product-box">
+                    <div class="product-imitation">
+                        [ SIN FOTO ]
+                    </div>
+                    <div class="product-desc">
+                        <span class="product-price">
+                            2
+                        </span>
+                        <a class="product-name">Descripcion del lote</a>
+                        <div class="m-t text-righ">
+                            <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
                         </div>
                     </div>
                 </div>
-
-
             </div>
-            <div class="col-sm-6 col-md-3">
 
-                <div class="ibox">
-                    <div class="ibox-content product-box">
-                        <div class="product-imitation">
-                            [ SIN FOTO ]
-                        </div>
-                        <div class="product-desc">
-                            <span class="product-price">
-                                4
-                            </span>
-                            <a class="product-name">Descripcion del lote</a>
-                            <div class="m-t text-righ">
-                                <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
-                            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row portfolio" style="padding-top:2px">
+        <div class="col-sm-6 col-md-3">
+        </div>
+        <div class="col-sm-6 col-md-3">
+
+            <div class="ibox">
+                <div class="ibox-content product-box">
+                    <div class="product-imitation">
+                        [ SIN FOTO ]
+                    </div>
+                    <div class="product-desc">
+                        <span class="product-price">
+                            3
+                        </span>
+                        <a class="product-name">Descripcion del lote</a>
+                        <div class="m-t text-righ">
+                            <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
                         </div>
                     </div>
                 </div>
-
             </div>
+
+
+        </div>
+        <div class="col-sm-6 col-md-3">
+
+            <div class="ibox">
+                <div class="ibox-content product-box">
+                    <div class="product-imitation">
+                        [ SIN FOTO ]
+                    </div>
+                    <div class="product-desc">
+                        <span class="product-price">
+                            4
+                        </span>
+                        <a class="product-name">Descripcion del lote</a>
+                        <div class="m-t text-righ">
+                            <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
+        </div>
+
 
 
 <style>
+
     .home_img {
         margin-left: -62px;
         width: 1265px;
