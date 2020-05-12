@@ -18,5 +18,8 @@ namespace Ecommerce.Infrastructure
         Output.Usuario ChangePassword(string usuario, string password);
         ICollection<Output.Usuario> GetByArticulo(int idArticulo);
         void RegistrarLogin(int idUsuario);
+        ICollection<Output.Usuario> Get();
+        ICollection<Output.Usuario> GetAll();
+        Output.Usuario GetById(int id);
     }
 }

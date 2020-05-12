@@ -62,12 +62,39 @@ namespace Ecommerce.Infrastructure.Repository
             }
         }
 
+        public ICollection<Output.Usuario> Get()
+        {
+            using (var context = _context.Get())
+            {
+                var items = context.Usuario.ToList();
+                return _transformMapper.Transform<List<Domain.Models.Usuario>, ICollection<Output.Usuario>>(items);
+            }
+        }
+
+        public ICollection<Output.Usuario> GetAll()
+        {
+            using (var context = _context.Get())
+            {
+                var items = context.Usuario.ToList();
+                return _transformMapper.Transform<List<Domain.Models.Usuario>, ICollection<Output.Usuario>>(items);
+            }
+        }
+
         public ICollection<Output.Usuario> GetByArticulo(int idArticulo)
         {
             using (var context = _context.Get())
             {
                 var items = context.Solicitud.Where(x => x.IdArticulo.Equals(idArticulo)).Select(x => x.IdUsuarioNavigation).ToList();
                 return _transformMapper.Transform<List<Domain.Models.Usuario>, ICollection<Output.Usuario>>(items);
+            }
+        }
+
+        public Output.Usuario GetById(int id)
+        {
+            using (var context = _context.Get())
+            {
+                var item = context.Usuario.Where(x => x.Id.Equals(id)).FirstOrDefault();
+                return _transformMapper.Transform<Domain.Models.Usuario, Output.Usuario>(item);
             }
         }
 

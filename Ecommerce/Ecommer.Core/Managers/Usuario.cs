@@ -39,6 +39,21 @@ namespace Ecommerce.Core.Managers
             
         }
 
+        public ICollection<Common.DataMembers.Output.Usuario> Get()
+        {
+            return _usuarioInfrastructure.Get();
+        }
+
+        public ICollection<Common.DataMembers.Output.Usuario> GetAll()
+        {
+            return _usuarioInfrastructure.GetAll();
+        }
+
+        public Common.DataMembers.Output.Usuario GetById(int id)
+        {
+            return _usuarioInfrastructure.GetById(id);
+        }
+
         public Common.DataMembers.Output.Usuario Login(Common.DataMembers.Input.Usuario usuario)
         {
             try
