@@ -89,6 +89,12 @@
                     responsivePriority: 5
                 },
                 {
+                    title: $("#userCount-column-title").html(),
+                    data: "userCount",
+                    render: $.fn.dataTable.render.text(),
+                    responsivePriority: 8
+                },
+                {
                     title: $("#adjudicatedUser-column-title").html(),
                     data: "adjudicated",
                     render: $.fn.dataTable.render.text(),
