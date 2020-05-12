@@ -56,7 +56,6 @@ namespace Ecommerce
             services.AddScoped<Infra.IArticuloTipoInfrastructure, Infra.Repository.ArticuloTipo>();
             services.AddScoped<Infra.ILoteInfrastructure, Infra.Repository.Lote>();
             services.AddScoped<Infra.IUsuarioInfrastructure, Infra.Repository.Usuario>();
-            services.AddScoped<Infra.IMarcaInfrastructure, Infra.Repository.Marca>();
 
             services.AddSingleton<Infra.Mappers.ITransformMapper, Infra.Mappers.TransformMapper>();
             #endregion

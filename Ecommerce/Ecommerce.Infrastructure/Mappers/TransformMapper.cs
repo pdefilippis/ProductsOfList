@@ -19,7 +19,6 @@ namespace Ecommerce.Infrastructure.Mappers
             InitializeLote(ce);
             InitializeArticuloTipo(ce);
             InitializeUsuario(ce);
-            InitializeMarca(ce);
         }
 
         public static void SetMapper(IMapper mapper)

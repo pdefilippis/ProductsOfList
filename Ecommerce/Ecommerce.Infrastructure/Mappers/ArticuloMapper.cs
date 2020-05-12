@@ -21,7 +21,7 @@ namespace Ecommerce.Infrastructure.Mappers
                 .ForMember(d => d.Activo, opt => opt.MapFrom(src => src.Activo))
                 .ForMember(d => d.Lote, opt => opt.MapFrom(src => src.IdLoteNavigation))
                 .ForMember(d => d.Tipo, opt => opt.MapFrom(src => src.IdTipoNavigation))
-                .ForMember(d => d.Marca, opt => opt.MapFrom(src => src.IdMarcaNavigation))
+                .ForMember(d => d.Marca, opt => opt.MapFrom(src => src.Marca))
                 .ForMember(d => d.UsuariosInteresados, opt => opt.MapFrom(src => src.Solicitud.Where(x => x.IdArticulo.Equals(src.Id)).Select(x => x.IdUsuarioNavigation)))
                 .ReverseMap();
 

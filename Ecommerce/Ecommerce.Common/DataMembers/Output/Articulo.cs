@@ -19,7 +19,7 @@ namespace Ecommerce.Common.DataMembers.Output
         public decimal Precio { get; set; }
         public Usuario UsuarioAdjudicado { get; set; }
         public bool Activo { get; set; }
-        public Marca Marca { get; set; }
+        public string Marca { get; set; }
         public virtual ICollection<Usuario> UsuariosInteresados { get; set; }
     }
 }

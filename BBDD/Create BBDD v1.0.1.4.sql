@@ -1,0 +1,1 @@
+ALTER TABLE Articulo ADD Marca VARCHAR(100) NULL

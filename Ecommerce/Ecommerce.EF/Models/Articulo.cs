@@ -24,14 +24,12 @@ namespace Ecommerce.Domain.Models
         public decimal Precio { get; set; }
         public int? UsuarioAdjudicado { get; set; }
         public bool Activo { get; set; }
-        public int? IdMarca { get; set; }
+        [StringLength(100)]
+        public string Marca { get; set; }
 
         [ForeignKey("IdLote")]
         [InverseProperty("Articulo")]
         public virtual Lote IdLoteNavigation { get; set; }
-        [ForeignKey("IdMarca")]
-        [InverseProperty("Articulo")]
-        public virtual Marca IdMarcaNavigation { get; set; }
         [ForeignKey("IdTipo")]
         [InverseProperty("Articulo")]
         public virtual ArticuloTipo IdTipoNavigation { get; set; }
