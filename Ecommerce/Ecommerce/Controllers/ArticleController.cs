@@ -154,7 +154,7 @@ namespace Ecommerce.Controllers
                     NroSerie = vm.SerialNumber,
                     IdLote = vm.LotId,
                     Descripcion = vm.Description,
-                    Precio = vm.Price
+                    Precio = vm.Price,
                     Marca = vm.Brand
                 };
 
