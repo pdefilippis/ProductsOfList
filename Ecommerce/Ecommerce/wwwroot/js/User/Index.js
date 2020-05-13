@@ -5,7 +5,7 @@
         $('#users-table').DataTable({
             language: datatablesLangES,
             ajax: {
-                url: "/Users/GetUsers",
+                url: "/User/GetUsers",
                 dataSrc: "",
                 error: AjaxErrorHandler
             },
@@ -43,11 +43,11 @@
                     render: $.fn.dataTable.render.text(),
                     responsivePriority: 5
                 },
-                {
-                    title: $("#state-column-title").html(),
-                    data: "state_text",
-                    responsivePriority: 3
-                },
+                //{
+                //    title: $("#state-column-title").html(),
+                //    data: "state_text",
+                //    responsivePriority: 3
+                //},
                 {
                     title: $("#created-column-title").html(),
                     data: { _: "creation_timestamp", sort: "creation_timestamp_ticks" },
