@@ -55,7 +55,8 @@ namespace Ecommerce.Infrastructure.Repository
                     Clave = usuario.Password,
                     Nombre = usuario.Nombre,
                     Usuario1 = usuario.UserName,
-                    Mail = usuario.Email
+                    Mail = usuario.Email,
+                    Administrador = usuario.EsAdministrador
                 };
 
                 context.Add(item);
@@ -137,6 +138,8 @@ namespace Ecommerce.Infrastructure.Repository
 
                 item.Apellido = usuario.Apellido;
                 item.Nombre = usuario.Nombre;
+                item.Mail = usuario.Email;
+                item.Administrador = usuario.EsAdministrador;
 
                 context.SaveChanges();
 
