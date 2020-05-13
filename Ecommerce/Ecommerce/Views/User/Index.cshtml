@@ -29,13 +29,13 @@
 <div id="templates" hidden>
     <div id="user-actions-btn-group">
         <div class="btn-group" style="display: flex">
-            <a asp-action="EditUser" asp-route-userId="_USERID_" class="btn btn-default btn-xs" style="color:#00A3A1" title="Editar usuario">
+            <a asp-action="EditUser" asp-route-userId="_USERID_" class="btn btn-default btn-xs" style="color:white;background-color:#337ab7" title="Editar usuario">
                 <i class="fas fa-pencil-alt"></i>
             </a>
-            <a asp-action="EnableUserConfirmation" asp-route-userId="_USERID_" style="color:#00A3A1" class="btn btn-default btn-xs btn-enable-user" title="Activar usuario">
+            <a asp-action="EnableUserConfirmation" asp-route-userId="_USERID_" style="color:white;background-color:#337ab7" class="btn btn-default btn-xs btn-enable-user" title="Activar usuario">
                 <i class="fa fa-toggle-on fa-fw"></i>
             </a>
-            <a asp-action="DisableUserConfirmation" asp-route-userId="_USERID_" style="color:#00A3A1" class="btn btn-default btn-xs btn-disable-user" title="Desactivar usuario">
+            <a asp-action="DisableUserConfirmation" asp-route-userId="_USERID_" style="color:white;background-color:#337ab7" class="btn btn-default btn-xs btn-disable-user" title="Desactivar usuario">
                 <i class="fa fa-toggle-off fa-fw"></i>
             </a>
         </div>
@@ -46,7 +46,7 @@
     <div id="name-column-title">Nombre</div>
     <div id="surname-column-title">Apellido</div>
     <div id="mail-column-title">Mail</div>
-    <div id="state-column-title">Estado</div>
+    @*<div id="state-column-title">Estado</div>*@
     <div id="created-column-title">Creado</div>
     <div id="last-login-column-title">Ultimo ingreso</div>
     <div id="actions-column-title">Acciones</div>
