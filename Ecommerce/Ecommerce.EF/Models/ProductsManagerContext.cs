@@ -25,7 +25,7 @@ namespace Ecommerce.Domain.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;database=ProductsManager;user=usrpm;password=usrpm");
             }
         }
@@ -95,6 +95,8 @@ namespace Ecommerce.Domain.Models
 
             modelBuilder.Entity<Usuario>(entity =>
             {
+                entity.Property(e => e.Activo).HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.Apellido).IsUnicode(false);
 
                 entity.Property(e => e.Clave).IsUnicode(false);

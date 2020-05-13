@@ -33,6 +33,18 @@ namespace Ecommerce.Infrastructure.Repository
             }
         }
 
+        public void ChangeStatus(int id)
+        {
+            using (var context = _context.Get())
+            {
+                var item = context.Usuario.Where(x => x.Id.Equals(id)).FirstOrDefault();
+                if (item == null) return;
+
+                item.Activo = !item.Activo;
+                context.SaveChanges();
+            }
+        }
+
         public Output.Usuario Create(Input.Usuario usuario)
         {
             using (var context = _context.Get())
@@ -43,7 +55,8 @@ namespace Ecommerce.Infrastructure.Repository
                     Clave = usuario.Password,
                     Nombre = usuario.Nombre,
                     Usuario1 = usuario.UserName,
-                    Mail = usuario.Email
+                    Mail = usuario.Email,
+                    Administrador = usuario.EsAdministrador
                 };
 
                 context.Add(item);
@@ -125,6 +138,8 @@ namespace Ecommerce.Infrastructure.Repository
 
                 item.Apellido = usuario.Apellido;
                 item.Nombre = usuario.Nombre;
+                item.Mail = usuario.Email;
+                item.Administrador = usuario.EsAdministrador;
 
                 context.SaveChanges();
 
