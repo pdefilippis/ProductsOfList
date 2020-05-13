@@ -79,7 +79,8 @@ namespace Ecommerce.Controllers
                 Password = registerModel.Input.Password,
                 Apellido = registerModel.Input.Surname,
                 Nombre = registerModel.Input.Name,
-                UserName = registerModel.Input.User
+                UserName = registerModel.Input.User,
+                Email = registerModel.Input.Email
             });
 
             return View("Index");
