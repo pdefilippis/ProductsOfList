@@ -33,6 +33,18 @@ namespace Ecommerce.Infrastructure.Repository
             }
         }
 
+        public void ChangeStatus(int id)
+        {
+            using (var context = _context.Get())
+            {
+                var item = context.Usuario.Where(x => x.Id.Equals(id)).FirstOrDefault();
+                if (item == null) return;
+
+                item.Activo = !item.Activo;
+                context.SaveChanges();
+            }
+        }
+
         public Output.Usuario Create(Input.Usuario usuario)
         {
             using (var context = _context.Get())

@@ -30,6 +30,9 @@ namespace Ecommerce.Domain.Models
         public DateTime UltimoIngreso { get; set; }
         [StringLength(100)]
         public string Mail { get; set; }
+        public bool Administrador { get; set; }
+        [Required]
+        public bool? Activo { get; set; }
 
         [InverseProperty("UsuarioAdjudicadoNavigation")]
         public virtual ICollection<Articulo> Articulo { get; set; }

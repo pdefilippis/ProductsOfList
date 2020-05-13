@@ -39,6 +39,20 @@ namespace Ecommerce.Core.Managers
             
         }
 
+        public void Disable(int id)
+        {
+            var item = _usuarioInfrastructure.GetById(id);
+            if (item != null && item.Activo)
+                _usuarioInfrastructure.ChangeStatus(id);
+        }
+
+        public void Enable(int id)
+        {
+            var item = _usuarioInfrastructure.GetById(id);
+            if (item != null && !item.Activo)
+                _usuarioInfrastructure.ChangeStatus(id);
+        }
+
         public ICollection<Common.DataMembers.Output.Usuario> Get()
         {
             return _usuarioInfrastructure.Get();

@@ -21,5 +21,6 @@ namespace Ecommerce.Infrastructure
         ICollection<Output.Usuario> Get();
         ICollection<Output.Usuario> GetAll();
         Output.Usuario GetById(int id);
+        void ChangeStatus(int id);
     }
 }
