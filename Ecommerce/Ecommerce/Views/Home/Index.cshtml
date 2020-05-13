@@ -16,164 +16,158 @@
 
 
 
-        @*@if (Model.Lots.Count > 0)
-        {
+    @if (Model.Lots.Count > 0)
+    {
+        <div class="col-md-12 text-center">
+            <h1 style="color:#e7e9f3;font-weight:900;font-family:'Open Sans',Helvetica,Arial,Lucida,sans-serif; font-size:51px">Lotes</h1>
+        </div>
 
-            @if (Model.Lots.Count == 1)
-            {
-                foreach (var item in Model.Lots)
+
+
+        <div class="container" style="padding-top:216px;">
+            <div class="row portfolio" style="display:flex;flex-wrap:wrap;justify-content:space-between">
+
+
+
+                @if (Model.Lots.Count == 1)
                 {
 
-                    @if (item.Imagen == null)
+                    @foreach (var item in Model.Lots)
                     {
 
-                    }
-                    else
-                    {
+                        if (item.Imagen == null)
+                        {
+                            <div class="col-md-4" style="padding-left:6%; padding-right:6%; padding-bottom:2%">
+
+                                <div class="ibox">
+                                    <div class="ibox-content product-box">
+                                        <div class="product-imitation">
+                                            [ SIN FOTO ]
+                                        </div>
+                                        <div class="product-desc">
+                                            <span class="product-price">
+                                                @item.Articulos.Count
+                                            </span>
+                                            <a class="product-name">@item.Descripcion</a>
+                                            <div class="m-t text-righ">
+                                                <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="col-md-4" style="padding-left:6%; padding-right:6%; padding-bottom:2%">
+                                <br />
+                                <div class="ibox">
+                                    <div class="ibox-content product-box">
+                                        <div class="product-imitation">
+                                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Imagen)" alt="image" style="width: 180px; height:180px;" />
+                                        </div>
+                                        <div class="product-desc">
+                                            <span class="product-price">
+                                                @item.Articulos.Count
+                                            </span>
+                                            <a class="product-name">@item.Descripcion</a>
+                                            <div class="m-t text-righ">
+                                                <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+
+
 
                     }
                 }
-            }
-            else
-            {
-                foreach (var item in Model.Lots)
+
+
+                else
                 {
-                    if (item.Imagen == null)
+                    @foreach (var item in Model.Lots)
                     {
 
-                    }
-                    else
-                    {
+                        if (item.Imagen == null)
+                        {
+
+                            <div class="col-md-4" style="padding-right:6%; padding-left:6%; padding-bottom:2%">
+
+                                <div class="ibox">
+                                    <div class="ibox-content product-box">
+                                        <div class="product-imitation">
+                                            [ SIN FOTO ]
+                                        </div>
+                                        <div class="product-desc">
+                                            <span class="product-price">
+                                                @item.Articulos.Count
+                                            </span>
+                                            <a class="product-name">@item.Descripcion</a>
+                                            <div class="m-t text-righ">
+                                                <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+
+                            <div class="col-md-4" style="padding-left:6%; padding-right:6%; padding-bottom:2%">
+
+                                <div class="ibox">
+                                    <div class="ibox-content product-box">
+                                        <div class="product-imitation">
+                                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Imagen)" alt="image" style="width: 180px; height:180px;"/>
+                                        </div>
+                                        <div class="product-desc">
+                                            <span class="product-price">
+                                                @item.Articulos.Count
+                                            </span>
+                                            <a class="product-name">@item.Descripcion</a>
+                                            <div class="m-t text-righ">
+                                                <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <br />
 
                     }
+                    <div class="col-md-4">
+                    </div>
+
                 }
-            }
-
-
-
-        }
-        else
-        {
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <i class="fas fa-box-open fa-5x" style="color:beige"></i>
-                    <h2 style="padding-bottom: 37px;color:beige; font-family:sans-serif; font-size:295%">No hay lotes disponibles</h2>
-                </div>
             </div>
-        }
-
-    </div>*@
-
-
-
-
-
-
-
-           <div class="container" style="padding-top:126px">
-    <div class="row portfolio" style="padding-top:2px">
-        <div class="col-sm-6 col-md-3">
         </div>
-        <div class="col-sm-6 col-md-3">
-
-            <div class="ibox">
-                <div class="ibox-content product-box">
-                    <div class="product-imitation">
-                        [ SIN FOTO ]
-                    </div>
-                    <div class="product-desc">
-                        <span class="product-price">
-                            1
-                        </span>
-                        <a class="product-name">Descripcion del lote</a>
-                        <div class="m-t text-righ">
-                            <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
+    }
+    else
+    {
+        <div class="col-md-12 text-center" style="padding-top: 12px;">
+            <i class="fas fa-box-open fa-5x" style="color:#e7e9f3"></i>
+            <h2 style="color:#e7e9f3;font-weight:900;font-family:'Open Sans',Helvetica,Arial,Lucida,sans-serif; font-size:51px">No hay lotes disponibles</h2>
         </div>
-        <div class="col-sm-6 col-md-3">
-
-            <div class="ibox">
-                <div class="ibox-content product-box">
-                    <div class="product-imitation">
-                        [ SIN FOTO ]
-                    </div>
-                    <div class="product-desc">
-                        <span class="product-price">
-                            2
-                        </span>
-                        <a class="product-name">Descripcion del lote</a>
-                        <div class="m-t text-righ">
-                            <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <br />
-    <div class="row portfolio" style="padding-top:2px">
-        <div class="col-sm-6 col-md-3">
-        </div>
-        <div class="col-sm-6 col-md-3">
-
-            <div class="ibox">
-                <div class="ibox-content product-box">
-                    <div class="product-imitation">
-                        [ SIN FOTO ]
-                    </div>
-                    <div class="product-desc">
-                        <span class="product-price">
-                            3
-                        </span>
-                        <a class="product-name">Descripcion del lote</a>
-                        <div class="m-t text-righ">
-                            <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-        <div class="col-sm-6 col-md-3">
-
-            <div class="ibox">
-                <div class="ibox-content product-box">
-                    <div class="product-imitation">
-                        [ SIN FOTO ]
-                    </div>
-                    <div class="product-desc">
-                        <span class="product-price">
-                            4
-                        </span>
-                        <a class="product-name">Descripcion del lote</a>
-                        <div class="m-t text-righ">
-                            <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
+    }
 </div>
-        </div>
 
 
 
 <style>
 
+
     .home_img {
         margin-left: -62px;
         width: 1265px;
         margin-top: -2rem;
-        margin-bottom: -86rem;
+        margin-bottom: -29rem;
         position: relative;
         height: 105rem;
         background-image: url('images/sq_img_2.jpg');
