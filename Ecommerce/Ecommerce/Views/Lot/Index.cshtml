@@ -13,6 +13,15 @@
     <li class="active"><strong>@ViewData["Title"]</strong></li>
 }
 
+    <div class="row">
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorTitle) && !string.IsNullOrEmpty(ViewBag.ErrorMessege))
+        {
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>@ViewBag.ErrorTitle</strong>@ViewBag.ErrorMessege
+            </div>
+        }
+    </div>
 
 <div class="row">
     <div class="col-md-6 pull-left">
@@ -101,6 +110,6 @@
     <div id="rejected">Rechazado</div>
     <div id="couldnt-rejected">Ocurrió un error al momento de realizar la solicitud</div>
 
-
+    
 
 </div>
