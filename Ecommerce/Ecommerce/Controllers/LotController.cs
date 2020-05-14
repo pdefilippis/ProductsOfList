@@ -46,6 +46,11 @@ namespace Ecommerce.Controllers
         [HttpGet]
         public IActionResult CreateLot()
         {
+            ViewBag.ErrorTitle = "Warning!";
+            ViewBag.ErrorMessege = "Better check yourself, you're not looking too good.";
+
+            return View("Index");
+
             return View(new CreateLotViewModel());
         }
 
