@@ -1,11 +1,14 @@
+using Ecommerce.Common.DataMembers.Input;
 using Ecommerce.Domain;
 using Ecommerce.ViewModels.Article;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using Articulo = Ecommerce.Common.DataMembers.Input.Articulo;
 
 namespace Ecommerce.Controllers
@@ -17,6 +20,8 @@ namespace Ecommerce.Controllers
         private readonly Core.IArticuloTipoManager _articuloTipoManager;
         private readonly Core.ILoteManager _loteManager;
         private readonly IConnectionContext _context;
+        private readonly Core.IUsuarioManager _usuarioManager;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
         public ArticleController(Core.ILoteManager loteManager, Core.IArticuloManager articuloManager, Core.IArticuloTipoManager articuloTipoManager, IConnectionContext context)
         {
@@ -250,100 +255,90 @@ namespace Ecommerce.Controllers
             }
         }
 
-        //public IActionResult IndexPublic(int lotId)
-        //{
+        public JsonResult GetArticlesPublic(int lotId)
+        {
+            var CurrentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-        //    var lot = context.Lote.FirstOrDefault(l => l.Id == lotId && l.Estado == Lote.EstadoLote.ENABLED);
-        //    if (lot != null)
-        //    {
-        //        var takenId = context.Lote.FirstOrDefault(l => l.Id == lotId).Articulo.FirstOrDefault(a => a.UserArticles.Any(x => x.UserId == CurrentUserId)) == null ? 0
-        //        : context.Lote.FirstOrDefault(l => l.Id == lotId).Articulo.FirstOrDefault(a => a.UserArticles.Any(x => x.UserId == CurrentUserId)).Id;
+            var article = _articuloManager.GetAll();
+            var articleWon = _articuloManager.Get().FirstOrDefault(x =>
+                x.UsuarioAdjudicado.Id == CurrentUserId &&
+                x.Lote.Actualizacion.Year == DateTime.Now.Year);
 
-        //        IndexPublicViewModel indexPublicViewModel = new IndexPublicViewModel
-        //        {
-        //            Descripcion = lot.Descripcion,
-        //            TakenId = takenId,
-        //            Id = lotId
-        //        };
+            var articleList = article.Where(a => a.Lote.Id == lotId && a.Activo == true).ToList();
 
-        //        return View(indexPublicViewModel);
-        //    }
+            if (articleWon != null)
+                articleList = articleList.Where(x => x.Tipo.Id != articleWon.Tipo.Id).ToList();
 
-        //    return RedirectToAction("Status", "Error", new { code = 404 });
-        //}
+            var articles = articleList.Select(l => new
+            {
+                article_Description = l.Descripcion,
+                serialNumber = l.NumeroSerie,
+                type = l.Lote.Descripcion,
+                article_id = l.Id,
+                brand = l.Marca,
+                price = "$\n" + l.Precio.ToString(),
+                userCount = l.UsuariosInteresados.Count
+            }).ToList();
 
-        //public JsonResult GetArticlesPublic(int lotId)
-        //{
-        //    var articleWon = context.Articulo.FirstOrDefault(x =>
-        //    x.IdUsuarioAdjudicado == CurrentUserId &&
-        //    x.IdLoteNavigation.UpdateDate.Year == DateTime.Now.Year);
+            return Json(articles);
+        }
 
-        //    List<Articulo> articleList = context.Articulo.Where(a => a.IdLoteNavigation.Id == lotId && a.Estado == Articulo.ArticuloEstado.ENABLED).ToList();
+        public IActionResult IndexPublic(int lotId)
+        {
+            var CurrentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-        //    if (articleWon != null)
-        //        articleList = articleList.Where(x => x.IdTipo != articleWon.IdTipo).ToList();
+            var lot = _loteManager.Get().FirstOrDefault(l => l.Id == lotId && l.Activo == true);
+            var takenId = _loteManager.Get().FirstOrDefault(l => l.Id == lotId).Articulos.FirstOrDefault(a => a.UsuariosInteresados.Any(x => x.Id == CurrentUserId)) == null ? 0
+                : _loteManager.Get().FirstOrDefault(l => l.Id == lotId).Articulos.FirstOrDefault(a => a.UsuariosInteresados.Any(x => x.Id == CurrentUserId)).Id;
+            if (lot != null)
+            {
+                IndexPublicViewModel indexPublicViewModel = new IndexPublicViewModel
+                {
+                    Description = lot.Descripcion,
+                    TakenId = takenId,
+                    LotId = lotId
+                };
 
-        //    var articles = articleList.Select(l => new
-        //    {
-        //        article_Description = l.Descripcion,
-        //        serialNumber = l.NumeroSerie,
-        //        type = l.IdTipoNavigation.Descripcion,
-        //        article_id = l.Id,
-        //        brand = l.Marca,
-        //        userCount = l.UserArticles.Count,
-        //        price = "$\n" + l.Precio.ToString()
-        //    }).ToList();
+                return View(indexPublicViewModel);
+            }
 
-        //    return Json(articles);
-        //}
+            return RedirectToAction("Status", "Error", new { code = 404 });
+        }
 
+        public JsonResult ApplyUnApply(int articleId)
+        {
+            var CurrentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-        //public IActionResult EnableDisable(int articleId, int lotId)
-        //{
-        //    var article = context.Articulo.FirstOrDefault(u => u.Id == articleId);
-        //    if (article == null)
-        //        return RedirectToAction("Index");
-        //    else
-        //    {
-        //        switch (article.Estado)
-        //        {
-        //            case ArticuloEstado.NOT_ENABLED:
-        //                article.Estado = ArticuloEstado.ENABLED;
-        //                break;
+            var article = _articuloManager.Get().FirstOrDefault(u => u.Id == articleId);
+            var user = _usuarioManager.Get().FirstOrDefault(u => u.Id == CurrentUserId);
+            var takenArticle = _articuloManager.Get().FirstOrDefault(x => x.Id == articleId && x.UsuarioAdjudicado.Id == CurrentUserId);
 
-        //            case ArticuloEstado.ENABLED:
-        //                article.Estado = ArticuloEstado.NOT_ENABLED;
-        //                break;
-        //        }
-        //    }
-        //    context.SaveChanges();
+            if (article == null || user == null)
+            {
+                return Json(false);
+            }
+            else
+            {
+                if (takenArticle == null)
+                {
+                    _articuloManager.PostularArticulo(new ArticuloPostulacion
+                    {
+                        IdArticulo = articleId,
+                        IdUsuario = user.Id
+                    });
+                }
+                else
+                {
+                    _articuloManager.DeclinarPostulacionArticulo(new ArticuloPostulacion
+                    {
+                        IdArticulo = articleId,
+                        IdUsuario = user.Id
+                    });
+                }
+            }
 
-        //    return RedirectToAction("Index", new { lotId = lotId });
-        //}
-
-        //public JsonResult ApplyUnApply(int articleId)
-        //{
-        //    var article = context.Articulo.FirstOrDefault(u => u.Id == articleId);
-        //    var user = context.Usuario.FirstOrDefault(u => u.Id == CurrentUserId);
-        //    var takenArticle = context.UserArticles.FirstOrDefault(x => x.ArticleId == articleId && x.UserId == CurrentUserId);
-
-        //    if (article == null || user == null)
-        //        return Json(false);
-        //    else
-        //    {
-        //        if (takenArticle == null)
-        //        {
-        //            article.UserArticles.Add(new UserArticle { UserId = user.Id, ArticleId = articleId });
-        //        }
-        //        else
-        //        {
-        //            article.UserArticles.Remove(takenArticle);
-        //        }
-        //    }
-        //    context.SaveChanges();
-
-        //    return Json(true);
-        //}
+            return Json(true);
+        }
 
     }
 }
