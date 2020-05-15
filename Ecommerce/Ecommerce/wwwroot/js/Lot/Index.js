@@ -46,6 +46,9 @@
                     render: function (data, type, full, meta) {
                         var priority = data;
                         switch (priority) {
+                            case "Cerrado":
+                                priority = $("#closed-field").html();
+                                break;
                             case "Activo":
                                 priority = $("#active-field").html();
                                 break;
@@ -91,7 +94,7 @@
                             btn_group.find("#btnLotClosure").hide();
                         }
 
-                        if (full.state === "CERRADO") {
+                        if (full.state === "Cerrado") {
                             btn_group.find("#edit").hide();
                             btn_group.find("#enableDisable").hide();
                             btn_group.find("#toggleAble").remove();
