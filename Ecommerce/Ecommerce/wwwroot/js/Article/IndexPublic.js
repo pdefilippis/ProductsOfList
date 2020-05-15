@@ -1,4 +1,4 @@
-﻿(function (self, $, undefined) {
+(function (self, $, undefined) {
     var article_actions_btn_group = $("#article-actions-btn-group");
 
     Index.Start = function () {
@@ -65,10 +65,10 @@
 
                         var btn_group = article_actions_btn_group.clone();
 
-                        var takenId = $('#TakenId').val();
-                        (full.article_id == takenId) ? btn_group.find("#btnApprove").remove() : btn_group.find("#btnReject").remove();
+                        var TakenId = $('#TakenId').val();
+                        (full.article_id == TakenId) ? btn_group.find("#btnApprove").remove() : btn_group.find("#btnReject").remove();
 
-                        if (takenId != 0) {
+                        if (TakenId != 0) {
                             btn_group.find("#btnApprove").parent().remove();
                         }
 
@@ -84,8 +84,8 @@
             var articleId = $(this).attr('item-id');
 
             Swal.fire({
-                title: $("#are-you-sure").text(),
-                text: $("#this-operation-can-not-be-revert").text(),
+                title: $("#are-you-sure3").text(),
+                text: $("#this-operation-can-not-be-revert3").text(),
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#28a745',
@@ -104,10 +104,10 @@
                         success: function (data) {
                             if (data === true) {
                                 Swal.fire({
-                                    title: $("#success-text").text(),
-                                    text: $("#approved").text(),
+                                    title: $("#success-text3").text(),
+                                    text: $("#approved3").text(),
                                     icon: "success",
-                                    confirmButtonText: $("#btnsuccess-text").text(),
+                                    confirmButtonText: $("#btnsuccess-text3").text(),
                                     timer: 1500
                                 }).then(function (result) {
                                     window.location.reload();
@@ -116,8 +116,8 @@
                             else if (data === false) {
 
                                 Swal.fire(
-                                    $("#error-text").text(),
-                                    $("#couldnt-approve").text(),
+                                    $("#error-text3").text(),
+                                    $("#couldnt-approve3").text(),
                                     "error"
                                 )
                             }
@@ -127,8 +127,8 @@
                         },
                         error: function () {
                             Swal.fire(
-                                $("#error-text").text(),
-                                $("#couldnt-approve").text(),
+                                $("#error-text3").text(),
+                                $("#couldnt-approve3").text(),
                                 "error"
                             )
                         }
@@ -148,8 +148,8 @@
             var articleId = $(this).attr('item-id');
 
             Swal.fire({
-                title: $("#are-you-sure").text(),
-                text: $("#this-operation-can-not-be-revert2").text(),
+                title: $("#are-you-sure4").text(),
+                text: $("#this-operation-can-not-be-revert4").text(),
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#28a745',
@@ -168,10 +168,10 @@
                         success: function (data) {
                             if (data === true) {
                                 Swal.fire({
-                                    title: $("#success-text2").text(),
-                                    text: $("#approved2").text(),
+                                    title: $("#success-text4").text(),
+                                    text: $("#approved4").text(),
                                     icon: "success",
-                                    confirmButtonText: $("#btnsuccess-text2").text(),
+                                    confirmButtonText: $("#btnsuccess-text4").text(),
                                     timer: 1500
                                 }).then(function (result) {
                                     window.location.reload();
@@ -180,8 +180,8 @@
                             else if (data === false) {
 
                                 Swal.fire(
-                                    $("#error-text").text(),
-                                    $("#couldnt-rejected").text(),
+                                    $("#error-text4").text(),
+                                    $("#couldnt-rejected4").text(),
                                     "error"
                                 )
                             }
@@ -191,8 +191,8 @@
                         },
                         error: function () {
                             Swal.fire(
-                                $("#error-text").text(),
-                                $("#couldnt-rejected").text(),
+                                $("#error-text4").text(),
+                                $("#couldnt-rejected4").text(),
                                 "error"
                             )
                         }
