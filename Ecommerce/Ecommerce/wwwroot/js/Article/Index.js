@@ -121,7 +121,7 @@
         });
 
         //Oculta las acciones (buttons) del articulo si el lote esta cerrado
-        if ($("#State").val() == "CLOSED")
+        if ($("#State").val() == "Cerrado")
             table.column(9).visible(false);
 
     };
