@@ -35,9 +35,9 @@
                     @foreach (var item in Model.Lots)
                     {
 
-                        if (item.Imagen == null)
+                        if (item.Imagen.Length == 0)
                         {
-                            <div class="col-md-4" style="padding-left:6%; padding-right:6%; padding-bottom:2%">
+                            <div class="col-md-4" style="padding-left:6%; padding-right:6%; padding-bottom:4%">
 
                                 <div class="ibox">
                                     <div class="ibox-content product-box">
@@ -50,7 +50,7 @@
                                             </span>
                                             <a class="product-name">@item.Descripcion</a>
                                             <div class="m-t text-righ">
-                                                <a asp-controller="Article" asp-action="IndexPublic" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
+                                                <a asp-controller="Article" asp-action="IndexPublic" asp-route-LotId="@item.Id"  class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
                                             </div>
                                         </div>
                                     </div>
@@ -60,12 +60,12 @@
                         }
                         else
                         {
-                            <div class="col-md-4" style="padding-left:6%; padding-right:6%; padding-bottom:2%">
+                            <div class="col-md-4" style="padding-left:6%; padding-right:6%; padding-bottom:4%">
                                 <br />
                                 <div class="ibox">
                                     <div class="ibox-content product-box">
-                                        <div class="product-imitation">
-                                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Imagen)" alt="image" style="width: 180px; height:180px;" />
+                                        <div class="product-imitation" style="width:180px;height:180px">
+                                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Imagen)" alt="image" style="width:259px;height:205px;padding-bottom:25px;margin-top:-91px;left:70px;padding-right:9px;position:absolute"/>
                                         </div>
                                         <div class="product-desc">
                                             <span class="product-price">
@@ -73,7 +73,7 @@
                                             </span>
                                             <a class="product-name">@item.Descripcion</a>
                                             <div class="m-t text-righ">
-                                                <a asp-controller="Article" asp-action="IndexPublic" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
+                                                <a asp-controller="Article" asp-action="IndexPublic" asp-route-LotId="@item.Id" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
                                             </div>
                                         </div>
                                     </div>
@@ -87,16 +87,15 @@
                     }
                 }
 
-
                 else
                 {
                     @foreach (var item in Model.Lots)
                     {
 
-                        if (item.Imagen == null)
+                        if (item.Imagen.Length == 0)
                         {
 
-                            <div class="col-md-4" style="padding-right:6%; padding-left:6%; padding-bottom:2%">
+                            <div class="col-md-4" style="padding-right:6%; padding-left:6%; padding-bottom:4%">
 
                                 <div class="ibox">
                                     <div class="ibox-content product-box">
@@ -109,7 +108,7 @@
                                             </span>
                                             <a class="product-name">@item.Descripcion</a>
                                             <div class="m-t text-righ">
-                                                <a asp-controller="Article" asp-action="IndexPublic" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
+                                                <a asp-controller="Article" asp-action="IndexPublic" asp-route-LotId="@item.Id" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
                                             </div>
                                         </div>
                                     </div>
@@ -119,12 +118,12 @@
                         else
                         {
 
-                            <div class="col-md-4" style="padding-left:6%; padding-right:6%; padding-bottom:2%">
+                            <div class="col-md-4" style="padding-left:6%; padding-right:6%; padding-bottom:4%">
 
                                 <div class="ibox">
                                     <div class="ibox-content product-box">
                                         <div class="product-imitation">
-                                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Imagen)" alt="image" style="width: 180px; height:180px;"/>
+                                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Imagen)" alt="image" style="width:259px;height:205px;padding-bottom:25px;margin-top:-91px;left:70px;padding-right:9px;position:absolute"/>
                                         </div>
                                         <div class="product-desc">
                                             <span class="product-price">
@@ -132,7 +131,7 @@
                                             </span>
                                             <a class="product-name">@item.Descripcion</a>
                                             <div class="m-t text-righ">
-                                                <a asp-controller="Article" asp-action="IndexPublic" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
+                                                <a asp-controller="Article" asp-action="IndexPublic" asp-route-LotId="@item.Id" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
                                             </div>
                                         </div>
                                     </div>
