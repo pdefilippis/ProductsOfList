@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="~/libman/cdnjs/bootstrap-toggle/css/bootstrap-toggle.css" />
     <link rel="stylesheet" href="~/libman/cdnjs/bootstrap-toggle/css/bootstrap-toggle.min.css" />
 
-
     <link rel="stylesheet" href="~/libman/cdnjs/twitter-bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/fontawesome.css" />
     <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/all.css" />
@@ -70,11 +69,11 @@
                                     <ul class="nav navbar-nav navbar-left" style="padding-left:106px">
                                         <li><a href="#"><i class="fa fa-shopping-cart fa-2x"></i></a></li>
                                         <li class="dropdown">
-                                            <a class="dropdown-toggle" style="cursor:pointer" data-toggle="dropdown"><i class="far fa-user"></i>&nbsp;Name user&nbsp;<b class="caret"></b></a>
+                                            <a class="dropdown-toggle" style="cursor:pointer" data-toggle="dropdown";><i class="far fa-user"></i>&nbsp;Name user&nbsp;<b class="caret"></b></a>
                                             <ul class="dropdown-menu">
-                                                <li style="font-size:20px; font-family:'Corbel'"><a asp-controller="Account" asp-action="UserData"><i class="fas fa-id-card"></i>&nbsp;Datos del usuario</a></li>
-                                                <li style="font-size:20px; font-family:'Corbel'"><a asp-controller="Account" asp-action="ChangePassword"><i class="fas fa-lock"></i>&nbsp;Cambiar contraseña</a></li>
-                                                <li style="font-size:20px; font-family:'Corbel'"><a id="btnLogOut" item-id="_LogOutID_" data-toggle="modal" data-target="#modalApply" asp-controller="Login" asp-action="LogOut"><i class="fas fa-sign-out-alt"></i>&nbsp;Salir</a></li>
+                                                <li style="font-size:20px; font-family:'Corbel'"><a asp-controller="Account" asp-action="UserData" style="color:#333"><i class="fas fa-id-card"></i>&nbsp;Datos del usuario</a></li>
+                                                <li style="font-size:20px; font-family:'Corbel'"><a asp-controller="Account" asp-action="ChangePassword" style="color:#333"><i class="fas fa-lock"></i>&nbsp;Cambiar contraseña</a></li>
+                                                <li style="font-size:20px; font-family:'Corbel'"><a id="btnLogOut" item-id="_LogOutID_" data-toggle="modal" style="color:#333" data-target="#modalApply" asp-controller="Login" asp-action="LogOut"><i class="fas fa-sign-out-alt"></i>&nbsp;Salir</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -149,9 +148,7 @@
         <script src="~/libman/cdnjs/select2/js/select2.js"></script>
         <script src="~/libman/cdnjs/select2/js/select2.min.js"></script>
 
-        <script src="~/libman/cdnjs/bootstrap-toggle/js/bootstrap-toggle.js"></script>
-        <script src="~/libman/cdnjs/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
-
+        
 
         <script src="~/libman/unpkg/datatables.net/js/jquery.dataTables.js"></script>
         <script src="~/libman/unpkg/datatables.net-bs/js/dataTables.bootstrap.js"></script>
@@ -183,8 +180,5 @@
         .footer p {
             color: #0c0f10;
             font-weight: lighter;
-        }
-        .header {
-            background-image: url('images/header_stock.png');
         }
 </style>
