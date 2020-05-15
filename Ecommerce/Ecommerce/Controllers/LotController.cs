@@ -1,4 +1,3 @@
-﻿using Ecommerce.Domain;
 using Ecommerce.ViewModels.Lot;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -46,10 +45,6 @@ namespace Ecommerce.Controllers
         [HttpGet]
         public IActionResult CreateLot()
         {
-            ViewBag.ErrorTitle = "Warning!";
-            ViewBag.ErrorMessege = "Better check yourself, you're not looking too good.";
-
-            return View("Index");
 
             return View(new CreateLotViewModel());
         }
@@ -69,8 +64,10 @@ namespace Ecommerce.Controllers
                     Imagen = ConvertFileToByte(loteModel.Imagen)
                 };
 
-
                 _loteManager.Save(lote);
+
+                ViewBag.ErrorTitle = "Warning!";
+                ViewBag.ErrorMessege = "Better check yourself, you're not looking too good.";
 
                 return RedirectToAction("Index");
             }
@@ -142,6 +139,28 @@ namespace Ecommerce.Controllers
             return RedirectToAction("Index");
         }
         
+        
+
+        public JsonResult LotClosure(int LotId)
+        {
+            var item = _loteManager.Get();
+            var lot = item.FirstOrDefault(l => l.Id == LotId);
+
+            if (lot != null)
+            {
+                
+
+                foreach (var article in lot.Articulos)
+                {
+                    _loteManager.Sorteo(LotId);
+                }
+
+
+                return Json(true);
+            }
+            return Json(false);
+        }
+
         public IActionResult History()
         {
             return View();
