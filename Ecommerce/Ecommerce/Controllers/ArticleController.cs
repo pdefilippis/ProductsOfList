@@ -1,14 +1,11 @@
 using Ecommerce.Common.DataMembers.Input;
 using Ecommerce.Domain;
 using Ecommerce.ViewModels.Article;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using Articulo = Ecommerce.Common.DataMembers.Input.Articulo;
 
 namespace Ecommerce.Controllers
@@ -21,37 +18,30 @@ namespace Ecommerce.Controllers
         private readonly Core.ILoteManager _loteManager;
         private readonly IConnectionContext _context;
         private readonly Core.IUsuarioManager _usuarioManager;
-        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public ArticleController(Core.ILoteManager loteManager, Core.IArticuloManager articuloManager, Core.IArticuloTipoManager articuloTipoManager, IConnectionContext context)
+        public ArticleController(Core.ILoteManager loteManager, Core.IUsuarioManager usuarioManager,Core.IArticuloManager articuloManager, Core.IArticuloTipoManager articuloTipoManager, IConnectionContext context)
         {
             _articuloManager = articuloManager;
             _articuloTipoManager = articuloTipoManager;
             _loteManager = loteManager;
             _context = context;
+            _usuarioManager = usuarioManager;
         }
 
         public IActionResult Index(int LotId)
         {
-            var lote = _loteManager.Get();
-            var item = lote.FirstOrDefault(l => l.Id == LotId);
-
+            var lote = _loteManager.GetById(LotId);
 
             if (lote != null)
             {
                 return View(new IndexPublicViewModel()
                 {
-                    Description = item.Descripcion,
-                    LotId = item.Id
+                    Description = lote.Descripcion,
+                    LotId = lote.Id                    
                 });
             }
             else
                 return RedirectToAction("Status", "Error", new { code = 404 });
-        }
-
-        public IActionResult IndexPublic()
-        {
-            return View();
         }
 
         public JsonResult GetArticles(int LotId)
@@ -255,21 +245,11 @@ namespace Ecommerce.Controllers
             }
         }
 
-        public JsonResult GetArticlesPublic(int lotId)
+        public JsonResult GetArticlesPublic(int LotId)
         {
-            var CurrentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-            var article = _articuloManager.GetAll();
-            var articleWon = _articuloManager.Get().FirstOrDefault(x =>
-                x.UsuarioAdjudicado.Id == CurrentUserId &&
-                x.Lote.Actualizacion.Year == DateTime.Now.Year);
-
-            var articleList = article.Where(a => a.Lote.Id == lotId && a.Activo == true).ToList();
-
-            if (articleWon != null)
-                articleList = articleList.Where(x => x.Tipo.Id != articleWon.Tipo.Id).ToList();
-
-            var articles = articleList.Select(l => new
+            var article = _articuloManager.GetLote(LotId);
+            
+            var articles = article.Select(l => new
             {
                 article_Description = l.Descripcion,
                 serialNumber = l.NumeroSerie,
@@ -283,20 +263,25 @@ namespace Ecommerce.Controllers
             return Json(articles);
         }
 
-        public IActionResult IndexPublic(int lotId)
-        {
-            var CurrentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var lot = _loteManager.Get().FirstOrDefault(l => l.Id == lotId && l.Activo == true);
-            var takenId = _loteManager.Get().FirstOrDefault(l => l.Id == lotId).Articulos.FirstOrDefault(a => a.UsuariosInteresados.Any(x => x.Id == CurrentUserId)) == null ? 0
-                : _loteManager.Get().FirstOrDefault(l => l.Id == lotId).Articulos.FirstOrDefault(a => a.UsuariosInteresados.Any(x => x.Id == CurrentUserId)).Id;
+        public IActionResult IndexPublic(int LotId)
+        {
+
+            var CurrentUserName = HttpContext.User.Identity.Name;
+
+            var lot = _loteManager.GetById(LotId);
+
+            var token = lot.Articulos.SelectMany(a => a.UsuariosInteresados).Where(u => u.UserName == CurrentUserName).FirstOrDefault();
+
+            var asd = lot.Articulos.SelectMany(a => a.UsuariosInteresados);
+
             if (lot != null)
             {
                 IndexPublicViewModel indexPublicViewModel = new IndexPublicViewModel
                 {
                     Description = lot.Descripcion,
-                    TakenId = takenId,
-                    LotId = lotId
+                    TakenId = token != null ? token.Id : 0,
+                    LotId = LotId
                 };
 
                 return View(indexPublicViewModel);
@@ -305,25 +290,22 @@ namespace Ecommerce.Controllers
             return RedirectToAction("Status", "Error", new { code = 404 });
         }
 
-        public JsonResult ApplyUnApply(int articleId)
+        public JsonResult ApplyUnApply(int ArticleId)
         {
-            var CurrentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var CurrentUserId = HttpContext.User.Identity.Name;
 
-            var article = _articuloManager.Get().FirstOrDefault(u => u.Id == articleId);
-            var user = _usuarioManager.Get().FirstOrDefault(u => u.Id == CurrentUserId);
-            var takenArticle = _articuloManager.Get().FirstOrDefault(x => x.Id == articleId && x.UsuarioAdjudicado.Id == CurrentUserId);
+            var user = _usuarioManager.GetAll().Where(u => u.UserName == CurrentUserId).FirstOrDefault();
 
-            if (article == null || user == null)
-            {
-                return Json(false);
-            }
-            else
-            {
-                if (takenArticle == null)
+            var lot = _articuloManager.GetById(ArticleId).Lote;
+
+            var token = lot.Articulos.SelectMany(a => a.UsuariosInteresados).Any(u => u.UserName == CurrentUserId);
+
+            
+                if (token == false)
                 {
                     _articuloManager.PostularArticulo(new ArticuloPostulacion
                     {
-                        IdArticulo = articleId,
+                        IdArticulo = ArticleId,
                         IdUsuario = user.Id
                     });
                 }
@@ -331,11 +313,11 @@ namespace Ecommerce.Controllers
                 {
                     _articuloManager.DeclinarPostulacionArticulo(new ArticuloPostulacion
                     {
-                        IdArticulo = articleId,
+                        IdArticulo = ArticleId,
                         IdUsuario = user.Id
                     });
                 }
-            }
+            
 
             return Json(true);
         }
