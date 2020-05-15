@@ -1,5 +1,6 @@
-﻿
+
 .header {
+    background: url("http://a.top4top.net/p_397znzmu1.png") center center fixed;
     color: #FFF;
     height: 23vh;
     position: relative;
@@ -42,9 +43,20 @@
             border-bottom: 1px solid #FFF
         }
 
+        .header .navbar-default .nav-links > li:hover a {
+            color: #BDB9B8;
+        }
 
-    .header .navbar-toggle {
-        margin: 10px 0;
-        background: #36C;
-        color: #FFF;
-    }
+        .header .navbar-default .navbar-left > li:hover a{
+            color: #BDB9B8;
+        }
+
+        .header .navbar-default .navbar-left > li > a > ul :hover {
+            color: rgba(0, 0, 0, 0.58);
+        }
+
+        .header .navbar-toggle {
+            margin: 10px 0;
+            background: #36C;
+            color: #FFF;
+        }
