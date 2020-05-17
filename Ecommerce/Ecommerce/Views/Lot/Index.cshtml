@@ -13,8 +13,6 @@
     <li class="active"><strong>@ViewData["Title"]</strong></li>
 }
 
-
-
 <div class="row">
     <div class="col-md-6 pull-left">
         <h2 style="padding-bottom:37px; font-size: 295%;text-decoration: underline ;color:#002147; font-family:sans-serif">Lotes</h2>
@@ -55,9 +53,9 @@
                 <i id="toggleDisable" class="fa fa-toggle-off"></i>
             </a>
 
-            <a asp-action="History" asp-route-lotId="_lotID_" class="btn btn-default btn-xs" title="Historial" style="color:white;background-color:#337ab7">
+            @*<a asp-action="History" asp-route-lotId="_lotID_" class="btn btn-default btn-xs" title="Historial" style="color:white;background-color:#337ab7">
                 <i class="fa fa-history"></i>
-            </a>
+            </a>*@
 
             <a id="btnLotClosure" class="btn btn-default btn-xs" title="Cierre de Lote" item-id="_lotID_" data-toggle="modal" data-target="#modalApply" style="color:#F57227;background-color:#337ab7">
                 <i class="fa fa-times-circle"></i>
@@ -114,7 +112,4 @@
 
     <div id="rejected">Rechazado</div>
     <div id="couldnt-rejected">Ocurrió un error al momento de realizar la solicitud</div>
-
-
-
 </div>
