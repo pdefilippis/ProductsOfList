@@ -97,7 +97,21 @@
                 {
                     title: $("#adjudicatedUser-column-title").html(),
                     data: "adjudicated",
-                    render: $.fn.dataTable.render.text(),
+                    render: function (data, type, full, meta) {
+                        var html;
+                        if (data != "Sin usuario")
+                            html =
+                                '<span class="badge" style="background-color:#2E9AFE; color:white; font-size:smaller">' +
+                                data +
+                                '</span>';
+                        else {
+                            html =
+                                '<span>' +
+                                data +
+                                '</span>';
+                        }
+                        return html;
+                    },
                     responsivePriority: 7
                 },
                 {
