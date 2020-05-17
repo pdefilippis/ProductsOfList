@@ -31,6 +31,8 @@ namespace Ecommerce.Controllers
                 name = u.Nombre,
                 surname = u.Apellido,
                 mail = u.Email,
+                isadmin = u.EsAdministrador,
+                enabled = u.Activo,
                 creation_timestamp = u.Creacion.ToString("dd/MM/yyyy HH:mm:ss"),
                 last_login_timestamp = u.UltimoIngreso.ToString("dd/MM/yyyy HH:mm:ss")
             }).ToList();
