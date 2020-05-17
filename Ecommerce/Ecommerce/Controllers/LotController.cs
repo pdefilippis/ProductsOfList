@@ -139,8 +139,6 @@ namespace Ecommerce.Controllers
             return RedirectToAction("Index");
         }
         
-        
-
         public JsonResult LotClosure(int LotId)
         {
             var item = _loteManager.Get();
@@ -148,14 +146,8 @@ namespace Ecommerce.Controllers
 
             if (lot != null)
             {
+                _loteManager.Sorteo(LotId);
                 
-
-                foreach (var article in lot.Articulos)
-                {
-                    _loteManager.Sorteo(LotId);
-                }
-
-
                 return Json(true);
             }
             return Json(false);
