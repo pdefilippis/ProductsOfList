@@ -20,5 +20,6 @@ namespace Ecommerce.Infrastructure
         bool ExistsPostulacion(Member.Input.ArticuloPostulacion postulacion);
         void AdjudicarArticulo(int idArticulo, int idUsuario);
         void ChangeStatus(int id);
+        ICollection<Member.Output.Articulo> GetPostulados(int idUsuario);
     }
 }

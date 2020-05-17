@@ -111,6 +111,7 @@ namespace Ecommerce.Infrastructure.Repository
             }
         }
 
+
         public void RegistrarLogin(int idUsuario)
         {
             using (var context = _context.Get())

@@ -69,6 +69,9 @@ namespace Ecommerce.Infrastructure.Repository
             {
                 var items = context.Lote
                     .Include("Articulo")
+                    .Include("Articulo.UsuarioAdjudicadoNavigation")
+                    .Include("Articulo.Solicitud")
+                    .Include("Articulo.Solicitud.IdUsuarioNavigation")
                     .Where(x => x.Activo).ToList();
                 return _transformMapper.Transform<List<Domain.Models.Lote>, ICollection<Output.Lote>>(items);
             }
@@ -80,6 +83,9 @@ namespace Ecommerce.Infrastructure.Repository
             {
                 var items = context.Lote
                     .Include("Articulo")
+                    .Include("Articulo.UsuarioAdjudicadoNavigation")
+                    .Include("Articulo.Solicitud")
+                    .Include("Articulo.Solicitud.IdUsuarioNavigation")
                     .ToList();
                 return _transformMapper.Transform<List<Domain.Models.Lote>, ICollection<Output.Lote>>(items);
             }
@@ -91,6 +97,9 @@ namespace Ecommerce.Infrastructure.Repository
             {
                 var items = context.Lote
                     .Include("Articulo")
+                    .Include("Articulo.UsuarioAdjudicadoNavigation")
+                    .Include("Articulo.Solicitud")
+                    .Include("Articulo.Solicitud.IdUsuarioNavigation")
                     .Where(x => x.Descripcion.ToLower().Equals(descripcion.ToLower())).ToList();
                 return _transformMapper.Transform<List<Domain.Models.Lote>, ICollection<Output.Lote>>(items);
             }
@@ -102,7 +111,11 @@ namespace Ecommerce.Infrastructure.Repository
             {
                 var item = context.Lote
                     .Include("Articulo")
+                    .Include("Articulo.UsuarioAdjudicadoNavigation")
+                    .Include("Articulo.Solicitud")
+                    .Include("Articulo.Solicitud.IdUsuarioNavigation")
                     .Where(x => x.Id.Equals(id)).FirstOrDefault();
+                var test = _transformMapper.Transform<Domain.Models.Lote, Output.Lote>(item);
                 return _transformMapper.Transform<Domain.Models.Lote, Output.Lote>(item);
             }
         }

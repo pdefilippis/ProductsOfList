@@ -294,7 +294,7 @@ namespace Ecommerce.Controllers
         {
             var CurrentUserId = HttpContext.User.Identity.Name;
 
-            var user = _usuarioManager.GetAll().Where(u => u.UserName == CurrentUserId).FirstOrDefault();
+            var user = _usuarioManager.GetByName(CurrentUserId);
 
             var lot = _articuloManager.GetById(ArticleId).Lote;
 

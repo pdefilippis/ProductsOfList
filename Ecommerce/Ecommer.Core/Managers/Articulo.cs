@@ -121,6 +121,8 @@ namespace Ecommerce.Core.Managers
         {
             try
             {
+
+
                 if (!_articuloInfrastructure.ExistsPostulacion(postulacion))
                     _articuloInfrastructure.Postular(postulacion);
             }

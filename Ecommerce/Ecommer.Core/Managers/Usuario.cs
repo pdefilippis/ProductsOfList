@@ -68,6 +68,11 @@ namespace Ecommerce.Core.Managers
             return _usuarioInfrastructure.GetById(id);
         }
 
+        public Common.DataMembers.Output.Usuario GetByName(string name)
+        {
+            return _usuarioInfrastructure.Get(name);
+        }
+
         public Common.DataMembers.Output.Usuario Login(Common.DataMembers.Input.Usuario usuario)
         {
             try

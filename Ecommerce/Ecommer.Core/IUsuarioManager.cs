@@ -13,6 +13,7 @@ namespace Ecommerce.Core
         ICollection<Member.Output.Usuario> Get();
         ICollection<Member.Output.Usuario> GetAll();
         Member.Output.Usuario GetById(int id);
+        Member.Output.Usuario GetByName(string name);
         void Enable(int id);
         void Disable(int id);
     }

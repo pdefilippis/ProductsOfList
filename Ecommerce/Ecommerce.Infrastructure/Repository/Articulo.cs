@@ -203,5 +203,14 @@ namespace Ecommerce.Infrastructure.Repository
                 return _transformMapper.Transform<List<Domain.Models.Articulo>, ICollection<Output.Articulo>>(items);
             }
         }
+
+        public ICollection<Output.Articulo> GetPostulados(int idUsuario)
+        {
+            throw new NotImplementedException();
+            //using (var context = _context.Get())
+            //{
+            //    var items = context.Solicitud.Where(x => x.)
+            //}
+        }
     }
 }
