@@ -60,6 +60,9 @@ namespace Ecommerce.Infrastructure.Repository
                 var items = context.Articulo
                     .Include("IdLoteNavigation")
                     .Include("IdTipoNavigation")
+                    .Include("UsuarioAdjudicadoNavigation")
+                    .Include("Solicitud")
+                    .Include("Solicitud.IdUsuarioNavigation")
                     .Where(x => x.Activo).ToList();
 
                 return _transformMapper.Transform<List<Domain.Models.Articulo>, ICollection<Output.Articulo>>(items);
@@ -73,6 +76,9 @@ namespace Ecommerce.Infrastructure.Repository
                 var item = context.Articulo
                     .Include("IdLoteNavigation")
                     .Include("IdTipoNavigation")
+                    .Include("UsuarioAdjudicadoNavigation")
+                    .Include("Solicitud")
+                    .Include("Solicitud.IdUsuarioNavigation")
                     .Where(x => x.Id.Equals(id))
                     .FirstOrDefault();
 
@@ -87,6 +93,9 @@ namespace Ecommerce.Infrastructure.Repository
                 var items = context.Articulo
                     .Include("IdLoteNavigation")
                     .Include("IdTipoNavigation")
+                    .Include("UsuarioAdjudicadoNavigation")
+                    .Include("Solicitud")
+                    .Include("Solicitud.IdUsuarioNavigation")
                     .Where(x => x.Activo && x.IdLote.Equals(lote))
                     .ToList();
 
@@ -125,6 +134,9 @@ namespace Ecommerce.Infrastructure.Repository
                 var item = context.Articulo
                     .Include("IdLoteNavigation")
                     .Include("IdTipoNavigation")
+                    .Include("UsuarioAdjudicadoNavigation")
+                    .Include("Solicitud")
+                    .Include("Solicitud.IdUsuarioNavigation")
                     .Where(x => x.Id.Equals(articulo.Id))
                     .FirstOrDefault();
 
@@ -168,6 +180,9 @@ namespace Ecommerce.Infrastructure.Repository
                 var art = context.Articulo
                     .Include("IdLoteNavigation")
                     .Include("IdTipoNavigation")
+                    .Include("UsuarioAdjudicadoNavigation")
+                    .Include("Solicitud")
+                    .Include("Solicitud.IdUsuarioNavigation")
                     .Where(x => x.Id.Equals(idArticulo))
                     .FirstOrDefault();
 
@@ -183,6 +198,9 @@ namespace Ecommerce.Infrastructure.Repository
                 var item = context.Articulo
                     .Include("IdLoteNavigation")
                     .Include("IdTipoNavigation")
+                    .Include("UsuarioAdjudicadoNavigation")
+                    .Include("Solicitud")
+                    .Include("Solicitud.IdUsuarioNavigation")
                     .Where(x => x.Id.Equals(id))
                     .FirstOrDefault();
 
@@ -198,6 +216,9 @@ namespace Ecommerce.Infrastructure.Repository
                 var items = context.Articulo
                     .Include("IdLoteNavigation")
                     .Include("IdTipoNavigation")
+                    .Include("UsuarioAdjudicadoNavigation")
+                    .Include("Solicitud")
+                    .Include("Solicitud.IdUsuarioNavigation")
                     .ToList();
 
                 return _transformMapper.Transform<List<Domain.Models.Articulo>, ICollection<Output.Articulo>>(items);

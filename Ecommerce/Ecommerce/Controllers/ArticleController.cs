@@ -248,7 +248,11 @@ namespace Ecommerce.Controllers
         public JsonResult GetArticlesPublic(int LotId)
         {
             var article = _articuloManager.GetLote(LotId);
-            
+
+            var articuloPostulado = article
+                .Where(x => x.UsuariosInteresados.Any(q => q.UserName == HttpContext.User.Identity.Name)).FirstOrDefault();
+
+
             var articles = article.Select(l => new
             {
                 article_Description = l.Descripcion,
@@ -257,7 +261,8 @@ namespace Ecommerce.Controllers
                 article_id = l.Id,
                 brand = l.Marca,
                 price = "$\n" + l.Precio.ToString(),
-                userCount = l.UsuariosInteresados.Count
+                userCount = l.UsuariosInteresados.Count,
+                tokenId = articuloPostulado != null ? articuloPostulado.Id : 0
             }).ToList();
 
             return Json(articles);
@@ -290,13 +295,13 @@ namespace Ecommerce.Controllers
             return RedirectToAction("Status", "Error", new { code = 404 });
         }
 
-        public JsonResult ApplyUnApply(int ArticleId)
+        public JsonResult ApplyUnApply(int ArticleId, int idLote)
         {
             var CurrentUserId = HttpContext.User.Identity.Name;
 
             var user = _usuarioManager.GetByName(CurrentUserId);
 
-            var lot = _articuloManager.GetById(ArticleId).Lote;
+            var lot = _loteManager.GetById(idLote);
 
             var token = lot.Articulos.SelectMany(a => a.UsuariosInteresados).Any(u => u.UserName == CurrentUserId);
 

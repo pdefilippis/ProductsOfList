@@ -64,8 +64,10 @@
                     render: function (data, type, full, meta) {
 
                         var btn_group = article_actions_btn_group.clone();
+                        debugger;
+                        //var TakenId = $('#TakenId').val();
+                        var TakenId = full.tokenId;
 
-                        var TakenId = $('#TakenId').val();
                         (full.article_id == TakenId) ? btn_group.find("#btnApprove").remove() : btn_group.find("#btnReject").remove();
 
                         if (TakenId != 0) {
@@ -95,7 +97,8 @@
             }).then(function (result) {
                 if (result.value) {
                     var data = {
-                        articleId: articleId
+                        articleId: articleId,
+                        idLote: $('#LotId').val()
                     };
                     $.ajax({
                         url: '/Article/ApplyUnApply',
@@ -159,7 +162,8 @@
             }).then(function (result) {
                 if (result.value) {
                     var data = {
-                        articleId: articleId
+                        articleId: articleId,
+                        idLote: $('#LotId').val()
                     };
                     $.ajax({
                         url: '/Article/ApplyUnApply',

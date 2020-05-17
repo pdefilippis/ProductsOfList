@@ -134,6 +134,9 @@ namespace Ecommerce.Infrastructure.Repository
             {
                 var item = context.Lote
                     .Include("Articulo")
+                    .Include("Articulo.UsuarioAdjudicadoNavigation")
+                    .Include("Articulo.Solicitud")
+                    .Include("Articulo.Solicitud.IdUsuarioNavigation")
                     .Where(x => x.Id.Equals(lote.Id)).FirstOrDefault();
 
                 item.Descripcion = lote.Descripcion;
