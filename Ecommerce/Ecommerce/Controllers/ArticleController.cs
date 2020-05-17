@@ -1,6 +1,7 @@
 using Ecommerce.Common.DataMembers.Input;
 using Ecommerce.Domain;
 using Ecommerce.ViewModels.Article;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,9 +11,9 @@ using Articulo = Ecommerce.Common.DataMembers.Input.Articulo;
 
 namespace Ecommerce.Controllers
 {
+    [Authorize]
     public class ArticleController : Controller
     {
-
         private readonly Core.IArticuloManager _articuloManager;
         private readonly Core.IArticuloTipoManager _articuloTipoManager;
         private readonly Core.ILoteManager _loteManager;
@@ -271,28 +272,29 @@ namespace Ecommerce.Controllers
 
         public IActionResult IndexPublic(int LotId)
         {
-
-            var CurrentUserName = HttpContext.User.Identity.Name;
-
-            var lot = _loteManager.GetById(LotId);
-
-            var token = lot.Articulos.SelectMany(a => a.UsuariosInteresados).Where(u => u.UserName == CurrentUserName).FirstOrDefault();
-
-            var asd = lot.Articulos.SelectMany(a => a.UsuariosInteresados);
-
-            if (lot != null)
+            try
             {
-                IndexPublicViewModel indexPublicViewModel = new IndexPublicViewModel
-                {
-                    Description = lot.Descripcion,
-                    TakenId = token != null ? token.Id : 0,
-                    LotId = LotId
-                };
+                var CurrentUserName = HttpContext.User.Identity.Name;
 
-                return View(indexPublicViewModel);
+                var lot = _loteManager.GetById(LotId);
+
+                var token = lot.Articulos.SelectMany(a => a.UsuariosInteresados).Where(u => u.UserName == CurrentUserName).FirstOrDefault();
+                
+                    IndexPublicViewModel indexPublicViewModel = new IndexPublicViewModel
+                    {
+                        Description = lot.Descripcion,
+                        TakenId = token != null ? token.Id : 0,
+                        LotId = LotId
+                    };
+
+                    return View(indexPublicViewModel);
+                
             }
-
-            return RedirectToAction("Status", "Error", new { code = 404 });
+            catch
+            {
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
+            
         }
 
         public JsonResult ApplyUnApply(int ArticleId, int idLote)
