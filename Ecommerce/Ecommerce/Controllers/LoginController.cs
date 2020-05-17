@@ -48,7 +48,8 @@ namespace Ecommerce.Controllers
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.UserName),
                     new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Email, user.UserName)
+                    new Claim(ClaimTypes.Email, user.UserName),
+                    new Claim(ClaimTypes.Role, user.EsAdministrador ? "ADMIN" : "CLIENT")
                 };
 
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

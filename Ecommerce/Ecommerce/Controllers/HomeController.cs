@@ -22,7 +22,7 @@ namespace Ecommerce.Controllers
             _loteManager = loteManager;
         }
 
-
+        [Authorize(Roles = "CLIENT")]//CLIENT - ADMIN
         public IActionResult Index()
         {
             HomeViewModel model = new HomeViewModel();
