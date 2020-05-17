@@ -43,11 +43,6 @@
                     render: $.fn.dataTable.render.text(),
                     responsivePriority: 5
                 },
-                //{
-                //    title: $("#state-column-title").html(),
-                //    data: "state_text",
-                //    responsivePriority: 3
-                //},
                 {
                     title: $("#created-column-title").html(),
                     data: { _: "creation_timestamp", sort: "creation_timestamp_ticks" },
@@ -57,6 +52,30 @@
                     title: $("#last-login-column-title").html(),
                     data: { _: "last_login_timestamp", sort: "last_login_timestamp_ticks" },
                     responsivePriority: 10
+                },
+                {
+                    title: $("#isadmin-column-title").html(),
+                    data: "isadmin",
+                    responsivePriority: 9,
+                    render: function (data, type, full, meta) {
+                        if (type === "display") {
+                            return data ? $("#yes-template").html() : $("#no-template").html();
+                        } else {
+                            return data;
+                        }
+                    }
+                },
+                {
+                    title: $("#enabled-column-title").html(),
+                    data: "enabled",
+                    responsivePriority: 3,
+                    render: function (data, type, full, meta) {
+                        if (type === "display") {
+                            return data ? $("#yes-template").html() : $("#no-template").html();
+                        } else {
+                            return data;
+                        }
+                    }
                 },
                 {
                     title: $("#actions-column-title").html(),
