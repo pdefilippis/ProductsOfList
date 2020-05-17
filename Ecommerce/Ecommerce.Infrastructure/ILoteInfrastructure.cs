@@ -16,5 +16,6 @@ namespace Ecommerce.Infrastructure
         ICollection<Member.Output.Lote> Get();
         ICollection<Member.Output.Lote> GetAll();
         void ChangeStatus(int id);
+        void ChangeStatus(int idLote, string newStatus);
     }
 }

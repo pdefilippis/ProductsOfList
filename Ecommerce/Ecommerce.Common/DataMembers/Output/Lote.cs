@@ -19,5 +19,6 @@ namespace Ecommerce.Common.DataMembers.Output
         public bool Activo { get; set; }
         public DateTime Creacion { get; set; }
         public DateTime Actualizacion { get; set; }
+        public Estado Estado { get; set; }
     }
 }

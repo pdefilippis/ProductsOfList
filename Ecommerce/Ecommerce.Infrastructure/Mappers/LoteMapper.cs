@@ -20,6 +20,7 @@ namespace Ecommerce.Infrastructure.Mappers
                 .ForMember(d => d.Activo, opt => opt.MapFrom(src => src.Activo))
                 .ForMember(d => d.Actualizacion, opt => opt.MapFrom(src => src.Actualizacion))
                 .ForMember(d => d.Creacion, opt => opt.MapFrom(src => src.Creacion))
+                .ForMember(d => d.Estado, opt => opt.MapFrom(src => src.IdEstadoNavigation))
                 .ReverseMap();
         }
     }

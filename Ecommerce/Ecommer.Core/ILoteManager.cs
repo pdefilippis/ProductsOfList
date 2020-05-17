@@ -14,5 +14,7 @@ namespace Ecommerce.Core
         void Sorteo(int lote);
         void Enable(int lote);
         void Disable(int lote);
+        void Open(int lote);
+        void Close(int lote);
     }
 }

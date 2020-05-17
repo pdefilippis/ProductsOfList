@@ -117,6 +117,8 @@ namespace Ecommerce.Core.Managers
 
                     _articuloInfrastructure.AdjudicarArticulo(x.Id, usr.Id);
                 });
+
+                _loteInfrastructure.ChangeStatus(lote, Ecommerce.Common.Constant.Properties.Estado.Cerrado);
             }
             catch (Exception ex)
             {
@@ -136,6 +138,16 @@ namespace Ecommerce.Core.Managers
                 _logger.LogError(ex, string.Empty);
                 throw;
             }
+        }
+
+        public void Open(int lote)
+        {
+            _loteInfrastructure.ChangeStatus(lote, Ecommerce.Common.Constant.Properties.Estado.Abierto);
+        }
+
+        public void Close(int lote)
+        {
+            _loteInfrastructure.ChangeStatus(lote, Ecommerce.Common.Constant.Properties.Estado.Cerrado);
         }
     }
 }

@@ -17,6 +17,7 @@ namespace Ecommerce.Domain.Models
 
         public virtual DbSet<Articulo> Articulo { get; set; }
         public virtual DbSet<ArticuloTipo> ArticuloTipo { get; set; }
+        public virtual DbSet<Estado> Estado { get; set; }
         public virtual DbSet<Lote> Lote { get; set; }
         public virtual DbSet<Solicitud> Solicitud { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
@@ -25,7 +26,7 @@ namespace Ecommerce.Domain.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;database=ProductsManager;user=usrpm;password=usrpm");
             }
         }
@@ -67,6 +68,15 @@ namespace Ecommerce.Domain.Models
                 entity.Property(e => e.Descripcion).IsUnicode(false);
             });
 
+            modelBuilder.Entity<Estado>(entity =>
+            {
+                entity.Property(e => e.Activo).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Codigo).IsUnicode(false);
+
+                entity.Property(e => e.Descripcion).IsUnicode(false);
+            });
+
             modelBuilder.Entity<Lote>(entity =>
             {
                 entity.Property(e => e.Actualizacion).HasDefaultValueSql("(getdate())");
@@ -76,6 +86,12 @@ namespace Ecommerce.Domain.Models
                 entity.Property(e => e.Descripcion).IsUnicode(false);
 
                 entity.Property(e => e.NombreImagen).IsUnicode(false);
+
+                entity.HasOne(d => d.IdEstadoNavigation)
+                    .WithMany(p => p.Lote)
+                    .HasForeignKey(d => d.IdEstado)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Lote__IdEstado__32E0915F");
             });
 
             modelBuilder.Entity<Solicitud>(entity =>

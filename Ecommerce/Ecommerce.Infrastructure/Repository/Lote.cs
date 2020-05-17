@@ -33,16 +33,31 @@ namespace Ecommerce.Infrastructure.Repository
             }
         }
 
+        public void ChangeStatus(int idLote, string newStatus)
+        {
+            using (var context = _context.Get())
+            {
+                var item = context.Lote.Where(x => x.Id.Equals(idLote)).FirstOrDefault();
+                var estado = context.Estado.Where(x => x.Activo.Value && x.Codigo.Equals(newStatus)).FirstOrDefault();
+
+                item.IdEstado = estado.Id;
+                context.SaveChanges();
+            }
+        }
+
         public Output.Lote Create(Input.Lote lote)
         {
             using (var context = _context.Get())
             {
+                var estado = context.Estado.Where(x => x.Activo.Value && x.Codigo.Equals(Ecommerce.Common.Constant.Properties.Estado.Abierto)).FirstOrDefault();
+
                 var item = new Domain.Models.Lote
                 {
                     Descripcion = lote.Descripcion,
                     Activo = true,
                     NombreImagen = lote.NombreImagen,
-                    Imagen = lote.Imagen
+                    Imagen = lote.Imagen,
+                    IdEstado = estado.Id
                 };
 
                 context.Add(item);
@@ -69,6 +84,7 @@ namespace Ecommerce.Infrastructure.Repository
             {
                 var items = context.Lote
                     .Include("Articulo")
+                    .Include("IdEstadoNavigation")
                     .Include("Articulo.UsuarioAdjudicadoNavigation")
                     .Include("Articulo.Solicitud")
                     .Include("Articulo.Solicitud.IdUsuarioNavigation")
@@ -83,6 +99,7 @@ namespace Ecommerce.Infrastructure.Repository
             {
                 var items = context.Lote
                     .Include("Articulo")
+                    .Include("IdEstadoNavigation")
                     .Include("Articulo.UsuarioAdjudicadoNavigation")
                     .Include("Articulo.Solicitud")
                     .Include("Articulo.Solicitud.IdUsuarioNavigation")
@@ -97,6 +114,7 @@ namespace Ecommerce.Infrastructure.Repository
             {
                 var items = context.Lote
                     .Include("Articulo")
+                    .Include("IdEstadoNavigation")
                     .Include("Articulo.UsuarioAdjudicadoNavigation")
                     .Include("Articulo.Solicitud")
                     .Include("Articulo.Solicitud.IdUsuarioNavigation")
@@ -111,6 +129,7 @@ namespace Ecommerce.Infrastructure.Repository
             {
                 var item = context.Lote
                     .Include("Articulo")
+                    .Include("IdEstadoNavigation")
                     .Include("Articulo.UsuarioAdjudicadoNavigation")
                     .Include("Articulo.Solicitud")
                     .Include("Articulo.Solicitud.IdUsuarioNavigation")
@@ -134,6 +153,7 @@ namespace Ecommerce.Infrastructure.Repository
             {
                 var item = context.Lote
                     .Include("Articulo")
+                    .Include("IdEstadoNavigation")
                     .Include("Articulo.UsuarioAdjudicadoNavigation")
                     .Include("Articulo.Solicitud")
                     .Include("Articulo.Solicitud.IdUsuarioNavigation")
