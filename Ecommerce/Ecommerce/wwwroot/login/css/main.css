@@ -507,3 +507,10 @@ iframe {
 .flex-container {
     display: flex;
 }
+
+form.login100-form.validate-form.p-b-33.p-t-5 {
+    font-size: 12px;
+    color: #f70000;
+    padding-left: 6px;
+    font-weight: 500;
+}
