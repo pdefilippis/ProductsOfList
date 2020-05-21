@@ -88,6 +88,7 @@ namespace Ecommerce.Infrastructure.Repository
                     .Include("Articulo.UsuarioAdjudicadoNavigation")
                     .Include("Articulo.Solicitud")
                     .Include("Articulo.Solicitud.IdUsuarioNavigation")
+                    .Include("IdEstadoNavigation")
                     .Where(x => x.Activo).ToList();
                 return _transformMapper.Transform<List<Domain.Models.Lote>, ICollection<Output.Lote>>(items);
             }
@@ -103,6 +104,7 @@ namespace Ecommerce.Infrastructure.Repository
                     .Include("Articulo.UsuarioAdjudicadoNavigation")
                     .Include("Articulo.Solicitud")
                     .Include("Articulo.Solicitud.IdUsuarioNavigation")
+                    .Include("IdEstadoNavigation")
                     .ToList();
                 return _transformMapper.Transform<List<Domain.Models.Lote>, ICollection<Output.Lote>>(items);
             }
@@ -118,6 +120,7 @@ namespace Ecommerce.Infrastructure.Repository
                     .Include("Articulo.UsuarioAdjudicadoNavigation")
                     .Include("Articulo.Solicitud")
                     .Include("Articulo.Solicitud.IdUsuarioNavigation")
+                    .Include("IdEstadoNavigation")
                     .Where(x => x.Descripcion.ToLower().Equals(descripcion.ToLower())).ToList();
                 return _transformMapper.Transform<List<Domain.Models.Lote>, ICollection<Output.Lote>>(items);
             }
@@ -133,6 +136,7 @@ namespace Ecommerce.Infrastructure.Repository
                     .Include("Articulo.UsuarioAdjudicadoNavigation")
                     .Include("Articulo.Solicitud")
                     .Include("Articulo.Solicitud.IdUsuarioNavigation")
+                    .Include("IdEstadoNavigation")    
                     .Where(x => x.Id.Equals(id)).FirstOrDefault();
                 var test = _transformMapper.Transform<Domain.Models.Lote, Output.Lote>(item);
                 return _transformMapper.Transform<Domain.Models.Lote, Output.Lote>(item);
@@ -157,6 +161,7 @@ namespace Ecommerce.Infrastructure.Repository
                     .Include("Articulo.UsuarioAdjudicadoNavigation")
                     .Include("Articulo.Solicitud")
                     .Include("Articulo.Solicitud.IdUsuarioNavigation")
+                    .Include("IdEstadoNavigation")
                     .Where(x => x.Id.Equals(lote.Id)).FirstOrDefault();
 
                 item.Descripcion = lote.Descripcion;
