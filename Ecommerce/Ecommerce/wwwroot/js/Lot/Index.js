@@ -41,14 +41,11 @@
                     responsivePriority: 2
                 },
                 {
-                    title: $("#state-column-title").html(),
+                   title: $("#state-column-title").html(),
                     data: "state",
                     render: function (data, type, full, meta) {
                         var priority = data;
                         switch (priority) {
-                            case "Cerrado":
-                                priority = $("#closed-field").html();
-                                break;
                             case "Activo":
                                 priority = $("#active-field").html();
                                 break;
@@ -58,6 +55,10 @@
                             default:
                                 priority = "";
                         }
+
+                        if (full.cerrado)
+                            priority = $("#closed-field").html();
+
                         return priority;
                     },
                     responsivePriority: 3
