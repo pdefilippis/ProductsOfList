@@ -86,19 +86,19 @@
 
                         var btn_group = lot_actions_btn_group.clone();
 
-                        if (full.state === "Activo")
-                            btn_group.find("#toggleAble").remove();
-
-                        if (full.state === "Inactivo") {
-                            btn_group.find("#toggleDisable").remove();
-                            btn_group.find("#btnLotClosure").hide();
-                        }
-
                         if (full.cerrado) {
                             btn_group.find("#edit").hide();
                             btn_group.find("#enableDisable").hide();
                             btn_group.find("#toggleAble").remove();
                             btn_group.find("#btnLotClosure").hide();
+                        } else {
+                            if (full.state === "Activo") {
+                                btn_group.find("#toggleAble").remove();
+                            }
+                            else {
+                                btn_group.find("#toggleDisable").remove();
+                                btn_group.find("#btnLotClosure").hide();
+                            }
                         }
                         
                         return btn_group.html().replace(/_lotID_/g, full.lot_id);
