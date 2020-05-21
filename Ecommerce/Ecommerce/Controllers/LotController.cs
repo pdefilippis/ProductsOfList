@@ -37,6 +37,7 @@ namespace Ecommerce.Controllers
                 create_Date = l.Creacion.ToString("dd/MM/yyyy HH:mm:ss"),
                 update_Date = l.Actualizacion.ToString("dd/MM/yyyy HH:mm:ss"),
                 lot_article = l.Articulos.Count,
+                cerrado = l.Estado.Descripcion.Equals("CERRADO") ? true : false
             }).ToList();
 
             return Json(items);
@@ -147,7 +148,8 @@ namespace Ecommerce.Controllers
             if (lot != null)
             {
                 _loteManager.Sorteo(LotId);
-                
+                _loteManager.Close(LotId);
+
                 return Json(true);
             }
             return Json(false);

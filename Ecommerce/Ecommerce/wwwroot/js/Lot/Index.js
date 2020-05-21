@@ -94,7 +94,7 @@
                             btn_group.find("#btnLotClosure").hide();
                         }
 
-                        if (full.state === "Cerrado") {
+                        if (full.cerrado) {
                             btn_group.find("#edit").hide();
                             btn_group.find("#enableDisable").hide();
                             btn_group.find("#toggleAble").remove();
