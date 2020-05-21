@@ -1,18 +1,22 @@
+using Ecommerce.Domain.Models;
+using Ecommerce.ViewModels.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Usuario = Ecommerce.Common.DataMembers.Input.Usuario;
 
 namespace Ecommerce.Controllers
 {
     [Authorize]
     public class UserController : Controller
     {
-
+        private readonly ProductsManagerContext _context;
         private readonly Core.IUsuarioManager _usuarioManager;
 
-        public UserController(Core.IUsuarioManager usuarioManager)
+        public UserController(Core.IUsuarioManager usuarioManager, ProductsManagerContext context)
         {
             _usuarioManager = usuarioManager;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -38,16 +42,85 @@ namespace Ecommerce.Controllers
             }).ToList();
 
             return Json(item);
-    }
-
-        public IActionResult CreateUser()
-        {
-            return View();
         }
 
-        public IActionResult EditUser()
+        [HttpGet]
+        public IActionResult CreateUser()
         {
-            return View();
+            return View(new CreateUserViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateUser(CreateUserViewModel viewModel)
+        {
+           
+            if (ModelState.IsValid)
+            {
+                var usuario = new Usuario
+                {
+                    Nombre = viewModel.Name,
+                    Apellido = viewModel.Surname,
+                    UserName = viewModel.User,
+                    Email = viewModel.Email,
+                    EsAdministrador = viewModel.IsAdmin,
+                    Password = null
+                };
+
+                _usuarioManager.Register(usuario);
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(viewModel);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult EditUser(int UserId)
+        {
+            var usuario = _usuarioManager.GetById(UserId);
+            if (usuario == null)
+                return RedirectToAction("Index");
+            else
+                return View(new EditUserViewModel
+                {
+                    UserId = UserId,
+                    User = usuario.UserName,
+                    Name = usuario.Nombre,
+                    Surname = usuario.Apellido,
+                    Email = usuario.Email,
+                    IsAdmin = usuario.EsAdministrador
+                });
+        }
+
+
+        [HttpPost]
+        public IActionResult EditUser(EditUserViewModel viewModel)
+        {
+            var user = _usuarioManager.Get();
+            var usuario = user.FirstOrDefault(u => u.Id == viewModel.UserId);
+
+            if (ModelState.IsValid)
+            {
+                if (usuario != null)
+                {
+                    usuario.UserName = viewModel.User;
+                    usuario.Nombre = viewModel.Name;
+                    usuario.Apellido = viewModel.Surname;
+                    usuario.Email = viewModel.Email;
+                    usuario.EsAdministrador = viewModel.IsAdmin;
+
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(viewModel);
+            }
+
         }
 
         public IActionResult EnableUserConfirmation()
