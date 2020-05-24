@@ -36,15 +36,17 @@ namespace Ecommerce.Controllers
         public IActionResult Index(LoginViewModel usuario)
         {
 
-            var user = _usuarioManager.Login(new Usuario
+            try
             {
-                Password = usuario.Input.Password,
-                UserName = usuario.Input.User
-            });
+                var user = _usuarioManager.Login(new Usuario
+                {
+                    Password = usuario.Input.Password,
+                    UserName = usuario.Input.User
+                });
 
-            if (user != null)
-            {
-                var claims = new List<Claim>
+                if (user != null)
+                {
+                    var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.UserName),
                     new Claim(ClaimTypes.Name, user.UserName),
@@ -52,15 +54,21 @@ namespace Ecommerce.Controllers
                     new Claim(ClaimTypes.Role, user.EsAdministrador ? "ADMIN" : "CLIENT")
                 };
 
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var principal = new ClaimsPrincipal(identity);
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
 
-                HttpContext.SignInAsync(principal);
+                    HttpContext.SignInAsync(principal);
 
-                return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home");
+                }
+
+                return View();
             }
-
-            return View();
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
         }
 
         [AllowAnonymous]
