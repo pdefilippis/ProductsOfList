@@ -1,6 +1,8 @@
+using Ecommerce.Common.DataMembers.Output;
 using Ecommerce.ViewModels.Lot;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Linq;
@@ -96,7 +98,8 @@ namespace Ecommerce.Controllers
                 Descripcion = lote.Descripcion,
                 LotId = lote.Id,
                 NombreImagen = lote.NombreImagen,
-                FlagImage = lote != null
+                FlagImage = lote != null,
+                Imagen = lote.Imagen != null ? ConvertByteToFile(lote) : null
             });
         }
 
@@ -107,16 +110,13 @@ namespace Ecommerce.Controllers
         {
             if (ModelState.IsValid)
             {
-                var loteDB = _loteManager.GetById(loteModel.LotId);
-
-                var imgModificada = false;
 
                 var lote = new Input.Lote
                 {
                     Id = loteModel.LotId,
                     Descripcion = loteModel.Descripcion,
-                    NombreImagen = imgModificada ? loteModel.Imagen?.FileName : loteDB.NombreImagen,
-                    Imagen = imgModificada ? ConvertFileToByte(loteModel.Imagen) : loteDB.Imagen
+                    NombreImagen = loteModel.Imagen?.FileName,
+                    Imagen = loteModel.Imagen != null ? ConvertFileToByte(loteModel.Imagen) : null
                 };
 
 
@@ -174,6 +174,15 @@ namespace Ecommerce.Controllers
             }
 
             return img;
+        }
+
+        private IFormFile ConvertByteToFile(Lote lote)
+        {
+            using (var stream = new MemoryStream(lote.Imagen))
+            {
+                return new FormFile(stream, 0, lote.Imagen.Length, "name", "fileName");
+            }
+
         }
     }
 }
