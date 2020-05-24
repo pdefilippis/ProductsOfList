@@ -9,6 +9,7 @@ namespace Ecommerce.Core
     {
         Member.Output.Usuario Login(Member.Input.Usuario usuario);
         Member.Output.Usuario Register(Member.Input.Usuario usuario);
+        Member.Output.Usuario Save(Member.Input.Usuario usuario);
         Member.Output.Usuario ChangePassword(Member.Input.ChangePassword usuario);
         ICollection<Member.Output.Usuario> Get();
         ICollection<Member.Output.Usuario> GetAll();

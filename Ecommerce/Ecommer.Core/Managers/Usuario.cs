@@ -111,5 +111,16 @@ namespace Ecommerce.Core.Managers
                 throw;
             }
         }
+
+        public Common.DataMembers.Output.Usuario Save(Common.DataMembers.Input.Usuario usuario)
+        {
+            var validation = new UsuarioValidation(_usuarioInfrastructure);
+            var results = validation.Validate(usuario);
+
+            //if(!results.IsValid)
+            //    throw new InvalidDataException(results.Errors.Select(x => x.ErrorMessage).ToList());
+
+            return _usuarioInfrastructure.Save(usuario);
+        }
     }
 }

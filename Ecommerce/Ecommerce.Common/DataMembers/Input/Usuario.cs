@@ -6,6 +6,7 @@ namespace Ecommerce.Common.DataMembers.Input
 {
     public class Usuario
     {
+        public int? Id { get; set; }
         public string UserName { get; set; }
         private string password;
         public string Password

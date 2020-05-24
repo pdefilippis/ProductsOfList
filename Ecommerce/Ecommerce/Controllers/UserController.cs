@@ -99,21 +99,18 @@ namespace Ecommerce.Controllers
         [HttpPost]
         public IActionResult EditUser(EditUserViewModel viewModel)
         {
-            var user = _usuarioManager.Get();
-            var usuario = user.FirstOrDefault(u => u.Id == viewModel.UserId);
 
             if (ModelState.IsValid)
             {
-                if (usuario != null)
-                {
-                    usuario.UserName = viewModel.User;
-                    usuario.Nombre = viewModel.Name;
-                    usuario.Apellido = viewModel.Surname;
-                    usuario.Email = viewModel.Email;
-                    usuario.EsAdministrador = viewModel.IsAdmin;
+                _usuarioManager.Save(new Usuario {
+                    Apellido = viewModel.Surname,
+                    Email = viewModel.Email,
+                    EsAdministrador = viewModel.IsAdmin,
+                    Nombre = viewModel.Name,
+                    UserName =viewModel.User,
+                    Id = viewModel.UserId
+                });
 
-                    _context.SaveChanges();
-                }
                 return RedirectToAction("Index");
             }
             else

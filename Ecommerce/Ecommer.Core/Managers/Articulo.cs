@@ -15,10 +15,10 @@ namespace Ecommerce.Core.Managers
     {
         private readonly IArticuloInfrastructure _articuloInfrastructure;
         private readonly ILogger<Articulo> _logger;
-        public Articulo(IArticuloInfrastructure articuloInfrastructure, ILogger<Articulo> logger)
+        public Articulo(IArticuloInfrastructure articuloInfrastructure/*, ILogger<Articulo> logger*/)
         {
             _articuloInfrastructure = articuloInfrastructure;
-            _logger = logger;
+            //_logger = logger;
         }
 
         public void DeclinarPostulacionArticulo(ArticuloPostulacion postulacion)

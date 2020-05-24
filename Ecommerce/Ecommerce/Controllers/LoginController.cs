@@ -75,18 +75,25 @@ namespace Ecommerce.Controllers
         [HttpPost]
         public IActionResult Register(LoginViewModel registerModel)
         {
-            var user = _usuarioManager.Register(new Usuario
+            if (ModelState.IsValid)
             {
-                Password = registerModel.Input.Password,
-                Apellido = registerModel.Input.Surname,
-                Nombre = registerModel.Input.Name,
-                UserName = registerModel.Input.User,
-                Email = registerModel.Input.Email
-            });
+                var user = _usuarioManager.Register(new Usuario
+                {
+                    Password = registerModel.Input.Password,
+                    Apellido = registerModel.Input.Surname,
+                    Nombre = registerModel.Input.Name,
+                    UserName = registerModel.Input.User,
+                    Email = registerModel.Input.Email
+                });
 
-            return View("Index");
+                return View("Index");
+            }
+
+            ModelState.AddModelError("", "Completar todos los campos.");
+
+            return View(registerModel);
         }
-        
+
         [AllowAnonymous]
         public IActionResult ResetPassword()
         {

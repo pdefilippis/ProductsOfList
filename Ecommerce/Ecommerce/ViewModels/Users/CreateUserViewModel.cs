@@ -8,6 +8,8 @@ namespace Ecommerce.ViewModels.Users
 {
     public class CreateUserViewModel
     {
+        public int? Id { get; set; }
+
         [Display(Name = "Usuario")]
         [Required(ErrorMessage = "Required")]
         public string User { get; set; }

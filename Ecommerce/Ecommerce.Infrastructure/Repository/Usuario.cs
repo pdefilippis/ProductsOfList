@@ -125,7 +125,8 @@ namespace Ecommerce.Infrastructure.Repository
 
         public Output.Usuario Save(Input.Usuario usuario)
         {
-            if (Exists(usuario.UserName))
+            //if (Exists(usuario.UserName))
+            if (usuario.Id.HasValue)
                 return Update(usuario);
             else
                 return Create(usuario);
@@ -135,12 +136,13 @@ namespace Ecommerce.Infrastructure.Repository
         {
             using (var context = _context.Get())
             {
-                var item = context.Usuario.Where(x => x.Usuario1.Equals(usuario)).FirstOrDefault();
+                var item = context.Usuario.Where(x => x.Id.Equals(usuario.Id)).FirstOrDefault();
 
                 item.Apellido = usuario.Apellido;
                 item.Nombre = usuario.Nombre;
                 item.Mail = usuario.Email;
                 item.Administrador = usuario.EsAdministrador;
+                item.Usuario1 = usuario.UserName;
 
                 context.SaveChanges();
 
