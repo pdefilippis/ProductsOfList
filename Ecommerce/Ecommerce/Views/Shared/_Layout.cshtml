@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="~/libman/unpkg/datatables.net-bs/css/dataTables.bootstrap.css" />
     <link rel="stylesheet" href="~/libman/unpkg/datatables.net-responsive-bs/css/responsive.bootstrap.css" />
     <link rel="stylesheet" href="~/bundles/css/datatables.responsive.min.css" />
+
+    <link rel="stylesheet" href="~/css/alertify.min.css" />
+    <link rel="stylesheet" href="~/css/themes/semantic.min.css" />
+
 
     <link rel="stylesheet" href="~/libman/unpkg/datatables.net-buttons-bs/datatables.css" />
     <link rel="stylesheet" href="~/libman/unpkg/datatables.net-buttons-bs/datatables.min.css" />
@@ -73,7 +77,7 @@
                                     <ul class="nav navbar-nav navbar-left" style="padding-left:106px">
                                         <li><a href="#"><i class="fa fa-shopping-cart fa-2x"></i></a></li>
                                         <li class="dropdown">
-                                            <a class="dropdown-toggle" style="cursor:pointer" data-toggle="dropdown";><i class="far fa-user"></i>&nbsp;@User.Identity.Name&nbsp;<b class="caret"></b></a>
+                                            <a class="dropdown-toggle" style="cursor:pointer" data-toggle="dropdown" ;><i class="far fa-user"></i>&nbsp;@User.Identity.Name&nbsp;<b class="caret"></b></a>
                                             <ul class="dropdown-menu">
                                                 <li style="font-size:20px; font-family:'Corbel'"><a asp-controller="Account" asp-action="UserData" style="color:#333"><i class="fas fa-id-card"></i>&nbsp;Datos del usuario</a></li>
                                                 <li style="font-size:20px; font-family:'Corbel'"><a asp-controller="Account" asp-action="ChangePassword" style="color:#333"><i class="fas fa-lock"></i>&nbsp;Cambiar contraseña</a></li>
@@ -90,7 +94,7 @@
         </section>
 
 
-
+        <!-- Modal -->
         <div id="templates" hidden>
             <div id="are-you-sure2">Confirmación</div>
             <div id="this-operation-can-not-be-revert2">¿Estás seguro que queres salir?</div>
@@ -105,10 +109,7 @@
         </div>
 
 
-
-
-
-
+        <!-- Breadcumb -->
         <div style=" visibility: hidden; display: none; padding-top: 1.5em; visibility: visible; display: block; background-color:#dce1e3">
             @{
                 if (IsSectionDefined("Breadcrumb"))
@@ -128,9 +129,11 @@
         </div>
 
 
+        <!-- Boton de subir -->
         <button class="btn btn-default pull-right" id="go-to-top-btn" title="Subir">
             <i class="fa fa-chevron-up fa-fw" style="color:white"></i>
         </button>
+
 
 
         @* --> Footer <--*@
@@ -151,8 +154,9 @@
         <script src="~/login/vendor/bootstrap/js/popper.js"></script>
         <script src="~/libman/cdnjs/select2/js/select2.js"></script>
         <script src="~/libman/cdnjs/select2/js/select2.min.js"></script>
+        <script src="~/js/alertify.min.js"></script>
 
-        
+
 
         <script src="~/libman/unpkg/datatables.net/js/jquery.dataTables.js"></script>
         <script src="~/libman/unpkg/datatables.net-bs/js/dataTables.bootstrap.js"></script>
