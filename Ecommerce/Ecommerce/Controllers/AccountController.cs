@@ -1,6 +1,8 @@
 using Ecommerce.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace Ecommerce.Controllers
 {
@@ -8,28 +10,39 @@ namespace Ecommerce.Controllers
     public class AccountController : Controller
     {
         private readonly Core.IUsuarioManager _usuarioManager;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(Core.IUsuarioManager usuarioManager)
+
+        public AccountController(Core.IUsuarioManager usuarioManager, ILogger<AccountController> logger)
         {
             _usuarioManager = usuarioManager;
+            _logger = logger;
         }
 
         public IActionResult UserData()
         {
-            var CurrentUserName = HttpContext.User.Identity.Name;
-
-            var user = _usuarioManager.GetByName(CurrentUserName);
-
-            var userDataViewModel = new UserDataViewModel
+            try
             {
-                Name = user.Nombre,
-                Surname = user.Apellido,
-                User = user.UserName,
-                Email = user.Email,
-                CreationTimestamp = user.Creacion.ToString(),
-            };
+                var CurrentUserName = HttpContext.User.Identity.Name;
 
-            return View(userDataViewModel);
+                var user = _usuarioManager.GetByName(CurrentUserName);
+
+                var userDataViewModel = new UserDataViewModel
+                {
+                    Name = user.Nombre,
+                    Surname = user.Apellido,
+                    User = user.UserName,
+                    Email = user.Email,
+                    CreationTimestamp = user.Creacion.ToString(),
+                };
+
+                return View(userDataViewModel);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
         }
 
         public IActionResult ChangePassword()
