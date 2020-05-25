@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.IO;
 using System.Linq;
 using Input = Ecommerce.Common.DataMembers.Input;
@@ -14,10 +16,12 @@ namespace Ecommerce.Controllers
     public class LotController : Controller
     {
         private readonly Core.ILoteManager _loteManager;
+        private readonly ILogger<LotController> _logger;
 
-        public LotController(Core.ILoteManager loteManager)
+        public LotController(Core.ILoteManager loteManager, ILogger<LotController> logger)
         {
             _loteManager = loteManager;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -49,6 +53,9 @@ namespace Ecommerce.Controllers
         public IActionResult CreateLot()
         {
 
+            //ViewBag.ErrorTitle = "Warning!";
+            //ViewBag.ErrorMessege = "Better check yourself, you're not looking too good.";
+
             return View(new CreateLotViewModel());
         }
 
@@ -57,29 +64,36 @@ namespace Ecommerce.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateLot(CreateLotViewModel loteModel)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var lote = new Input.Lote
+                if (ModelState.IsValid)
                 {
-                    Id = loteModel.LotId,
-                    Descripcion = loteModel.Descripcion,
-                    NombreImagen = loteModel.Imagen?.FileName,
-                    Imagen = ConvertFileToByte(loteModel.Imagen)
-                };
+                    var lote = new Input.Lote
+                    {
+                        Id = loteModel.LotId,
+                        Descripcion = loteModel.Descripcion,
+                        NombreImagen = loteModel.Imagen?.FileName,
+                        Imagen = ConvertFileToByte(loteModel.Imagen)
+                    };
 
-                _loteManager.Save(lote);
+                    TempData["SuccesMessage"] = "Se ha creado un lote";
 
-                ViewBag.ErrorTitle = "Warning!";
-                ViewBag.ErrorMessege = "Better check yourself, you're not looking too good.";
+                    _loteManager.Save(lote);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    if (loteModel.Imagen == null)
+                        ModelState.AddModelError("Image", "Error al cargar la imagen");
+
+                    return View(loteModel);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                if (loteModel.Imagen == null)
-                    ModelState.AddModelError("Image", "Error al cargar la imagen");
-
-                return View(loteModel);
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
             }
         }
 
@@ -89,18 +103,26 @@ namespace Ecommerce.Controllers
         {
             var lote = _loteManager.GetById(LotId);
 
-            if (lote == null)
-                return RedirectToAction("Status", "Error", new { code = 404 });
-
-
-            return View(new EditLotViewModel
+            try
             {
-                Descripcion = lote.Descripcion,
-                LotId = lote.Id,
-                NombreImagen = lote.NombreImagen,
-                FlagImage = lote != null,
-                Imagen = lote.Imagen != null ? ConvertByteToFile(lote) : null
-            });
+                if (lote == null)
+                    return RedirectToAction("Status", "Error", new { code = 404 });
+
+
+                return View(new EditLotViewModel
+                {
+                    Descripcion = lote.Descripcion,
+                    LotId = lote.Id,
+                    NombreImagen = lote.NombreImagen,
+                    FlagImage = lote != null,
+                    Imagen = lote.Imagen != null ? ConvertByteToFile(lote) : null
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }   
         }
 
 
@@ -108,36 +130,52 @@ namespace Ecommerce.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditLot(EditLotViewModel loteModel)
         {
-            if (ModelState.IsValid)
+            try
             {
-
-                var lote = new Input.Lote
+                if (ModelState.IsValid)
                 {
-                    Id = loteModel.LotId,
-                    Descripcion = loteModel.Descripcion,
-                    NombreImagen = loteModel.Imagen?.FileName,
-                    Imagen = loteModel.Imagen != null ? ConvertFileToByte(loteModel.Imagen) : null
-                };
+
+                    var lote = new Input.Lote
+                    {
+                        Id = loteModel.LotId,
+                        Descripcion = loteModel.Descripcion,
+                        NombreImagen = loteModel.Imagen?.FileName,
+                        Imagen = loteModel.Imagen != null ? ConvertFileToByte(loteModel.Imagen) : null
+                    };
 
 
-                _loteManager.Save(lote);
+                    _loteManager.Save(lote);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+
+                return View(loteModel);
             }
-            
-            return View(loteModel);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
         }
             
         //TODO: Modificar por dos acciones diferentes
         public IActionResult EnableDisable(int LotId)
         {
-            var lote = _loteManager.GetById(LotId);
-            if (lote.Activo)
-                _loteManager.Disable(LotId);
-            else
-                _loteManager.Enable(LotId);
+            try
+            {
+                var lote = _loteManager.GetById(LotId);
+                if (lote.Activo)
+                    _loteManager.Disable(LotId);
+                else
+                    _loteManager.Enable(LotId);
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
         }
         
         public JsonResult LotClosure(int LotId)
@@ -155,10 +193,6 @@ namespace Ecommerce.Controllers
             return Json(false);
         }
 
-        public IActionResult History()
-        {
-            return View();
-        }
 
         private byte[] ConvertFileToByte(IFormFile image)
         {
