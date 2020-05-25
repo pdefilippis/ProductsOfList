@@ -40,7 +40,7 @@ namespace Ecommerce.Controllers
                 surname = u.Apellido,
                 mail = u.Email,
                 isadmin = u.EsAdministrador,
-                enabled = u.Activo,
+                enabled = u.Activo == true ? "Activo" : "Inactivo",
                 creation_timestamp = u.Creacion.ToString("dd/MM/yyyy HH:mm:ss"),
                 last_login_timestamp = u.UltimoIngreso.ToString("dd/MM/yyyy HH:mm:ss")
             }).ToList();
