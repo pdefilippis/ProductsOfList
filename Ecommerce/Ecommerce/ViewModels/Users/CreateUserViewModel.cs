@@ -29,5 +29,10 @@ namespace Ecommerce.ViewModels.Users
 
         [Display(Name = "Es administrador")]
         public bool IsAdmin { get; set; }
+        
+        [Display(Name = "Contraseña")]
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
     }
 }
