@@ -1,8 +1,8 @@
-using Ecommerce.Domain;
-using Ecommerce.Domain.Models;
 using Ecommerce.ViewModels.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Lote = Ecommerce.Common.DataMembers.Output.Lote;
@@ -15,28 +15,38 @@ namespace Ecommerce.Controllers
     {
 
         private readonly Core.ILoteManager _loteManager;
+        private readonly ILogger<HomeController> _logger;
 
 
-        public HomeController(Core.ILoteManager loteManager)
+        public HomeController(Core.ILoteManager loteManager, ILogger<HomeController> logger)
         {
             _loteManager = loteManager;
+            _logger = logger;
         }
 
         [Authorize(Roles = "CLIENT,ADMIN")]//CLIENT - ADMIN
         public IActionResult Index()
         {
-            HomeViewModel model = new HomeViewModel();
-
-            var lote = _loteManager.Get();
-
-            List<Lote> lots = lote.Where(l => l.Activo == true).OrderByDescending(l => l.Id).ToList();
-
-            model = new HomeViewModel
+            try
             {
-                Lots = lots,
-            };
+                HomeViewModel model = new HomeViewModel();
 
-            return View(model);
+                var lote = _loteManager.Get();
+
+                List<Lote> lots = lote.Where(l => l.Activo == true).OrderByDescending(l => l.Id).ToList();
+
+                model = new HomeViewModel
+                {
+                    Lots = lots,
+                };
+
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }   
         }
 
 
