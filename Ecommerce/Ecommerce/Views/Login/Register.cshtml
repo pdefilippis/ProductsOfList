@@ -1,4 +1,4 @@
-﻿@model Ecommerce.ViewModels.Login.LoginViewModel
+@model Ecommerce.ViewModels.Login.LoginViewModel
 
 
 @{
@@ -49,21 +49,18 @@
 
                         <div class="input-group">
                             <input asp-for="Input.Email" class="input--style-1" type="text" placeholder="E-MAIL">
-                            @*<span class="focus-input100" asp-validation-for="Input.Email"></span>*@
                         </div>
 
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
                                     <input asp-for="Input.Name" class="input--style-1" type="text" placeholder="NOMBRE">
-                                    @*<span class="focus-input100" asp-validation-for="Input.Name"></span>*@
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
                                     <div class="rs-select2 js-select-simple select--no-search">
                                         <input asp-for="Input.Surname" class="input--style-1" type="text" placeholder="APELLIDO">
-                                        @*<span class="focus-input100" asp-validation-for="Input.Surname"></span>*@
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +70,6 @@
                             <div class="col-2">
                                 <div class="input-group">
                                     <input asp-for="Input.User" class="input--style-1" type="text" placeholder="USUARIO">
-                                    @*<span class="focus-input100" asp-validation-for="Input.User"></span>*@
                                 </div>
                             </div>
                             <div class="col-2">
@@ -97,3 +93,12 @@
     </div>
 </body>
 </html>
+
+
+<style>
+    li {
+        color: red;
+        padding-bottom: 33px;
+        font-size: 92%;
+    }
+</style>
