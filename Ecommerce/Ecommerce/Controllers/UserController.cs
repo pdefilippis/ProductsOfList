@@ -2,6 +2,8 @@ using Ecommerce.Domain.Models;
 using Ecommerce.ViewModels.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using Usuario = Ecommerce.Common.DataMembers.Input.Usuario;
 
@@ -12,11 +14,13 @@ namespace Ecommerce.Controllers
     {
         private readonly ProductsManagerContext _context;
         private readonly Core.IUsuarioManager _usuarioManager;
+        private readonly ILogger<UserController> _logger;
 
-        public UserController(Core.IUsuarioManager usuarioManager, ProductsManagerContext context)
+        public UserController(Core.IUsuarioManager usuarioManager, ProductsManagerContext context, ILogger<UserController> logger)
         {
             _usuarioManager = usuarioManager;
             _context = context;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -54,70 +58,102 @@ namespace Ecommerce.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateUser(CreateUserViewModel viewModel)
         {
-           
-            if (ModelState.IsValid)
+           try
             {
-                var usuario = new Usuario
+                if (ModelState.IsValid)
                 {
-                    Nombre = viewModel.Name,
-                    Apellido = viewModel.Surname,
-                    UserName = viewModel.User,
-                    Email = viewModel.Email,
-                    EsAdministrador = viewModel.IsAdmin,
-                    Password = null
-                };
+                    var usuario = new Usuario
+                    {
+                        Nombre = viewModel.Name,
+                        Apellido = viewModel.Surname,
+                        UserName = viewModel.User,
+                        Email = viewModel.Email,
+                        EsAdministrador = viewModel.IsAdmin,
+                        Password = viewModel.Password
+                    };
 
-                _usuarioManager.Register(usuario);
+                    _usuarioManager.Register(usuario);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(viewModel);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return View(viewModel);
-            }
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }            
         }
 
         [HttpGet]
         public IActionResult EditUser(int UserId)
         {
-            var usuario = _usuarioManager.GetById(UserId);
-            if (usuario == null)
-                return RedirectToAction("Index");
-            else
-                return View(new EditUserViewModel
-                {
-                    UserId = UserId,
-                    User = usuario.UserName,
-                    Name = usuario.Nombre,
-                    Surname = usuario.Apellido,
-                    Email = usuario.Email,
-                    IsAdmin = usuario.EsAdministrador
-                });
+            try
+            {
+                var usuario = _usuarioManager.GetById(UserId);
+                if (usuario == null)
+                    return RedirectToAction("Index");
+                else
+                    return View(new EditUserViewModel
+                    {
+                        UserId = UserId,
+                        User = usuario.UserName,
+                        Name = usuario.Nombre,
+                        Surname = usuario.Apellido,
+                        Email = usuario.Email,
+                        IsAdmin = usuario.EsAdministrador
+                    });
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
         }
 
 
         [HttpPost]
         public IActionResult EditUser(EditUserViewModel viewModel)
         {
-
-            if (ModelState.IsValid)
+            try
             {
-                _usuarioManager.Save(new Usuario {
-                    Apellido = viewModel.Surname,
-                    Email = viewModel.Email,
-                    EsAdministrador = viewModel.IsAdmin,
-                    Nombre = viewModel.Name,
-                    UserName =viewModel.User,
-                    Id = viewModel.UserId
-                });
+                if (ModelState.IsValid)
+                {
+                    _usuarioManager.Save(new Usuario
+                    {
+                        Apellido = viewModel.Surname,
+                        Email = viewModel.Email,
+                        EsAdministrador = viewModel.IsAdmin,
+                        Nombre = viewModel.Name,
+                        UserName = viewModel.User,
+                        Id = viewModel.UserId
+                    });
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(viewModel);
+                }
             }
-            else
+            catch(Exception ex)
             {
-                return View(viewModel);
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
             }
+        }
 
+        public IActionResult EnableUser()
+        {
+            return View();
+        }
+
+        public IActionResult DisableUser()
+        {
+            return View();
         }
 
         public IActionResult EnableUserConfirmation()
