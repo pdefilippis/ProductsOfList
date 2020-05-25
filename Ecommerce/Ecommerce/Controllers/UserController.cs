@@ -31,6 +31,7 @@ namespace Ecommerce.Controllers
         public JsonResult GetUsers()
         {
             var user = _usuarioManager.GetAll();
+            var currentUserId = _usuarioManager.GetByName(HttpContext.User.Identity.Name).Id;
 
             var item = user.Select(u => new
             {
@@ -40,9 +41,10 @@ namespace Ecommerce.Controllers
                 surname = u.Apellido,
                 mail = u.Email,
                 isadmin = u.EsAdministrador,
-                enabled = u.Activo == true ? "Activo" : "Inactivo",
+                enabled = u.Activo,
                 creation_timestamp = u.Creacion.ToString("dd/MM/yyyy HH:mm:ss"),
-                last_login_timestamp = u.UltimoIngreso.ToString("dd/MM/yyyy HH:mm:ss")
+                last_login_timestamp = u.UltimoIngreso.ToString("dd/MM/yyyy HH:mm:ss"),
+                current_user_id = currentUserId
             }).ToList();
 
             return Json(item);
@@ -150,7 +152,7 @@ namespace Ecommerce.Controllers
         {
             var user = _usuarioManager.GetById(UserId);
 
-            if (user.Activo == true)
+            if (user.Activo == false)
                 _usuarioManager.Enable(UserId);
             
             return RedirectToAction("Index");
@@ -161,7 +163,7 @@ namespace Ecommerce.Controllers
 
             var user = _usuarioManager.GetById(UserId);
 
-            if (user.Activo == false)
+            if (user.Activo == true)
                 _usuarioManager.Disable(UserId);
             
             return RedirectToAction("Index");
@@ -170,29 +172,27 @@ namespace Ecommerce.Controllers
 
         public IActionResult EnableUserConfirmation(int UserId)
         {
-            var user = _usuarioManager.Get();
-            var usuario = user.FirstOrDefault(u => u.Id == UserId && u.Activo == true);
-            if (usuario == null)
+            var user = _usuarioManager.GetById(UserId);
+            if (user.Activo == true)
                 return RedirectToAction("Index");
             else
                 return View(new EnableUserConfirmationViewModel
                 {
                     UserId = UserId,
-                    Username = usuario.UserName
+                    Username = user.UserName
                 });
         }
 
         public IActionResult DisableUserConfirmation(int UserId)
         {
-            var user = _usuarioManager.Get();
-            var usuario = user.FirstOrDefault(u => u.Id == UserId && u.Activo == false);
-            if (usuario == null)
+            var user = _usuarioManager.GetById(UserId);
+            if (user.Activo == false)
                 return RedirectToAction("Index");
             else
                 return View(new DisableUserConfirmationViewModel
                 {
                     UserId = UserId,
-                    Username = usuario.UserName
+                    Username = user.UserName
                 });
         }
     }

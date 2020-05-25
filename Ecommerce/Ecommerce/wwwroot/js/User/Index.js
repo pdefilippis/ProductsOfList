@@ -85,9 +85,13 @@
                     render: function (data, type, full, meta) {
                         var btn_group = user_actions_btn_group.clone();
 
-                        
-                        (full.state === "Inactivo") ? btn_group.find(".btn-disable-user").remove() : btn_group.find(".btn-enable-user").remove();
-                        
+                        if (full.user_id === full.current_user_id) {
+                            btn_group.find(".btn-enable-user").remove();
+                            btn_group.find(".btn-disable-user").remove();
+                        } else {
+                            (full.enabled) ? btn_group.find(".btn-enable-user").remove() : btn_group.find(".btn-disable-user").remove();
+                        }
+
                         return btn_group.html().replace(/_USERID_/g, full.user_id);
                     }
                 }
