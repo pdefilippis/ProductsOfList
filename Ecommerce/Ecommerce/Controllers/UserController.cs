@@ -69,7 +69,7 @@ namespace Ecommerce.Controllers
                         UserName = viewModel.User,
                         Email = viewModel.Email,
                         EsAdministrador = viewModel.IsAdmin,
-                        Password = viewModel.Password
+                        Password = viewModel.Password,
                     };
 
                     _usuarioManager.Register(usuario);
@@ -146,24 +146,54 @@ namespace Ecommerce.Controllers
             }
         }
 
-        public IActionResult EnableUser()
+        public IActionResult EnableUser(int UserId)
         {
-            return View();
+            var user = _usuarioManager.GetById(UserId);
+
+            if (user.Activo == true)
+                _usuarioManager.Enable(UserId);
+            
+            return RedirectToAction("Index");
         }
 
-        public IActionResult DisableUser()
+        public IActionResult DisableUser(int UserId)
         {
-            return View();
+
+            var user = _usuarioManager.GetById(UserId);
+
+            if (user.Activo == false)
+                _usuarioManager.Disable(UserId);
+            
+            return RedirectToAction("Index");
+
         }
 
-        public IActionResult EnableUserConfirmation()
+        public IActionResult EnableUserConfirmation(int UserId)
         {
-            return View();
+            var user = _usuarioManager.Get();
+            var usuario = user.FirstOrDefault(u => u.Id == UserId && u.Activo == true);
+            if (usuario == null)
+                return RedirectToAction("Index");
+            else
+                return View(new EnableUserConfirmationViewModel
+                {
+                    UserId = UserId,
+                    Username = usuario.UserName
+                });
         }
 
-        public IActionResult DisableUserConfirmation()
+        public IActionResult DisableUserConfirmation(int UserId)
         {
-            return View();
+            var user = _usuarioManager.Get();
+            var usuario = user.FirstOrDefault(u => u.Id == UserId && u.Activo == false);
+            if (usuario == null)
+                return RedirectToAction("Index");
+            else
+                return View(new DisableUserConfirmationViewModel
+                {
+                    UserId = UserId,
+                    Username = usuario.UserName
+                });
         }
     }
 }
