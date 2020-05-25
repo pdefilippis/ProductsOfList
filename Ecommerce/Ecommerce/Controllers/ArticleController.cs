@@ -44,7 +44,8 @@ namespace Ecommerce.Controllers
                     return View(new IndexPublicViewModel()
                     {
                         Description = lote.Descripcion,
-                        LotId = lote.Id
+                        LotId = lote.Id,
+                        LotState = lote.Estado.Codigo
                     });
                 }
                 else

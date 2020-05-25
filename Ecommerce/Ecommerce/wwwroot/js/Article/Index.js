@@ -5,6 +5,8 @@
 
         var lotId = $("#LotId").val();
 
+        var lotState = $("#LotState").val();
+
         var table = $('#articles-table').DataTable({
 
             language: datatablesLangES,
@@ -110,6 +112,7 @@
                                 data +
                                 '</span>';
                         }
+
                         return html;
                     },
                     responsivePriority: 7
@@ -134,9 +137,10 @@
             ]
         });
 
-        //Oculta las acciones (buttons) del articulo si el lote esta cerrado
-        if ($("#State").val() == "Cerrado")
+        if (lotState === "CERRADO") {
             table.column(9).visible(false);
+            document.getElementById("articleCreate").style.display = "none";
+        }
 
     };
 }(window.Index = window.Index || {}, jQuery));
