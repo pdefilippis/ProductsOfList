@@ -1,15 +1,13 @@
-﻿using Ecommerce.ViewModels.Login;
-using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Common.DataMembers.Input;
-using Output = Ecommerce.Common.DataMembers.Output;
-using System.Security.Claims;
+using Ecommerce.ViewModels.Login;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace Ecommerce.Controllers
 {
@@ -62,6 +60,8 @@ namespace Ecommerce.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
+                ModelState.AddModelError("", "Todos los campos deben ser completados");
+
                 return View();
             }
             catch (Exception ex)
@@ -83,23 +83,32 @@ namespace Ecommerce.Controllers
         [HttpPost]
         public IActionResult Register(LoginViewModel registerModel)
         {
-            if (ModelState.IsValid)
+
+            try
             {
-                var user = _usuarioManager.Register(new Usuario
+                if (ModelState.IsValid)
                 {
-                    Password = registerModel.Input.Password,
-                    Apellido = registerModel.Input.Surname,
-                    Nombre = registerModel.Input.Name,
-                    UserName = registerModel.Input.User,
-                    Email = registerModel.Input.Email
-                });
+                    var user = _usuarioManager.Register(new Usuario
+                    {
+                        Password = registerModel.Input.Password,
+                        Apellido = registerModel.Input.Surname,
+                        Nombre = registerModel.Input.Name,
+                        UserName = registerModel.Input.User,
+                        Email = registerModel.Input.Email
+                    });
 
-                return View("Index");
+                    return View("Index");
+                }
+
+                ModelState.AddModelError("", "Todos los campos deben ser completados");
+
+                return View(registerModel);
             }
-
-            ModelState.AddModelError("", "Completar todos los campos.");
-
-            return View(registerModel);
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
         }
 
         [AllowAnonymous]
@@ -108,7 +117,7 @@ namespace Ecommerce.Controllers
             return View();
         }
 
-        public ActionResult LogOut()
+        public IActionResult LogOut()
         {
             HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Login");
