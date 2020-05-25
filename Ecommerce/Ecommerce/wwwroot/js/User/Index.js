@@ -84,9 +84,10 @@
                     responsivePriority: 1,
                     render: function (data, type, full, meta) {
                         var btn_group = user_actions_btn_group.clone();
-                        (full.state === 10 || full.state === 20) ? btn_group.find(".btn-enable-user").remove() : btn_group.find(".btn-disable-user").remove();
-                        if (!full.has_session)
-                            btn_group.find(".btn-kill-session").addClass("disabled");
+
+                        
+                        (full.state === "Inactivo") ? btn_group.find(".btn-disable-user").remove() : btn_group.find(".btn-enable-user").remove();
+                        
                         return btn_group.html().replace(/_USERID_/g, full.user_id);
                     }
                 }
