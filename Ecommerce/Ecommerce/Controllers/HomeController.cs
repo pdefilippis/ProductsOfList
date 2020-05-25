@@ -16,6 +16,7 @@ namespace Ecommerce.Controllers
 
         private readonly Core.ILoteManager _loteManager;
         private readonly ILogger<HomeController> _logger;
+        private readonly Core.IUsuarioManager _usuarioManager;
 
 
         public HomeController(Core.ILoteManager loteManager, ILogger<HomeController> logger)
@@ -57,6 +58,15 @@ namespace Ecommerce.Controllers
 
         public IActionResult About()
         {
+            return View();
+        }
+
+        [Authorize(Roles = "CLIENT")]
+        public IActionResult ShowNotifications()
+        {
+            var currentUserId = _usuarioManager.GetByName(HttpContext.User.Identity.Name).Id;
+            // var notifications = _notificationManager.GetByUser(currentUserId);
+            // return View(notifications);
             return View();
         }
     }
