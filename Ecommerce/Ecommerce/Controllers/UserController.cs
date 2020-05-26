@@ -93,9 +93,10 @@ namespace Ecommerce.Controllers
         [HttpGet]
         public IActionResult EditUser(int UserId)
         {
+            var usuario = _usuarioManager.GetById(UserId);
+
             try
             {
-                var usuario = _usuarioManager.GetById(UserId);
                 if (usuario == null)
                     return RedirectToAction("Index");
                 else
@@ -152,10 +153,18 @@ namespace Ecommerce.Controllers
         {
             var user = _usuarioManager.GetById(UserId);
 
-            if (user.Activo == false)
-                _usuarioManager.Enable(UserId);
-            
-            return RedirectToAction("Index");
+            try
+            {
+                if (user.Activo == false)
+                    _usuarioManager.Enable(UserId);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
         }
 
         public IActionResult DisableUser(int UserId)
@@ -163,37 +172,62 @@ namespace Ecommerce.Controllers
 
             var user = _usuarioManager.GetById(UserId);
 
-            if (user.Activo == true)
-                _usuarioManager.Disable(UserId);
-            
-            return RedirectToAction("Index");
+            try
+            {
+                if (user.Activo == true)
+                    _usuarioManager.Disable(UserId);
 
+                return RedirectToAction("Index");
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
         }
 
         public IActionResult EnableUserConfirmation(int UserId)
         {
             var user = _usuarioManager.GetById(UserId);
-            if (user.Activo == true)
-                return RedirectToAction("Index");
-            else
-                return View(new EnableUserConfirmationViewModel
-                {
-                    UserId = UserId,
-                    Username = user.UserName
-                });
+
+            try
+            {
+                if (user.Activo == true)
+                    return RedirectToAction("Index");
+                else
+                    return View(new EnableUserConfirmationViewModel
+                    {
+                        UserId = UserId,
+                        Username = user.UserName
+                    });
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
         }
 
         public IActionResult DisableUserConfirmation(int UserId)
         {
             var user = _usuarioManager.GetById(UserId);
-            if (user.Activo == false)
-                return RedirectToAction("Index");
-            else
-                return View(new DisableUserConfirmationViewModel
-                {
-                    UserId = UserId,
-                    Username = user.UserName
-                });
+
+            try
+            {
+                if (user.Activo == false)
+                    return RedirectToAction("Index");
+                else
+                    return View(new DisableUserConfirmationViewModel
+                    {
+                        UserId = UserId,
+                        Username = user.UserName
+                    });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }            
         }
     }
 }
