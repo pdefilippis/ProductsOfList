@@ -116,7 +116,7 @@ namespace Ecommerce.Controllers
         public IActionResult CreateArticle(int LotId, int ArticleId)
         {
 
-            var article = _loteManager.Get();
+            var article = _loteManager.GetAll();
             var article2 = _articuloTipoManager.Get();
             var article3 = _articuloManager.Get();
 
