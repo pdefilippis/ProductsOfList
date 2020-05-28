@@ -74,6 +74,8 @@ namespace Ecommerce.Controllers
                         Password = viewModel.Password,
                     };
 
+                    TempData["SuccesMessage"] = "Se ha dado de alta un usuario";
+
                     _usuarioManager.Register(usuario);
 
                     return RedirectToAction("Index");
@@ -135,6 +137,8 @@ namespace Ecommerce.Controllers
                         Id = viewModel.UserId
                     });
 
+                    TempData["SuccesMessage"] = "El usuario se ha editado correctamente";
+
                     return RedirectToAction("Index");
                 }
                 else
@@ -155,8 +159,10 @@ namespace Ecommerce.Controllers
 
             try
             {
-                if (user.Activo == false)
+                if (user.Activo == false)                                    
                     _usuarioManager.Enable(UserId);
+                    TempData["SuccesMessage"] = "El usuario se ha activado";
+
 
                 return RedirectToAction("Index");
             }
@@ -176,6 +182,8 @@ namespace Ecommerce.Controllers
             {
                 if (user.Activo == true)
                     _usuarioManager.Disable(UserId);
+                    TempData["ErrorMessage"] = "El usuario se ha desactivado";
+                
 
                 return RedirectToAction("Index");
             }
