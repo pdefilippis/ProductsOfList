@@ -5,17 +5,31 @@
     ViewData["Title"] = "Artículos";
 }
 
+@section scripts{
+    <script src="~/js/Article/Index.js"></script>
+    <script src="~/libman/unpkg/datatables.net-buttons-bs/datatables.js"></script>
+    <script src="~/libman/unpkg/datatables.net-buttons-bs/datatables.min.js"></script>
+
+    <script>
+    $(function () {
+        var SuccesMessage = '@TempData["SuccesMessage"]'
+        if (SuccesMessage != '')
+            alertify.success(SuccesMessage);
+    });
+
+        $(function () {
+            var ErrorMessage = '@TempData["ErrorMessage"]'
+            if (ErrorMessage != '')
+                alertify.error(ErrorMessage);
+    });
+    </script>
+}
+
 @section Breadcrumb {
     <li><a asp-action="Index" asp-controller="Lot" style="color:#002147">Lotes</a></li>
     <li class="active"><strong>@ViewData["Title"]</strong></li>
 }
 
-
-@section scripts{
-    <script src="~/js/Article/Index.js"></script>
-    <script src="~/libman/unpkg/datatables.net-buttons-bs/datatables.js"></script>
-    <script src="~/libman/unpkg/datatables.net-buttons-bs/datatables.min.js"></script>
-}
 
 <input asp-for="LotId" hidden />
 <input asp-for="LotState" hidden />
@@ -52,12 +66,12 @@
     </div>
 
 
-    <div id="excel-text">Excel</div>
+    <div id="excel-text"> Excel</div>
     <div id="excel-title">Listado en Excel</div>
     <div id="filename">Listado @ViewData["Title"]</div>
-    <div id="pdf-text">PDF</div>
+    <div id="pdf-text"> PDF</div>
     <div id="pdf-title">Listado en PDF</div>
-    <div id="print-text">Imprimir</div>
+    <div id="print-text"> Imprimir</div>
 
 
     <div id="active-field">
