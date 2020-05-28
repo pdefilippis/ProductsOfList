@@ -1,4 +1,4 @@
-﻿(function (self, $, undefined) {
+(function (self, $, undefined) {
 
     Create.Start = function () {
 
@@ -30,6 +30,20 @@
         });
         // #endregion
     };
+
+
+    $("#Imagen").on("change", function () {
+        var file = this.files[0];
+        if (file !== null) {
+            var FR = new FileReader();
+
+            FR.addEventListener("load", function (e) {
+                document.getElementById("profile-photo").src = e.target.result;
+            });
+
+            FR.readAsDataURL(this.files[0]);
+        }
+    });
 
 }(window.Create = window.Create || {}, jQuery));
 
