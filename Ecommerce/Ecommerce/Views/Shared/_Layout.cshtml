@@ -207,14 +207,12 @@
         
         <script>
             $(() => {
-                alert('hola lst-notificaciones');
                 $('#lst-notificaciones').on("click", function () {
                     readNotifications();
                 });
             })
 
             function readNotifications() {
-                alert('borrado');
                 var url = "/Notificaciones/ReadNotifications";
                 $.get(url, null, function (data) {
                 }); 
