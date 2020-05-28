@@ -4,6 +4,20 @@
 
 @section scripts{
     <script src="~/js/User/Index.js"></script>
+
+    <script>
+    $(function () {
+        var SuccesMessage = '@TempData["SuccesMessage"]'
+        if (SuccesMessage != '')
+            alertify.success(SuccesMessage);
+    });
+
+        $(function () {
+            var ErrorMessage = '@TempData["ErrorMessage"]'
+            if (ErrorMessage != '')
+                alertify.error(ErrorMessage);
+    });
+    </script>
 }
 
 @section Breadcrumb {
