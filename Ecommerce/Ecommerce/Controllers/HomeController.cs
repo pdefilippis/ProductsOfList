@@ -34,7 +34,7 @@ namespace Ecommerce.Controllers
 
                 var lote = _loteManager.Get();
 
-                List<Lote> lots = lote.Where(l => l.Activo == true).OrderByDescending(l => l.Id).ToList();
+                List<Lote> lots = lote.Where(l => l.Activo == true && l.Estado.Codigo == "ABIERTO").OrderByDescending(l => l.Id).ToList();
 
                 model = new HomeViewModel
                 {
