@@ -10,6 +10,7 @@ namespace Ecommerce.Domain.Models
         public Usuario()
         {
             Articulo = new HashSet<Articulo>();
+            Notificaciones = new HashSet<Notificaciones>();
             Solicitud = new HashSet<Solicitud>();
         }
 
@@ -36,6 +37,8 @@ namespace Ecommerce.Domain.Models
 
         [InverseProperty("UsuarioAdjudicadoNavigation")]
         public virtual ICollection<Articulo> Articulo { get; set; }
+        [InverseProperty("IdUsuarioNavigation")]
+        public virtual ICollection<Notificaciones> Notificaciones { get; set; }
         [InverseProperty("IdUsuarioNavigation")]
         public virtual ICollection<Solicitud> Solicitud { get; set; }
     }

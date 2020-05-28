@@ -21,12 +21,17 @@ namespace Ecommerce.Core.Managers
             //_logger = logger;
         }
 
-        public void DeclinarPostulacionArticulo(ArticuloPostulacion postulacion)
+        public bool DeclinarPostulacionArticulo(ArticuloPostulacion postulacion)
         {
             try
             {
                 if (_articuloInfrastructure.ExistsPostulacion(postulacion))
+                {
                     _articuloInfrastructure.DeclinarPostulacion(postulacion);
+                    return true;
+                }
+
+                return false;
             }
             catch (Exception ex)
             {
@@ -35,13 +40,18 @@ namespace Ecommerce.Core.Managers
             }
         }
 
-        public void Disable(int articulo)
+        public bool Disable(int articulo)
         {
             try
             {
                 var item = _articuloInfrastructure.GetById(articulo);
                 if (item.Activo)
+                {
                     _articuloInfrastructure.ChangeStatus(articulo);
+                    return true;
+                }
+
+                return false;
             }
             catch (Exception ex)
             {
@@ -50,13 +60,18 @@ namespace Ecommerce.Core.Managers
             }
         }
 
-        public void Enable(int articulo)
+        public bool Enable(int articulo)
         {
             try
             {
                 var item = _articuloInfrastructure.GetById(articulo);
                 if (!item.Activo)
+                {
                     _articuloInfrastructure.ChangeStatus(articulo);
+                    return true;
+                }
+
+                return false;
             }
             catch (Exception ex)
             {
@@ -95,6 +110,7 @@ namespace Ecommerce.Core.Managers
         {
             try
             {
+                var algo = _articuloInfrastructure.GetById(id);
                 return _articuloInfrastructure.GetById(id);
             }
             catch (Exception ex)
@@ -117,14 +133,17 @@ namespace Ecommerce.Core.Managers
             }
         }
 
-        public void PostularArticulo(ArticuloPostulacion postulacion)
+        public bool PostularArticulo(ArticuloPostulacion postulacion)
         {
             try
             {
-
-
                 if (!_articuloInfrastructure.ExistsPostulacion(postulacion))
+                {
                     _articuloInfrastructure.Postular(postulacion);
+                    return true;
+                }
+
+                return false;
             }
             catch (Exception ex)
             {

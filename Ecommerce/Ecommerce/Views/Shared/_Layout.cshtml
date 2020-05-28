@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -40,7 +40,7 @@
     <link rel="stylesheet" href="~/css/navbar_style.css" />
 
 </head>
-
+@inject Ecommerce.Services.StatisticsService StatsService
 <body style="margin:0; margin-bottom:18%;background-color:#f5f0f0;">
     <div style="background-color:#f5f0f0;">
 
@@ -90,29 +90,22 @@
 
 
                                         <li class="dropdown" style="top:15px; cursor:pointer">
-                                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                                <i class="fa fa-bell fa-1x" style="color:#d7d9e6"></i>  <span class="label label-primary" id="idBell">8</span>
+                                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" id="lst-notificaciones">
+                                                <i class="fa fa-bell fa-1x" style="color:#d7d9e6"></i>  <span class="label label-primary" id="idBell">@StatsService.GetCountNotificaciones(User.Identity.Name) </span>
                                             </a>
                                             <ul class="dropdown-menu notify dropdown-messages dropdown-alerts">
-                                                <li>
-                                                    <a class="dropdown-item">
-                                                        <div>
-                                                            <i class="fas fa-envelope" style="color:black"></i><i style="color:black; font-style: normal;"> Ha ganado el articulo <strong>tal</strong> del lote <strong>tal</strong></i>
-                                                            <div><span class="float-left text-muted small">Hace 4 minutos</span></div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="dropdown-divider"></li>
-                                                <li>
-                                                    <a class="dropdown-item">
-                                                        <div>
-                                                            <i class="fas fa-envelope" style="color:black"></i><i style="color:black; font-style: normal;"> Ha ganado el articulo <strong>tal</strong> del lote <strong>tal</strong></i>
-                                                            <div><span class="float-left text-muted small">Hace 45 minutos</span></div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                </li>
+                                                @foreach (var item in StatsService.GetNotificaciones(User.Identity.Name))
+                                                {
+                                                    <li>
+                                                        <a class="dropdown-item">
+                                                            <div>
+                                                                <i class="fas fa-envelope" style="color:black"></i><i style="color:black; font-style: normal;"> Ha ganado el articulo <strong>@item.Articulo.Descripcion</strong> del lote <strong>tal</strong></i>
+                                                                <div><span class="float-left text-muted small">Hace @Convert.ToInt32(DateTime.Now.Subtract(item.Stamp).TotalMinutes); minutos </span></div>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li class="dropdown-divider"></li>
+                                                }
                                             </ul>
                                         </li>
 
@@ -211,7 +204,22 @@
 
         @RenderSection("Scripts", required: false)
 
+        
+        <script>
+            $(() => {
+                alert('hola lst-notificaciones');
+                $('#lst-notificaciones').on("click", function () {
+                    readNotifications();
+                });
+            })
 
+            function readNotifications() {
+                alert('borrado');
+                var url = "/Notificaciones/ReadNotifications";
+                $.get(url, null, function (data) {
+                }); 
+            }
+        </script>
     </div>
 </body>
 </html>

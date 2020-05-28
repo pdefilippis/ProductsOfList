@@ -12,9 +12,9 @@ namespace Ecommerce.Core
         ICollection<Member.Output.Articulo> Get();
         ICollection<Member.Output.Articulo> GetAll();
         ICollection<Member.Output.Articulo> GetLote(int lote);
-        void PostularArticulo(Member.Input.ArticuloPostulacion postulacion);
-        void DeclinarPostulacionArticulo(Member.Input.ArticuloPostulacion postulacion);
-        void Enable(int articulo);
-        void Disable(int articulo);
+        bool PostularArticulo(Member.Input.ArticuloPostulacion postulacion);
+        bool DeclinarPostulacionArticulo(Member.Input.ArticuloPostulacion postulacion);
+        bool Enable(int articulo);
+        bool Disable(int articulo);
     }
 }

@@ -19,6 +19,7 @@ namespace Ecommerce.Domain.Models
         public virtual DbSet<ArticuloTipo> ArticuloTipo { get; set; }
         public virtual DbSet<Estado> Estado { get; set; }
         public virtual DbSet<Lote> Lote { get; set; }
+        public virtual DbSet<Notificaciones> Notificaciones { get; set; }
         public virtual DbSet<Solicitud> Solicitud { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
 
@@ -26,7 +27,7 @@ namespace Ecommerce.Domain.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;database=ProductsManager;user=usrpm;password=usrpm");
             }
         }
@@ -92,6 +93,25 @@ namespace Ecommerce.Domain.Models
                     .HasForeignKey(d => d.IdEstado)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Lote__IdEstado__32E0915F");
+            });
+
+            modelBuilder.Entity<Notificaciones>(entity =>
+            {
+                entity.Property(e => e.Leido).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Stamp).HasDefaultValueSql("(getdate())");
+
+                entity.HasOne(d => d.IdArticuloNavigation)
+                    .WithMany(p => p.Notificaciones)
+                    .HasForeignKey(d => d.IdArticulo)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Notificaciones_Articulo");
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.Notificaciones)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Notificaciones_Usuario");
             });
 
             modelBuilder.Entity<Solicitud>(entity =>

@@ -17,13 +17,17 @@ namespace Ecommerce.Core.Managers
         private readonly ILoteInfrastructure _loteInfrastructure;
         private readonly IArticuloInfrastructure _articuloInfrastructure;
         private readonly IUsuarioInfrastructure _usuarioInfrastructure;
+        private readonly INotificacionesInfrastructure _notificacionesInfrastructure;
+
         public Lote(ILoteInfrastructure loteInfrastructure, IArticuloInfrastructure articuloInfrastructure,
-            IUsuarioInfrastructure usuarioInfrastructure, ILogger<Lote> logger)
+            IUsuarioInfrastructure usuarioInfrastructure, ILogger<Lote> logger,
+            INotificacionesInfrastructure notificacionesInfrastructure)
         {
             _loteInfrastructure = loteInfrastructure;
             _articuloInfrastructure = articuloInfrastructure;
             _usuarioInfrastructure = usuarioInfrastructure;
             _logger = logger;
+            _notificacionesInfrastructure = notificacionesInfrastructure;
         }
 
         public void Enable(int lote)
@@ -116,6 +120,7 @@ namespace Ecommerce.Core.Managers
                     var usr = users.Skip(ganador - 1).Take(1).FirstOrDefault();
 
                     _articuloInfrastructure.AdjudicarArticulo(x.Id, usr.Id);
+                    _notificacionesInfrastructure.Create(new Common.DataMembers.Input.Notificacion { IdArticulo = x.Id, IdUsuario = usr.Id });
                 });
 
                 _loteInfrastructure.ChangeStatus(lote, Ecommerce.Common.Constant.Properties.Estado.Cerrado);
@@ -148,6 +153,11 @@ namespace Ecommerce.Core.Managers
         public void Close(int lote)
         {
             _loteInfrastructure.ChangeStatus(lote, Ecommerce.Common.Constant.Properties.Estado.Cerrado);
+        }
+
+        public ICollection<Common.DataMembers.Output.Lote> GetOpen()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -23,6 +23,7 @@ using Core = Ecommerce.Core;
 using Infra = Ecommerce.Infrastructure;
 using DataMembers = Ecommerce.Common.DataMembers;
 using Ecommerce.Core.Validations;
+using Ecommerce.Services;
 
 namespace Ecommerce
 {
@@ -51,13 +52,17 @@ namespace Ecommerce
             services.AddScoped<Core.IArticuloTipoManager, Core.Managers.ArticuloTipo>();
             services.AddScoped<Core.ILoteManager, Core.Managers.Lote>();
             services.AddScoped<Core.IUsuarioManager, Core.Managers.Usuario>();
+            services.AddScoped<Core.INotificacionesManager, Core.Managers.Notificaciones>();
 
             services.AddScoped<Infra.IArticuloInfrastructure, Infra.Repository.Articulo>();
             services.AddScoped<Infra.IArticuloTipoInfrastructure, Infra.Repository.ArticuloTipo>();
             services.AddScoped<Infra.ILoteInfrastructure, Infra.Repository.Lote>();
             services.AddScoped<Infra.IUsuarioInfrastructure, Infra.Repository.Usuario>();
+            services.AddScoped<Infra.INotificacionesInfrastructure, Infra.Repository.Notificaciones>();
 
             services.AddSingleton<Infra.Mappers.ITransformMapper, Infra.Mappers.TransformMapper>();
+
+            services.AddTransient<StatisticsService>();
             #endregion
 
             //app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);

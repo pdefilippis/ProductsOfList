@@ -20,6 +20,7 @@ namespace Ecommerce.Infrastructure.Mappers
             InitializeArticuloTipo(ce);
             InitializeUsuario(ce);
             InitializeEstado(ce);
+            InitializeNotificacion(ce);
         }
 
         public static void SetMapper(IMapper mapper)
