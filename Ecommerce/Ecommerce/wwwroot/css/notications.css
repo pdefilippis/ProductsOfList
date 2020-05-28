@@ -1,0 +1,93 @@
+﻿#idBell {
+    font-size: 10px;
+    line-height: 12px;
+    padding: 2px 5px;
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    background-color: #229e85;
+    color: #FFFFFF;
+    border-radius: 0.25em;
+}
+
+.dropdown-alerts {
+ 
+    min-width: 0;
+    margin-left: -123px;
+    padding: 10px 10px 10px 10px;
+    font-size: 12px;
+}
+
+.count-info .label {
+    line-height: 12px;
+    padding: 2px 5px;
+    position: absolute;
+    right: 6px;
+    top: 12px;
+}
+
+dropdown-item {
+    width: auto;
+    background-color: inherit;
+    color: inherit;
+}
+
+
+.nav .dropdown-menu  {
+    right: 0;
+    left: auto;
+}
+
+.dropdown-menu .notify {
+    color: #212529;
+    background-color: #fff;
+}
+
+text-muted {
+    color: #888888 !important;
+    float: right !important;
+}
+
+.small, small {
+    font-size: 80%;
+    font-weight: 400;
+}
+
+ul.dropdown-menu.notify.dropdown-alerts {
+    background: #fff;
+    width: 900%;
+    padding: 16px 2px 11px 6px;
+    margin-top: -2px;
+    top: 49px;
+    left: -399px;
+    border-radius: 9px;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.link-block {
+     font-size: 12px; 
+     padding: 10px; 
+}
+
+.dropdown-divider {
+    height: 0;
+    margin: .5rem 0;
+    overflow: hidden;
+    border-top: 1px solid #e9ecef;
+}
+
+.float-right {
+    float: right !important;
+}
+
+.nav.navbar-nav .dropdown-alerts a {
+    font-size: 12px;
+}
+
+
+.header .navbar-default .navbar-left > li:hover a {
+    color: black;
+}
