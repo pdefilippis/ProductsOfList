@@ -3,7 +3,7 @@ CREATE TABLE [dbo].[Notificaciones](
 	[IdUsuario] [int] NOT NULL,
 	[IdArticulo] [int] NOT NULL,
 	[Leido] [bit] NOT NULL,
-	[Stamp] [datetime] NOT NULL,
+	[Stamp] [datetime] DEFAULT GetDate(),
  CONSTRAINT [PK_Notificaciones] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

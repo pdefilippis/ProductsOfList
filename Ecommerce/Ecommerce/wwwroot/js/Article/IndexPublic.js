@@ -64,8 +64,6 @@
                     render: function (data, type, full, meta) {
 
                         var btn_group = article_actions_btn_group.clone();
-                        debugger;
-                        //var TakenId = $('#TakenId').val();
                         var TakenId = full.tokenId;
 
                         (full.article_id == TakenId) ? btn_group.find("#btnApprove").remove() : btn_group.find("#btnReject").remove();
