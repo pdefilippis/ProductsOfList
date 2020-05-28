@@ -55,6 +55,17 @@
                 </div>
             </div>
 
+            <div class="row" style="padding-top:24px">
+                @if (Model.Imagen != null)
+                {
+                    <img src="@Model.Imagen" alt="Foto del lote" class="img-thumbnail" id="profile-photo" style="margin-left:1em;">
+                }
+                else
+                {
+                    <img src="~/images/sinfoto.png" alt="Foto del lote" class="img-thumbnail" id="profile-photo" style="margin-left:1em;">
+                }
+            </div>
+
         </form>
     </div>
 </div>
