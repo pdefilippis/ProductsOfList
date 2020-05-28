@@ -52,10 +52,6 @@ namespace Ecommerce.Controllers
         [HttpGet]
         public IActionResult CreateLot()
         {
-
-            //ViewBag.ErrorTitle = "Warning!";
-            //ViewBag.ErrorMessege = "Better check yourself, you're not looking too good.";
-
             return View(new CreateLotViewModel());
         }
 
@@ -143,6 +139,7 @@ namespace Ecommerce.Controllers
                         Imagen = loteModel.Imagen != null ? ConvertFileToByte(loteModel.Imagen) : null
                     };
 
+                    TempData["SuccesMessage"] = "El lote se ha editado correctamente";
 
                     _loteManager.Save(lote);
 
@@ -165,10 +162,16 @@ namespace Ecommerce.Controllers
             {
                 var lote = _loteManager.GetById(LotId);
                 if (lote.Activo)
+                {
+                    TempData["ErrorMessage"] = "El lote se ha desactivado";
                     _loteManager.Disable(LotId);
+                }                    
                 else
+                {
+                    TempData["SuccesMessage"] = "El lote se ha activado";
                     _loteManager.Enable(LotId);
-
+                }
+                
                 return RedirectToAction("Index");
             }
             catch(Exception ex)
