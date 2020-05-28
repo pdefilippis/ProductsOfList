@@ -93,10 +93,12 @@ namespace Ecommerce.Controllers
                         {
                             case true:
                                 article.Activo = false;
+                                TempData["ErrorMessage"] = "El artículo se ha desactivado";
                                 break;
 
                             case false:
                                 article.Activo = true;
+                                TempData["SuccesMessage"] = "El artículo se ha activado";
                                 break;
                         }
                     }
@@ -185,6 +187,8 @@ namespace Ecommerce.Controllers
                         Precio = vm.Price,
                         Marca = vm.Brand
                     };
+
+                    TempData["SuccesMessage"] = "Se ha creado un artículo";
 
                     _articuloManager.Save(article);
 
@@ -275,6 +279,8 @@ namespace Ecommerce.Controllers
                         item.Precio = vm.Price;
                         item.Descripcion = vm.Description;
                         item.Marca = vm.Brand;
+
+                        TempData["SuccesMessage"] = "El artículo se ha editado correctamente";
 
                         context.SaveChanges();
                     }
