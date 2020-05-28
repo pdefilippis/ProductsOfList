@@ -17,6 +17,14 @@
     <link rel="stylesheet" href="~/css/alertify.min.css" />
     <link rel="stylesheet" href="~/css/themes/semantic.min.css" />
 
+    <link rel="stylesheet" href="~/css/notications.css" />
+
+
+    <link rel="stylesheet" href="~/libman/cdnjs/OwlCarousel2/assets/owl.carousel.css" />
+    <link rel="stylesheet" href="~/libman/cdnjs/OwlCarousel2/assets/owl.theme.default.css" />
+    <link rel="stylesheet" href="~/libman/cdnjs/OwlCarousel2/assets/owl.carousel.min.css" />
+    <link rel="stylesheet" href="~/libman/cdnjs/OwlCarousel2/assets/owl.theme.default.min.css" />
+
 
     <link rel="stylesheet" href="~/libman/unpkg/datatables.net-buttons-bs/datatables.css" />
     <link rel="stylesheet" href="~/libman/unpkg/datatables.net-buttons-bs/datatables.min.css" />
@@ -58,6 +66,7 @@
 
                             </div>
 
+
                             <!-- Collect the nav links, forms, and other content for toggling -->
 
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -73,12 +82,45 @@
                                         <li><a asp-controller="Home" asp-action="Contact">Contacto</a></li>
                                     </ul>
                                 </div>
+
+
+
                                 <div class="col-lg-4 right">
-                                    <ul class="nav navbar-nav navbar-left" style="padding-left:106px">
+                                    <ul class="nav navbar-nav navbar-left" style="padding-left:80px">
+
+
+                                        <li class="dropdown" style="top:15px; cursor:pointer">
+                                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                                <i class="fa fa-bell fa-1x" style="color:#d7d9e6"></i>  <span class="label label-primary" id="idBell">8</span>
+                                            </a>
+                                            <ul class="dropdown-menu notify dropdown-messages dropdown-alerts">
+                                                <li>
+                                                    <a class="dropdown-item">
+                                                        <div>
+                                                            <i class="fas fa-envelope" style="color:black"></i><i style="color:black; font-style: normal;"> Ha ganado el articulo <strong>tal</strong> del lote <strong>tal</strong></i>
+                                                            <div><span class="float-left text-muted small">Hace 4 minutos</span></div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="dropdown-divider"></li>
+                                                <li>
+                                                    <a class="dropdown-item">
+                                                        <div>
+                                                            <i class="fas fa-envelope" style="color:black"></i><i style="color:black; font-style: normal;"> Ha ganado el articulo <strong>tal</strong> del lote <strong>tal</strong></i>
+                                                            <div><span class="float-left text-muted small">Hace 45 minutos</span></div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+
                                         <li><a href="#"><i class="fa fa-shopping-cart fa-2x"></i></a></li>
                                         <li class="dropdown">
                                             <a class="dropdown-toggle" style="cursor:pointer" data-toggle="dropdown" ;><i class="far fa-user"></i>&nbsp;@User.Identity.Name&nbsp;<b class="caret"></b></a>
-                                            <ul class="dropdown-menu">
+                                            <ul class="dropdown-menu" style="margin-top:11px">
                                                 <li style="font-size:20px; font-family:'Corbel'"><a asp-controller="Account" asp-action="UserData" style="color:#333"><i class="fas fa-id-card"></i>&nbsp;Datos del usuario</a></li>
                                                 <li style="font-size:20px; font-family:'Corbel'"><a asp-controller="Account" asp-action="ChangePassword" style="color:#333"><i class="fas fa-lock"></i>&nbsp;Cambiar contraseña</a></li>
                                                 <li style="font-size:20px; font-family:'Corbel'"><a id="btnLogOut" item-id="_LogOutID_" data-toggle="modal" style="color:#333" data-target="#modalApply" asp-controller="Login" asp-action="LogOut"><i class="fas fa-sign-out-alt"></i>&nbsp;Salir</a></li>
@@ -156,6 +198,8 @@
         <script src="~/libman/cdnjs/select2/js/select2.min.js"></script>
         <script src="~/js/alertify.min.js"></script>
 
+        <script src="~/libman/cdnjs/OwlCarousel2/owl.carousel.js"></script>
+        <script src="~/libman/cdnjs/OwlCarousel2/owl.carousel.min.js"></script>
 
 
         <script src="~/libman/unpkg/datatables.net/js/jquery.dataTables.js"></script>
@@ -181,7 +225,7 @@
         width: 101%;
         border-bottom: 6px solid #0A2151;
         border-top: 6px solid #0A2151;
-        bottom:-287px;
+        bottom:-278px;
 
     }
 
@@ -189,4 +233,9 @@
             color: #0c0f10;
             font-weight: lighter;
         }
+
+    .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+        background-color: transparent;
+    }
+
 </style>
