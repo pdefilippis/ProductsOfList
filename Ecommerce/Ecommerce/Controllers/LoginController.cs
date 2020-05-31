@@ -83,7 +83,6 @@ namespace Ecommerce.Controllers
         [HttpPost]
         public IActionResult Register(LoginViewModel registerModel)
         {
-
             try
             {
                 if (ModelState.IsValid)
