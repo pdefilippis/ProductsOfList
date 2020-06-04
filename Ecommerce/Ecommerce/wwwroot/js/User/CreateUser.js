@@ -24,3 +24,17 @@
 jQuery(function () {
     CreateUser.Start();
 })
+
+
+
+    function showHidePassword() {
+        var x = document.getElementById("passwd");
+        var y = document.getElementById("eyePasswd");
+        if (x.type === "password") {
+            y.className = "fa fa-eye-slash eye-style";
+            x.type = "text";
+        } else {
+            y.className = "fa fa-eye eye-style";
+            x.type = "password";
+        }
+    }

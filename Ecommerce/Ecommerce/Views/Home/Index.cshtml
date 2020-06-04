@@ -54,7 +54,7 @@
                                                 <span class="product-price">
                                                     @item.Articulos.Count
                                                 </span>
-                                                <a class="product-name">@item.Descripcion</a>
+                                                <a class="product-name classTxt">@item.Descripcion</a>
                                                 <div class="m-t text-righ">
                                                     <a asp-controller="Article" asp-action="IndexPublic" asp-route-LotId="@item.Id" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
                                                 </div>
@@ -76,7 +76,7 @@
                                                     <span class="product-price">
                                                         @item.Articulos.Count
                                                     </span>
-                                                    <a class="product-name">@item.Descripcion</a>
+                                                    <a class="product-name classTxt">@item.Descripcion</a>
                                                     <div class="m-t text-righ">
                                                         <a asp-controller="Article" asp-action="IndexPublic" asp-route-LotId="@item.Id" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
                                                     </div>
@@ -110,7 +110,7 @@
                                                             <span class="product-price">
                                                                 @item.Articulos.Count
                                                             </span>
-                                                            <a class="product-name">@item.Descripcion</a>
+                                                            <a class="product-name classTxt">@item.Descripcion</a>
                                                             <div class="m-t text-righ">
                                                                 <a asp-controller="Article" asp-action="IndexPublic" asp-route-LotId="@item.Id" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
                                                             </div>
@@ -132,7 +132,7 @@
                                                             <span class="product-price">
                                                                 @item.Articulos.Count
                                                             </span>
-                                                            <a class="product-name">@item.Descripcion</a>
+                                                            <a class="product-name classTxt">@item.Descripcion</a>
                                                             <div class="m-t text-righ">
                                                                 <a asp-controller="Article" asp-action="IndexPublic" asp-route-LotId="@item.Id" class="btn btn-xs btn-outline btn-primary">Info <i class="fas fa-long-arrow-alt-right"></i> </a>
                                                             </div>
@@ -187,5 +187,8 @@
             background: rgba(121, 127, 128, 0.7);
         }
 
+        .classTxt {
+            word-break: break-all;
+        }
 
 </style>

@@ -84,13 +84,11 @@ namespace Ecommerce.Controllers
                     _usuarioManager.Save(usuario);
 
                 }
-                else
-                    ModelState.AddModelError("", "Las contraseñas no son iguales");
-
-                
 
                 return RedirectToAction("Index","Login");
             }
+
+            ModelState.AddModelError("", "Todos los campos deben ser completados");
 
             return View();
         }

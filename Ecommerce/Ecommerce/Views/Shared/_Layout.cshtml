@@ -86,7 +86,7 @@
 
 
                                 <div class="col-lg-4 right">
-                                    <ul class="nav navbar-nav navbar-left" style="padding-left:80px">
+                                    <ul class="nav navbar-nav navbar-left" style="padding-left:46px">
 
 
                                         <li class="dropdown" style="top:15px; cursor:pointer">
@@ -99,7 +99,7 @@
                                                     <li>
                                                         <a class="dropdown-item">
                                                             <div>
-                                                                <i class="fas fa-envelope" style="color:black"></i><i style="color:black; font-style: normal;"> Ha ganado el articulo <strong>@item.Articulo.Descripcion</strong> del lote <strong>@item.Articulo.Lote.Descripcion</strong></i>
+                                                                <i class="fas fa-envelope" style="color:black"></i><i class="classTxt" style="color:black; font-style: normal;"> Ha ganado el articulo <strong>@item.Articulo.Descripcion</strong> del lote <strong>@item.Articulo.Lote.Descripcion</strong></i>
                                                                 <div><span class="float-left text-muted small">Hace @Convert.ToInt32(DateTime.Now.Subtract(item.Stamp).TotalMinutes) minutos </span></div>
                                                             </div>
                                                         </a>
@@ -110,7 +110,7 @@
                                         </li>
 
 
-                                        <li><a href="#"><i class="fa fa-shopping-cart fa-2x"></i></a></li>
+                                        <li><a asp-controller="Employee" asp-action="Admin"><i class="fa fa-shopping-cart fa-2x"></i></a></li>
                                         <li class="dropdown">
                                             <a class="dropdown-toggle" style="cursor:pointer" data-toggle="dropdown" ;><i class="far fa-user"></i>&nbsp;@User.Identity.Name&nbsp;<b class="caret"></b></a>
                                             <ul class="dropdown-menu" style="margin-top:11px">
@@ -233,6 +233,11 @@
         border-top: 6px solid #0A2151;
         bottom:-278px;
 
+    }
+
+    .classTxt{
+        white-space:normal;
+        width:100%;
     }
 
         .footer p {
