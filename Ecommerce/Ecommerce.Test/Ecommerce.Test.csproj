@@ -7,9 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
+    <PackageReference Include="Moq" Version="4.14.1" />
+    <PackageReference Include="NLog" Version="4.7.0" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.2" />
     <PackageReference Include="nunit" Version="3.11.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="Unity" Version="5.11.6" />
+    <PackageReference Include="Unity.Abstractions" Version="5.11.5" />
+    <PackageReference Include="Unity.Container" Version="5.11.7" />
+    <PackageReference Include="Unity.Interception" Version="5.11.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ecommer.Core\Ecommerce.Core.csproj" />
+    <ProjectReference Include="..\Ecommerce.Common\Ecommerce.Common.csproj" />
+    <ProjectReference Include="..\Ecommerce.EF\Ecommerce.Domain.csproj" />
+    <ProjectReference Include="..\Ecommerce.Infrastructure\Ecommerce.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ModelFactory\Input\" />
   </ItemGroup>
 
 </Project>

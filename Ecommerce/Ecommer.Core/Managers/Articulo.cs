@@ -108,16 +108,7 @@ namespace Ecommerce.Core.Managers
 
         public Common.DataMembers.Output.Articulo GetById(int id)
         {
-            try
-            {
-                var algo = _articuloInfrastructure.GetById(id);
-                return _articuloInfrastructure.GetById(id);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, string.Empty);
-                throw;
-            }
+            return _articuloInfrastructure.GetById(id);
         }
 
         public ICollection<Common.DataMembers.Output.Articulo> GetLote(int lote)

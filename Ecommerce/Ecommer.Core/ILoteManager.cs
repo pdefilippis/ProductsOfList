@@ -12,10 +12,10 @@ namespace Ecommerce.Core
         ICollection<Member.Output.Lote> GetAll();
         ICollection<Member.Output.Lote> GetOpen();
         Member.Output.Lote Save(Member.Input.Lote lote);
-        void Sorteo(int lote);
-        void Enable(int lote);
-        void Disable(int lote);
-        void Open(int lote);
-        void Close(int lote);
+        ICollection<Member.Output.Usuario> Sorteo(int lote);
+        bool Enable(int lote);
+        bool Disable(int lote);
+        bool Open(int lote);
+        bool Close(int lote);
     }
 }

@@ -20,139 +20,108 @@ namespace Ecommerce.Core.Managers
         private readonly INotificacionesInfrastructure _notificacionesInfrastructure;
 
         public Lote(ILoteInfrastructure loteInfrastructure, IArticuloInfrastructure articuloInfrastructure,
-            IUsuarioInfrastructure usuarioInfrastructure, ILogger<Lote> logger,
+            IUsuarioInfrastructure usuarioInfrastructure,
             INotificacionesInfrastructure notificacionesInfrastructure)
         {
             _loteInfrastructure = loteInfrastructure;
             _articuloInfrastructure = articuloInfrastructure;
             _usuarioInfrastructure = usuarioInfrastructure;
-            _logger = logger;
             _notificacionesInfrastructure = notificacionesInfrastructure;
         }
 
-        public void Enable(int lote)
+        public bool Enable(int lote)
         {
-            try
+            
+            var item = _loteInfrastructure.GetById(lote);
+            if (!item.Activo)
             {
-                var item = _loteInfrastructure.GetById(lote);
-                if (!item.Activo)
-                    _loteInfrastructure.ChangeStatus(lote);
+                _loteInfrastructure.ChangeStatus(lote);
+                return true;
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, string.Empty);
-                throw;
-            }
+
+            return false;
         }
 
-        public void Disable(int lote)
+        public bool Disable(int lote)
         {
-            try
+            
+            var item = _loteInfrastructure.GetById(lote);
+            if (item.Activo)
             {
-                var item = _loteInfrastructure.GetById(lote);
-                if (item.Activo)
-                    _loteInfrastructure.ChangeStatus(lote);
+                _loteInfrastructure.ChangeStatus(lote);
+                return true;
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, string.Empty);
-                throw;
-            }
+            return false;
         }
 
         public ICollection<Common.DataMembers.Output.Lote> Get()
         {
-            try
-            {
-                return _loteInfrastructure.Get();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, string.Empty);
-                throw;
-            }            
+            
+            return _loteInfrastructure.Get();
+                    
         }
 
         public Common.DataMembers.Output.Lote GetById(int id)
         {
-            try
-            {
+            
                 return _loteInfrastructure.GetById(id);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, string.Empty);
-                throw;
-            }
+            
         }
 
         public Common.DataMembers.Output.Lote Save(Common.DataMembers.Input.Lote lote)
         {
-            try
-            {
-                var validation = new LoteValidation(_loteInfrastructure);
-                var results = validation.Validate(lote);
+            
+            var validation = new LoteValidation(_loteInfrastructure);
+            var results = validation.Validate(lote);
 
-                //if (!results.IsValid)
-                //    throw new InvalidDataException(results.Errors.Select(x => x.ErrorMessage).ToList());
+            //if (!results.IsValid)
+            //    throw new InvalidDataException(results.Errors.Select(x => x.ErrorMessage).ToList());
 
-                return _loteInfrastructure.Save(lote);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, string.Empty);
-                throw;
-            }
+            return _loteInfrastructure.Save(lote);
+            
         }
 
-        public void Sorteo(int lote)
+        public ICollection<Common.DataMembers.Output.Usuario> Sorteo(int lote)
         {
-            try
-            {
-                var articulos = _articuloInfrastructure.GetByLote(lote);
+            
+            var ganadores = new List<Common.DataMembers.Output.Usuario>();
+            var articulos = _articuloInfrastructure.GetByLote(lote);
 
-                articulos.ToList().ForEach(x => {
-                    var users = _usuarioInfrastructure.GetByArticulo(x.Id);
-                    if (!users.Any()) return;
+            articulos.ToList().ForEach(x => {
+                var users = _usuarioInfrastructure.GetByArticulo(x.Id);
+                if (!users.Any()) return;
 
-                    var ganador = new Random().Next(1, users.Count);
+                var ganador = new Random().Next(1, users.Count);
 
-                    var usr = users.Skip(ganador - 1).Take(1).FirstOrDefault();
+                var usr = users.Skip(ganador - 1).Take(1).FirstOrDefault();
+                ganadores.Add(usr);
+                _articuloInfrastructure.AdjudicarArticulo(x.Id, usr.Id);
+                _notificacionesInfrastructure.Create(new Common.DataMembers.Input.Notificacion { IdArticulo = x.Id, IdUsuario = usr.Id });
+            });
 
-                    _articuloInfrastructure.AdjudicarArticulo(x.Id, usr.Id);
-                    _notificacionesInfrastructure.Create(new Common.DataMembers.Input.Notificacion { IdArticulo = x.Id, IdUsuario = usr.Id });
-                });
+            _loteInfrastructure.ChangeStatus(lote, Ecommerce.Common.Constant.Properties.Estado.Cerrado);
 
-                _loteInfrastructure.ChangeStatus(lote, Ecommerce.Common.Constant.Properties.Estado.Cerrado);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, string.Empty);
-                throw;
-            }
+            return ganadores;
+            
         }
 
         public ICollection<Common.DataMembers.Output.Lote> GetAll()
         {
-            try
-            {
-                return _loteInfrastructure.GetAll();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, string.Empty);
-                throw;
-            }
+            
+            return _loteInfrastructure.GetAll();
+            
         }
 
-        public void Open(int lote)
+        public bool Open(int lote)
         {
             _loteInfrastructure.ChangeStatus(lote, Ecommerce.Common.Constant.Properties.Estado.Abierto);
+            return true;
         }
 
-        public void Close(int lote)
+        public bool Close(int lote)
         {
             _loteInfrastructure.ChangeStatus(lote, Ecommerce.Common.Constant.Properties.Estado.Cerrado);
+            return true;
         }
 
         public ICollection<Common.DataMembers.Output.Lote> GetOpen()

@@ -15,7 +15,7 @@ namespace Ecommerce.Core
         ICollection<Member.Output.Usuario> GetAll();
         Member.Output.Usuario GetById(int id);
         Member.Output.Usuario GetByName(string name);
-        void Enable(int id);
-        void Disable(int id);
+        bool Enable(int id);
+        bool Disable(int id);
     }
 }
