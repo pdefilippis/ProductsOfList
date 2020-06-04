@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.WebSockets.Internal;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using static Ecommerce.ViewModels.Login.LoginViewModel;
 
 namespace Ecommerce.ViewModels.Account
 {
     public class ChangePasswordViewModel
     {
+        [BindProperty]
+        public InputModel Input { get; set; }
+
         // English, >0 a-z, >0 A-Z, >0 digit, >0 special, len >= 8
         public const string PasswordComplexity = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!-/:-@\[-`{-~]).{8,}$";
 

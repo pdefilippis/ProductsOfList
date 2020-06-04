@@ -21,7 +21,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <input asp-for="LotId" hidden />
-            <input asp-for="FlagImage" hidden />
+            <input asp-for="FlagImage" id="flag-image" hidden />
 
             <div class="form-group">
                 <label asp-for="Descripcion" class="control-label required"></label>
@@ -58,11 +58,11 @@
             <div class="row" style="padding-top:24px">
                 @if (Model.Imagen != null)
                 {
-                    <img src="@Model.Imagen" alt="Foto del lote" class="img-thumbnail" id="profile-photo" style="margin-left:1em;">
+                <img src="@Model.Imagen" alt="Foto del lote" class="img-thumbnail" id="previewPhoto" style="margin-left:1em;">
                 }
                 else
                 {
-                    <img src="~/images/sinfoto.png" alt="Foto del lote" class="img-thumbnail" id="profile-photo" style="margin-left:1em;">
+                    <img src="~/images/sinfoto.png" alt="Foto del lote" class="img-thumbnail" id="previewPhoto" style="margin-left:1em;">
                 }
             </div>
 

@@ -1,3 +1,4 @@
+using Ecommerce.Common.DataMembers.Input;
 using Ecommerce.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -45,8 +46,50 @@ namespace Ecommerce.Controllers
             }
         }
 
+        [HttpGet]
         public IActionResult ChangePassword()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ChangePassword(ChangePasswordViewModel viewModel)
+        {
+            var CurrentUserName = HttpContext.User.Identity.Name;
+            
+
+            if (ModelState.IsValid)
+            {
+
+                if(viewModel.NewPassword == viewModel.NewPasswordConfirmation)
+                {
+                    var user = _usuarioManager.ChangePassword(new ChangePassword
+                    {
+                        OldPassword = Ecommerce.Common.Password.EncryptPassword(viewModel.OldPassword),
+                        NewPassword = Ecommerce.Common.Password.EncryptPassword(viewModel.NewPassword),
+                        UserName = CurrentUserName
+                    });
+
+                    var usuario = new Usuario
+                    {
+                        Id = user.Id,
+                        Password = user.Password,
+                        Apellido = user.Apellido,
+                        Email = user.Email,
+                        Nombre = user.Nombre,
+                        UserName = user.UserName,
+                        EsAdministrador = user.EsAdministrador
+                    };
+
+                    _usuarioManager.Save(usuario);
+
+                }
+
+                return RedirectToAction("Index","Login");
+            }
+
+            ModelState.AddModelError("", "Todos los campos deben ser completados");
+
             return View();
         }
     }

@@ -9,6 +9,13 @@
     <UserSecretsId>bdc473ac-56ef-43c2-ba7e-43d92291761a</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Infrastructure\**" />
+    <Content Remove="Infrastructure\**" />
+    <EmbeddedResource Remove="Infrastructure\**" />
+    <None Remove="Infrastructure\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
@@ -25,7 +32,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Infrastructure\" />
     <Folder Include="ViewModels\Account\" />
     <Folder Include="Views\Account\" />
   </ItemGroup>
