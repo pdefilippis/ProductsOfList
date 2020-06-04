@@ -5,7 +5,20 @@
     ViewData["Title"] = "Error";
 }
 
-<div style="text-align:center; margin-top:50px; margin-bottom:200px">
-    <p style="font-size:200px"><i class="fas fa-exclamation-triangle" style="color:#002147"></i></p>
-    <p style="font-size:50px; color:brown">Error 404: @Model.Message</p>
-</div>
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <center>
+                <img src="~/images/error-01.png" class="img-responsive" />
+                <p style="font-family: Arial; color:#c6c6c6; font-size: 2em; font-weight: bold; margin-top:2em;">Se ha producido un error o la pagina no se encuentra disponible.</p>
+                <p style="font-family: Arial; color:#c6c6c6; font-size: 1em;">Ante cualquier consulta podes comunicarte enviando un email a re-mate@gmail.com</p>
+            </center>
+
+            <div>
+                <center>
+                    <a asp-action="Index" asp-controller="Home" class="btn btn-default" style="background-color:#E4EDED">Volver</a>
+                </center>
+            </div>
+        </div>
+
+    </div>
