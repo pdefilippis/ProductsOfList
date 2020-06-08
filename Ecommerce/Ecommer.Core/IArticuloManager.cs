@@ -16,5 +16,6 @@ namespace Ecommerce.Core
         bool DeclinarPostulacionArticulo(Member.Input.ArticuloPostulacion postulacion);
         bool Enable(int articulo);
         bool Disable(int articulo);
+        ICollection<Member.Output.Articulo> GetByUserInteresado(string user);
     }
 }

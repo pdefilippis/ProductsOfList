@@ -36,7 +36,6 @@ namespace Ecommerce.Test
 
             var result = articuloTipoManager.Get();
 
-            Assert.IsTrue(result.Any());
             Assert.AreEqual(items.First().Codigo, result.First().Codigo);
             Assert.AreEqual(items.First().Descripcion, result.First().Descripcion);
             Assert.AreEqual(items.First().Id, result.First().Id);

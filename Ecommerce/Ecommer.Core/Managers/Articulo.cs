@@ -14,96 +14,66 @@ namespace Ecommerce.Core.Managers
     public class Articulo : IArticuloManager
     {
         private readonly IArticuloInfrastructure _articuloInfrastructure;
-        private readonly ILogger<Articulo> _logger;
-        public Articulo(IArticuloInfrastructure articuloInfrastructure/*, ILogger<Articulo> logger*/)
+        private readonly IUsuarioInfrastructure _usuarioInfrastructure;
+        public Articulo(IArticuloInfrastructure articuloInfrastructure, IUsuarioInfrastructure usuarioInfrastructure)
         {
             _articuloInfrastructure = articuloInfrastructure;
-            //_logger = logger;
+            _usuarioInfrastructure = usuarioInfrastructure;
         }
 
         public bool DeclinarPostulacionArticulo(ArticuloPostulacion postulacion)
         {
-            try
-            {
-                if (_articuloInfrastructure.ExistsPostulacion(postulacion))
-                {
-                    _articuloInfrastructure.DeclinarPostulacion(postulacion);
-                    return true;
-                }
 
-                return false;
-            }
-            catch (Exception ex)
+            if (_articuloInfrastructure.ExistsPostulacion(postulacion))
             {
-                _logger.LogError(ex, string.Empty);
-                throw;
+                _articuloInfrastructure.DeclinarPostulacion(postulacion);
+                return true;
             }
+
+            return false;
+
         }
 
         public bool Disable(int articulo)
         {
-            try
-            {
-                var item = _articuloInfrastructure.GetById(articulo);
-                if (item.Activo)
-                {
-                    _articuloInfrastructure.ChangeStatus(articulo);
-                    return true;
-                }
 
-                return false;
-            }
-            catch (Exception ex)
+            var item = _articuloInfrastructure.GetById(articulo);
+            if (item.Activo)
             {
-                _logger.LogError(ex, string.Empty);
-                throw;
+                _articuloInfrastructure.ChangeStatus(articulo);
+                return true;
             }
+
+            return false;
+
         }
 
         public bool Enable(int articulo)
         {
-            try
-            {
-                var item = _articuloInfrastructure.GetById(articulo);
-                if (!item.Activo)
-                {
-                    _articuloInfrastructure.ChangeStatus(articulo);
-                    return true;
-                }
 
-                return false;
-            }
-            catch (Exception ex)
+            var item = _articuloInfrastructure.GetById(articulo);
+            if (!item.Activo)
             {
-                _logger.LogError(ex, string.Empty);
-                throw;
-            }   
+                _articuloInfrastructure.ChangeStatus(articulo);
+                return true;
+            }
+
+            return false;
+
         }
 
         public ICollection<Common.DataMembers.Output.Articulo> Get()
         {
-            try
-            {
-                return _articuloInfrastructure.Get();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, string.Empty);
-                throw;
-            }
+
+            return _articuloInfrastructure.Get();
+
         }
 
         public ICollection<Common.DataMembers.Output.Articulo> GetAll()
         {
-            try
-            {
-                return _articuloInfrastructure.GetAll();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, string.Empty);
-                throw;
-            }
+
+            return _articuloInfrastructure.GetAll();
+
         }
 
         public Common.DataMembers.Output.Articulo GetById(int id)
@@ -111,55 +81,43 @@ namespace Ecommerce.Core.Managers
             return _articuloInfrastructure.GetById(id);
         }
 
+        public ICollection<Common.DataMembers.Output.Articulo> GetByUserInteresado(string user)
+        {
+            var usuario = _usuarioInfrastructure.Get(user);
+            return _articuloInfrastructure.GetByUserInteresado(usuario.Id);
+        }
+
         public ICollection<Common.DataMembers.Output.Articulo> GetLote(int lote)
         {
-            try
-            {
-                return _articuloInfrastructure.GetByLote(lote);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, string.Empty);
-                throw;
-            }
+
+            return _articuloInfrastructure.GetByLote(lote);
+
         }
 
         public bool PostularArticulo(ArticuloPostulacion postulacion)
         {
-            try
-            {
-                if (!_articuloInfrastructure.ExistsPostulacion(postulacion))
-                {
-                    _articuloInfrastructure.Postular(postulacion);
-                    return true;
-                }
 
-                return false;
-            }
-            catch (Exception ex)
+            if (!_articuloInfrastructure.ExistsPostulacion(postulacion))
             {
-                _logger.LogError(ex, string.Empty);
-                throw;
+                _articuloInfrastructure.Postular(postulacion);
+                return true;
             }
+
+            return false;
+
         }
 
         public Common.DataMembers.Output.Articulo Save(Common.DataMembers.Input.Articulo articulo)
         {
-            try
-            {
-                var validation = new ArticuloValidation(_articuloInfrastructure);
-                var results = validation.Validate(articulo);
 
-                //if (!results.IsValid)
-                //    throw new InvalidDataException(results.Errors.Select(x => x.ErrorMessage).ToList());
+            var validation = new ArticuloValidation(_articuloInfrastructure);
+            var results = validation.Validate(articulo);
 
-                return _articuloInfrastructure.Save(articulo);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, string.Empty);
-                throw;
-            }
+            //if (!results.IsValid)
+            //    throw new InvalidDataException(results.Errors.Select(x => x.ErrorMessage).ToList());
+
+            return _articuloInfrastructure.Save(articulo);
+
         }
     }
 }

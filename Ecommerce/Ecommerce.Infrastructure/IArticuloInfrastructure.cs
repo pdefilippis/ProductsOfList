@@ -21,5 +21,6 @@ namespace Ecommerce.Infrastructure
         void AdjudicarArticulo(int idArticulo, int idUsuario);
         void ChangeStatus(int id);
         ICollection<Member.Output.Articulo> GetPostulados(int idUsuario);
+        ICollection<Member.Output.Articulo> GetByUserInteresado(int idUsuario);
     }
 }

@@ -233,5 +233,22 @@ namespace Ecommerce.Infrastructure.Repository
             //    var items = context.Solicitud.Where(x => x.)
             //}
         }
+
+        public ICollection<Output.Articulo> GetByUserInteresado(int idUsuario)
+        {
+            using (var context = _context.Get())
+            {
+                var items = context.Articulo
+                    .Include("IdLoteNavigation")
+                    .Include("IdTipoNavigation")
+                    .Include("UsuarioAdjudicadoNavigation")
+                    .Include("Solicitud")
+                    .Include("Solicitud.IdUsuarioNavigation")
+                    .Where(x => x.Activo && x.Solicitud.Select(q => q.IdUsuario).Contains(idUsuario))
+                    .ToList();
+
+                return _transformMapper.Transform<List<Domain.Models.Articulo>, ICollection<Output.Articulo>>(items);
+            }
+        }
     }
 }
