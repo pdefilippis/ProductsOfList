@@ -122,5 +122,10 @@ namespace Ecommerce.Controllers
             return RedirectToAction("Index", "Login");
         }
 
+        public IActionResult TokenValidation()
+        {
+            return View();
+        }
+
     }
 }
