@@ -1,115 +1,171 @@
+using Ecommerce.Common.DataMembers.Input;
+using Ecommerce.Domain;
 using Ecommerce.ViewModels.Article;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Articulo = Ecommerce.Common.DataMembers.Input.Articulo;
 
 namespace Ecommerce.Controllers
 {
+    [Authorize]
     public class ArticleController : Controller
     {
-
         private readonly Core.IArticuloManager _articuloManager;
         private readonly Core.IArticuloTipoManager _articuloTipoManager;
         private readonly Core.ILoteManager _loteManager;
+        private readonly IConnectionContext _context;
+        private readonly ILogger<ArticleController> _logger;
+        private readonly Core.IUsuarioManager _usuarioManager;
 
-        public ArticleController(Core.ILoteManager loteManager, Core.IArticuloManager articuloManager, Core.IArticuloTipoManager articuloTipoManager)
+        public ArticleController(Core.ILoteManager loteManager, ILogger<ArticleController> logger, Core.IUsuarioManager usuarioManager,Core.IArticuloManager articuloManager, Core.IArticuloTipoManager articuloTipoManager, IConnectionContext context)
         {
             _articuloManager = articuloManager;
             _articuloTipoManager = articuloTipoManager;
             _loteManager = loteManager;
+            _context = context;
+            _usuarioManager = usuarioManager;
+            _logger = logger;
         }
 
         public IActionResult Index(int LotId)
         {
-            var lote = _loteManager.Get();
-            var item = lote.FirstOrDefault(l => l.Id == LotId);
-
-
-            if (lote != null)
+            try
             {
-                return View(new IndexPublicViewModel()
+                var lote = _loteManager.GetById(LotId);
+
+                if (lote != null)
                 {
-                    Description = item.Descripcion,
-                    LotId = item.Id
-                });
+                    return View(new IndexPublicViewModel()
+                    {
+                        Description = lote.Descripcion,
+                        LotId = lote.Id,
+                        LotState = lote.Estado.Codigo
+                    });
+                }
+                else
+                    return RedirectToAction("Status", "Error", new { code = 404 });
             }
-
-            return View();
-        }
-
-        public IActionResult IndexPublic()
-        {
-            return View();
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
         }
 
         public JsonResult GetArticles(int LotId)
         {
             var article = _articuloManager.GetAll();
 
-            var items = article.Where(a => a.Id == LotId).Select(l => new
+            var items = article.Where(a => a.Lote.Id == LotId).Select(l => new
             {
                 article_Description = l.Descripcion,
+                brand = l.Marca,
                 serialNumber = l.NumeroSerie,
                 type = l.Tipo.Descripcion,
-                state = l.Activo == true ? "Activado" : "Desactivado",
+                state = l.Activo == true ? "Activo" : "Inactivo",
                 article_id = l.Id,
                 price = "$\n" + l.Precio.ToString(),
-                adjudicated = l.UsuarioAdjudicado == null ? "Sin usuario" : l.UsuarioAdjudicado.UserName
+                adjudicated = l.UsuarioAdjudicado == null ? "Sin usuario" : l.UsuarioAdjudicado.UserName,
+                userCount = l.UsuariosInteresados.Count
             }).ToList();
 
             return Json(items);
+        }
+        
+        public IActionResult EnableDisable(int ArticleId, int LotId)
+        {
+            try
+            {
+                using (var context = _context.Get())
+                {
+                    var article = context.Articulo.FirstOrDefault(u => u.Id == ArticleId);
+                    if (article == null)
+                        return RedirectToAction("Index");
+                    else
+                    {
+                        switch (article.Activo)
+                        {
+                            case true:
+                                article.Activo = false;
+                                TempData["ErrorMessage"] = "El artículo se ha desactivado";
+                                break;
+
+                            case false:
+                                article.Activo = true;
+                                TempData["SuccesMessage"] = "El artículo se ha activado";
+                                break;
+                        }
+                    }
+                    context.SaveChanges();
+                }
+
+                return RedirectToAction("Index", new { LotId = LotId });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
         }
 
         [HttpGet]
         public IActionResult CreateArticle(int LotId, int ArticleId)
         {
-            var article = _loteManager.Get();
+
+            var article = _loteManager.GetAll();
             var article2 = _articuloTipoManager.Get();
             var article3 = _articuloManager.Get();
 
-
-            if (article.Any(x => x.Id == LotId))
+            try
             {
-                var model = new CreateArticleViewModel();
 
-                model.LotId = LotId;
-                var typeList = new List<SelectListItem>();
-
-                foreach (var item in article2)
+                if (article.Any(x => x.Id == LotId))
                 {
-                    typeList.Add(new SelectListItem { Text = item.Descripcion, Value = item.Id.ToString() });
-                }
-                model.Types = typeList;
+                    var model = new CreateArticleViewModel();
 
-                if (ArticleId != 0)
-                {
-                    var item = article3.FirstOrDefault(x => x.Id == ArticleId);
+                    model.LotId = LotId;
+                    var typeList = new List<SelectListItem>();
 
-                    if (article3 != null)
+                    foreach (var item in article2)
                     {
-                        model.Price = item.Precio;
-                        model.SerialNumber = item.NumeroSerie;
-                        model.Description = item.Descripcion;
-                        model.TypeId = item.Tipo.Id;
+                        typeList.Add(new SelectListItem { Text = item.Descripcion, Value = item.Id.ToString() });
                     }
-                    else
+                    model.Types = typeList;
+
+                    if (ArticleId != 0)
                     {
-                        return RedirectToAction("Index", new { LotId = LotId });
+                        var item = article3.FirstOrDefault(x => x.Id == ArticleId);
+
+                        if (article3 != null)
+                        {
+                            model.Price = item.Precio;
+                            model.SerialNumber = item.NumeroSerie;
+                            model.Description = item.Descripcion;
+                            model.TypeId = item.Tipo.Id;
+                            model.Brand = item.Marca;
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", new { LotId = LotId });
+                        }
                     }
+                    return View(model);
                 }
-                return View(model);
+                else
+                    return RedirectToAction("Index", new { LotId = LotId });
             }
-            else
-                return RedirectToAction("Index", new { LotId = LotId });
-            //return View(new CreateArticleViewModel()
-            //{
-            //    Types = _articuloTipoManager.Get().Select(x => new SelectListItem { Text = x.Descripcion, Value = x.Id.ToString() }).ToList()
-            //});
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
         }
-
-
 
 
         [HttpPost]
@@ -118,151 +174,72 @@ namespace Ecommerce.Controllers
         {
             var article2 = _articuloTipoManager.Get();
 
-            if (ModelState.IsValid)
+            try
             {
-                var article = new Articulo
+                if (ModelState.IsValid)
                 {
-                    IdTipo = vm.TypeId,
-                    NroSerie = vm.SerialNumber,
-                    IdLote = vm.LotId,
-                    Descripcion = vm.Description,
-                    Precio = vm.Price
-                };
+                    var article = new Articulo
+                    {
+                        IdTipo = vm.TypeId,
+                        NroSerie = vm.SerialNumber,
+                        IdLote = vm.LotId,
+                        Descripcion = vm.Description,
+                        Precio = vm.Price,
+                        Marca = vm.Brand
+                    };
 
-                _articuloManager.Save(article);
+                    TempData["SuccesMessage"] = "Se ha creado un artículo";
 
-                return RedirectToAction("Index", new { lotId = article.IdLote });
-            }
-            else
-            {
-                var typeList = new List<SelectListItem>();
+                    _articuloManager.Save(article);
 
-                foreach (var item in article2)
-                {
-                    typeList.Add(new SelectListItem { Text = item.Descripcion, Value = item.Id.ToString() });
-                }
-                vm.Types = typeList;
-
-                return View(vm);
-            }
-
-            //if (ModelState.IsValid)
-            //{
-            //    var article = new Articulo
-            //    {
-            //        IdTipo = vm.TypeId,
-            //        NroSerie = vm.SerialNumber,
-            //        IdLote = vm.LotId,
-            //        Descripcion = vm.Description,
-            //        Precio = vm.Price
-            //    };
-
-            //    _articuloManager.Save(article);
-
-            //    return RedirectToAction("Index", new { lotId = article.IdLote });                      
-            //}
-            //return View(vm);
-        }
-
-
-
-        /*[HttpGet]
-        public IActionResult CreateArticle(int lotId, int articleId)
-        {
-            
-            if (context.Lote.Any(x => x.Id == lotId == x.Activo == true))
-            {
-            var model = new CreateArticleViewModel();
-
-            model.LotId = lotId;
-
-            var typeList = new List<SelectListItem>();
-
-            foreach (var item in context.ArticuloTipo)
-            {
-                typeList.Add(new SelectListItem { Text = item.Descripcion, Value = item.Id.ToString() });
-            }
-            model.Types = typeList;
-
-            if (articleId != 0)
-            {
-                var article = context.Articulo.FirstOrDefault(a => a.Id == articleId);
-                
-                if(article != null)
-                {
-                    model.Price = Convert.ToInt32(Decimal.ToInt32(article.Precio));
-                    model.SerialNumber = article.NumeroSerie;
-                    model.Description = article.Descripcion;
-                    model.TypeId = article.IdTipo;
+                    return RedirectToAction("Index", new { lotId = article.IdLote });
                 }
                 else
                 {
-                    return RedirectToAction("Index", new { lotId = lotId });
+                    var typeList = new List<SelectListItem>();
+
+                    foreach (var item in article2)
+                    {
+                        typeList.Add(new SelectListItem { Text = item.Descripcion, Value = item.Id.ToString() });
+                    }
+                    vm.Types = typeList;
+
+                    return View(vm);
                 }
             }
-            return View(model);
-        }
-            else
-                return RedirectToAction("Index", new { lotId = lotId });
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult CreateArticle(CreateArticleViewModel vm)
-        {
-            if (ModelState.IsValid)
+            catch(Exception ex)
             {
-                var article = new Articulo
-                {
-                    IdTipo = vm.TypeId,
-                    NroSerie = vm.SerialNumber,
-                    //Marca = vm.Brand, TODO => Hay que agregar el campo a la base
-                    IdLote = vm.LotId,
-                    Descripcion = vm.Description,
-                    Precio = vm.Price
-                };
-
-                _articuloManager.Save(article);
-
-                return RedirectToAction("Index", new { lotId = article.IdLote });
-            }
-            else
-            {
-                var typeList = new List<SelectListItem>();
-                foreach (var item in context.ArticuloTipo)
-                {
-                    typeList.Add(new SelectListItem { Text = item.Descripcion, Value = item.Id.ToString() });
-                }
-                vm.Types = typeList;
-
-                return View(vm);
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
             }
         }
 
         [HttpGet]
-        public IActionResult EditArticle(int articleId, int lotId)
+        public IActionResult EditArticle(int ArticleId, int LotId)
         {
-            if (context.Lote.Any(x => x.Id == lotId))
+            try
             {
-                var article = _articuloManager.GetById(articleId);
+                var article = _articuloManager.GetById(ArticleId);
+                var article2 = _articuloTipoManager.Get();
 
-                if(article == null)
-                    return RedirectToAction("Index", new { lotId = lotId });
+                if (article == null)
+                    return RedirectToAction("Index", new { LotId = LotId });
                 else
                 {
                     var model = new EditArticleViewModel
                     {
                         TypeId = article.Id,
-                        //Brand = article.Marca,
+                        Brand = article.Marca,
                         Description = article.Descripcion,
                         SerialNumber = article.NumeroSerie,
-                        ArticleId = articleId,
-                        Price = Convert.ToInt32(Decimal.ToInt32(article.Precio))
+                        ArticleId = ArticleId,
+                        Price = article.Precio,
+                        Lot_ID = article.Lote.Id
                     };
 
                     var typeList = new List<SelectListItem>();
 
-                    foreach (var item in context.ArticuloTipo)
+                    foreach (var item in article2)
                     {
                         typeList.Add(new SelectListItem { Text = item.Descripcion, Value = item.Id.ToString() });
                     }
@@ -271,349 +248,146 @@ namespace Ecommerce.Controllers
                     return View(model);
                 }
             }
-            else
-                return RedirectToAction("Index", new { lotId = lotId });
-        }
-
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult EditArticle(EditArticleViewModel vm)
-    {
-        var article = context.Articulo.FirstOrDefault(u => u.Id == vm.ArticleId);
-
-        if (ModelState.IsValid)
-        {
-            if (article != null)
+            catch(Exception ex)
             {
-                article.IdTipo = vm.TypeId;
-                //article.Marca = vm.Brand;
-                article.Descripcion = vm.Description;
-                article.NumeroSerie = vm.SerialNumber;
-                article.Precio = (int)vm.Price;
-                context.SaveChanges();
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
             }
-            return RedirectToAction("Index", new { lotId = article.IdLoteNavigation.Id });
         }
-        else
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditArticle(EditArticleViewModel vm)
         {
-            var typeList = new List<SelectListItem>();
-
-            foreach (var item in context.ArticuloTipo)
+            try
             {
-                typeList.Add(new SelectListItem { Text = item.Descripcion, Value = item.Id.ToString() });
+                var article = _articuloManager.GetById(vm.ArticleId);
+                var article2 = _articuloTipoManager.Get();
+
+                if (ModelState.IsValid)
+                {
+                    using (var context = _context.Get())
+                    {
+                        var item = context.Articulo
+                            .Include("IdLoteNavigation")
+                            .Include("IdTipoNavigation")
+                            .Where(x => x.Id.Equals(vm.ArticleId))
+                            .FirstOrDefault();
+
+                        item.IdTipo = vm.TypeId;
+                        item.NumeroSerie = vm.SerialNumber;
+                        item.Precio = vm.Price;
+                        item.Descripcion = vm.Description;
+                        item.Marca = vm.Brand;
+
+                        TempData["SuccesMessage"] = "El artículo se ha editado correctamente";
+
+                        context.SaveChanges();
+                    }
+                    return RedirectToAction("Index", new { LotId = article.Lote.Id });
+                }
+                else
+                {
+                    var typeList = new List<SelectListItem>();
+
+                    foreach (var item in article2)
+                    {
+                        typeList.Add(new SelectListItem { Text = item.Descripcion, Value = item.Id.ToString() });
+                    }
+                    vm.Types = typeList;
+
+                    return View(vm);
+                }
             }
-            vm.Types = typeList;
-
-            return View(vm);
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
         }
-    }*/
+
+        public JsonResult GetArticlesPublic(int LotId)
+        {
+            var article = _articuloManager.GetLote(LotId);
+
+            var articuloPostulado = article
+                .Where(x => x.UsuariosInteresados.Any(q => q.UserName == HttpContext.User.Identity.Name)).FirstOrDefault();
 
 
-        
+            var articles = article.Select(l => new
+            {
+                article_Description = l.Descripcion,
+                serialNumber = l.NumeroSerie,
+                type = l.Lote.Descripcion,
+                article_id = l.Id,
+                brand = l.Marca,
+                price = "$\n" + l.Precio.ToString(),
+                userCount = l.UsuariosInteresados.Count,
+                tokenId = articuloPostulado != null ? articuloPostulado.Id : 0
+            }).ToList();
 
-        //public IActionResult Index(int lotId)
-        //{
-        //    var lot = context.Lote.FirstOrDefault(l => l.Id == lotId);
-
-        //    if (lot != null)
-        //    {
-        //        return View(new IndexPublicViewModel()
-        //        {
-        //            Descripcion = lot.Descripcion,
-        //            Id = lot.Id,
-        //            Estado = lot.Estado,
-        //        });
-        //    }
-        //    else
-        //        return RedirectToAction("Status", "Error", new { code = 404 });
-        //}
+            return Json(articles);
+        }
 
 
-        //public IActionResult IndexPublic(int lotId)
-        //{
+        public IActionResult IndexPublic(int LotId)
+        {
+            try
+            {
+                var CurrentUserName = HttpContext.User.Identity.Name;
 
-        //    var lot = context.Lote.FirstOrDefault(l => l.Id == lotId && l.Estado == Lote.EstadoLote.ENABLED);
-        //    if (lot != null)
-        //    {
-        //        var takenId = context.Lote.FirstOrDefault(l => l.Id == lotId).Articulo.FirstOrDefault(a => a.UserArticles.Any(x => x.UserId == CurrentUserId)) == null ? 0
-        //        : context.Lote.FirstOrDefault(l => l.Id == lotId).Articulo.FirstOrDefault(a => a.UserArticles.Any(x => x.UserId == CurrentUserId)).Id;
+                var lot = _loteManager.GetById(LotId);
 
-        //        IndexPublicViewModel indexPublicViewModel = new IndexPublicViewModel
-        //        {
-        //            Descripcion = lot.Descripcion,
-        //            TakenId = takenId,
-        //            Id = lotId
-        //        };
+                var token = lot.Articulos.SelectMany(a => a.UsuariosInteresados).Where(u => u.UserName == CurrentUserName).FirstOrDefault();
+                
+                    IndexPublicViewModel indexPublicViewModel = new IndexPublicViewModel
+                    {
+                        Description = lot.Descripcion,
+                        TakenId = token != null ? token.Id : 0,
+                        LotId = LotId
+                    };
 
-        //        return View(indexPublicViewModel);
-        //    }
+                    return View(indexPublicViewModel);
+                
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
+            
+        }
 
-        //    return RedirectToAction("Status", "Error", new { code = 404 });
-        //}
+        public JsonResult ApplyUnApply(int ArticleId, int idLote)
+        {
+            var CurrentUserId = HttpContext.User.Identity.Name;
 
+            var user = _usuarioManager.GetByName(CurrentUserId);
 
+            var lot = _loteManager.GetById(idLote);
 
-        //public JsonResult GetArticles(int lotId)
-        //{
-        //    var article = context.Articulo.Where(a => a.IdLoteNavigation.Id == lotId).Select(l => new
-        //    {
-        //        article_Description = l.Descripcion,
-        //        state = localizer[l.Estado.GetAttribute<DisplayAttribute>().Name].Value,
-        //        serialNumber = l.NumeroSerie,
-        //        type = l.IdTipoNavigation.Descripcion,
-        //        article_id = l.Id,
-        //        brand = l.Marca,
-        //        price = "$\n" + l.Precio.ToString(),
-        //        adjudicated = l.UsuarioAdjudicado.Usuario1.ToString() == null ? "Sin Usuario" : l.UsuarioAdjudicado.Usuario1.ToString(),
-        //        userCount = l.UserArticles.Count
-        //    }).ToList();
+            var token = lot.Articulos.SelectMany(a => a.UsuariosInteresados).Any(u => u.UserName == CurrentUserId);
 
-        //    return Json(article);
-        //}
+            
+                if (token == false)
+                {
+                    _articuloManager.PostularArticulo(new ArticuloPostulacion
+                    {
+                        IdArticulo = ArticleId,
+                        IdUsuario = user.Id
+                    });
+                }
+                else
+                {
+                    _articuloManager.DeclinarPostulacionArticulo(new ArticuloPostulacion
+                    {
+                        IdArticulo = ArticleId,
+                        IdUsuario = user.Id
+                    });
+                }
+            
+            return Json(true);
+        }
 
-        //public JsonResult GetArticlesPublic(int lotId)
-        //{
-        //    var articleWon = context.Articulo.FirstOrDefault(x =>
-        //    x.IdUsuarioAdjudicado == CurrentUserId &&
-        //    x.IdLoteNavigation.UpdateDate.Year == DateTime.Now.Year);
-
-        //    List<Articulo> articleList = context.Articulo.Where(a => a.IdLoteNavigation.Id == lotId && a.Estado == Articulo.ArticuloEstado.ENABLED).ToList();
-
-        //    if (articleWon != null)
-        //        articleList = articleList.Where(x => x.IdTipo != articleWon.IdTipo).ToList();
-
-        //    var articles = articleList.Select(l => new
-        //    {
-        //        article_Description = l.Descripcion,
-        //        serialNumber = l.NumeroSerie,
-        //        type = l.IdTipoNavigation.Descripcion,
-        //        article_id = l.Id,
-        //        brand = l.Marca,
-        //        userCount = l.UserArticles.Count,
-        //        price = "$\n" + l.Precio.ToString()
-        //    }).ToList();
-
-        //    return Json(articles);
-        //}
-
-
-        //[HttpGet]
-        //public IActionResult CreateArticle(int lotId, int articleId)
-        //{
-        //    if (context.Lote.Any(x => x.Id == lotId))
-        //    {
-        //        var model = new CreateArticleViewModel();
-
-        //        model.LotId = lotId;
-        //        var typeList = new List<SelectListItem>();
-
-        //        foreach (var item in context.ArticuloTipos)
-        //        {
-        //            typeList.Add(new SelectListItem { Text = item.Descripcion, Value = item.Id.ToString() });
-        //        }
-        //        model.Types = typeList;
-
-        //        if (articleId != 0)
-        //        {
-        //            var article = context.Articulo.FirstOrDefault(a => a.Id == articleId);
-
-        //            if (article != null)
-        //            {
-        //                model.Price = Convert.ToInt32(Decimal.ToInt32(article.Precio));
-        //                model.SerialNumber = article.NumeroSerie;
-        //                model.Description = article.Descripcion;
-        //                model.Brand = article.Marca;
-        //                model.TypeId = article.IdTipo;
-        //            }
-        //            else
-        //            {
-        //                return RedirectToAction("Index", new { lotId = lotId });
-        //            }
-        //        }
-
-        //        return View(model);
-        //    }
-        //    else
-        //        return RedirectToAction("Index", new { lotId = lotId });
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult CreateArticle(CreateArticleViewModel createArticleViewModel)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var article = new Articulo
-        //        {
-        //            IdTipo = createArticleViewModel.TypeId,
-        //            Marca = createArticleViewModel.Brand,
-        //            NumeroSerie = createArticleViewModel.SerialNumber,
-        //            Estado = Articulo.ArticuloEstado.ENABLED,
-        //            IdLote = createArticleViewModel.LotId,
-        //            Descripcion = createArticleViewModel.Description,
-        //            UserArticles = new List<UserArticle>(),
-        //            Precio = (int)createArticleViewModel.Price,
-        //        };
-
-        //        context.Articulo.Add(article);
-        //        context.SaveChanges();
-
-        //        return RedirectToAction("Index", new { lotId = article.IdLote });
-        //    }
-        //    else
-        //    {
-
-        //        var typeList = new List<SelectListItem>();
-
-        //        foreach (var item in context.ArticuloTipo)
-        //        {
-        //            typeList.Add(new SelectListItem { Text = item.Descripcion, Value = item.Id.ToString() });
-        //        }
-        //        createArticleViewModel.Types = typeList;
-
-        //        return View(createArticleViewModel);
-        //    }
-        //}
-
-        //[HttpGet]
-        //public IActionResult EditArticle(int articleId, int lotId)
-        //{
-
-        //    if (context.Lote.Any(x => x.Id == lotId))
-        //    {
-        //        var article = context.Articulo.FirstOrDefault(u => u.Id == articleId);
-
-        //        if (article == null)
-        //            return RedirectToAction("Index", new { lotId = lotId });
-        //        else
-        //        {
-        //            var model = new EditArticleViewModel
-        //            {
-        //                TypeId = article.IdTipo,
-        //                Brand = article.Marca,
-        //                Description = article.Descripcion,
-        //                SerialNumber = article.NumeroSerie,
-        //                State = article.Estado,
-        //                Lot_ID = article.IdLoteNavigation.Id,
-        //                ArticleId = articleId,
-        //                Price = Convert.ToInt32(Decimal.ToInt32(article.Precio))
-        //            };
-        //            var typeList = new List<SelectListItem>();
-
-        //            foreach (var item in context.ArticuloTipo)
-        //            {
-        //                typeList.Add(new SelectListItem { Text = item.Descripcion, Value = item.Id.ToString() });
-        //            }
-        //            model.Types = typeList;
-
-        //            return View(model);
-        //        }
-
-        //    }
-        //    else
-        //        return RedirectToAction("Index", new { lotId = lotId });
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult EditArticle(EditArticleViewModel editarArticleViewModel)
-        //{
-        //    var article = context.Articulo.FirstOrDefault(u => u.Id == editarArticleViewModel.ArticleId);
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (article != null)
-        //        {
-        //            article.IdTipo = editarArticleViewModel.TypeId;
-        //            article.Marca = editarArticleViewModel.Brand;
-        //            article.Descripcion = editarArticleViewModel.Description;
-        //            article.NumeroSerie = editarArticleViewModel.SerialNumber;
-        //            article.Precio = (int)editarArticleViewModel.Price;
-        //            context.SaveChanges();
-        //        }
-        //        return RedirectToAction("Index", new { lotId = article.IdLoteNavigation.Id});
-        //    }
-        //    else
-        //    {
-        //        var typeList = new List<SelectListItem>();
-
-        //        foreach (var item in context.ArticuloTipo)
-        //        {
-        //            typeList.Add(new SelectListItem { Text = item.Descripcion, Value = item.Id.ToString() });
-        //        }
-        //        editarArticleViewModel.Types = typeList;
-
-        //        return View(editarArticleViewModel);
-        //    }
-        //}
-
-        //public IActionResult EnableDisable(int articleId, int lotId)
-        //{
-        //    var article = context.Articulo.FirstOrDefault(u => u.Id == articleId);
-        //    if (article == null)
-        //        return RedirectToAction("Index");
-        //    else
-        //    {
-        //        switch (article.Estado)
-        //        {
-        //            case ArticuloEstado.NOT_ENABLED:
-        //                article.Estado = ArticuloEstado.ENABLED;
-        //                break;
-
-        //            case ArticuloEstado.ENABLED:
-        //                article.Estado = ArticuloEstado.NOT_ENABLED;
-        //                break;
-        //        }
-        //    }
-        //    context.SaveChanges();
-
-        //    return RedirectToAction("Index", new { lotId = lotId });
-        //}
-
-        //public JsonResult ApplyUnApply(int articleId)
-        //{
-        //    var article = context.Articulo.FirstOrDefault(u => u.Id == articleId);
-        //    var user = context.Usuario.FirstOrDefault(u => u.Id == CurrentUserId);
-        //    var takenArticle = context.UserArticles.FirstOrDefault(x => x.ArticleId == articleId && x.UserId == CurrentUserId);
-
-        //    if (article == null || user == null)
-        //        return Json(false);
-        //    else
-        //    {
-        //        if (takenArticle == null)
-        //        {
-        //            article.UserArticles.Add(new UserArticle { UserId = user.Id, ArticleId = articleId });
-        //        }
-        //        else
-        //        {
-        //            article.UserArticles.Remove(takenArticle);
-        //        }
-        //    }
-        //    context.SaveChanges();
-
-        //    return Json(true);
-        //}
-
-
-        //public IActionResult Index()
-        //{
-        //return View();
-        //}
-
-        //public IActionResult CreateArticle()
-        //{
-        //return View();
-        //}
-
-        //public IActionResult EditArticle()
-        //{
-        //return View();
-        //}
-
-        //public IActionResult IndexPublic()
-        //{
-        //return View();
-        //} 
     }
 }
