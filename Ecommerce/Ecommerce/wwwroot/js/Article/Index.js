@@ -1,13 +1,30 @@
-﻿(function (self, $, undefined) {
+(function (self, $, undefined) {
     var article_actions_btn_group = $("#article-actions-btn-group");
 
     Index.Start = function () {
 
         var lotId = $("#LotId").val();
 
+        var lotState = $("#LotState").val();
+
         var table = $('#articles-table').DataTable({
 
             language: datatablesLangES,
+            dom:
+                "<'row'<'col-sm-5'B><'col-sm-4'l><'col-sm-3'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            buttons: [
+                { extend: 'excelHtml5', className: "fa fa-file-excel btn-rounded btn-success", text: $("#excel-text").html(), titleAttr: $("#excel-title").html(), filename: $("#filename").html(), exportOptions: { columns: 'th:not(:last-child)' } },
+                {
+                    extend: 'pdfHtml5',
+                    customize: function (doc) {
+                        doc.content[1].margin = [0, 0, 0, 0]; //left, top, right, bottom
+                        doc.styles.tableHeader.fontSize = 12;
+                    }, className: "fa fa-file-pdf btn-danger", text: $("#pdf-text").html(), titleAttr: $("#pdf-title").html(), filename: $("#filename").html(), exportOptions: { columns: 'th:not(:last-child)' }
+                },
+                { extend: 'print', className: "fa fa-print btn-rounded btn-primary", text: $("#print-text").html(), titleAttr: $("#print-text").html(), filename: $("#filename").html(), exportOptions: { columns: 'th:not(:last-child)' } }
+            ],
             ajax: {
                 url: "/Article/GetArticles",
                 data: { lotId: lotId },
@@ -31,23 +48,23 @@
                     responsivePriority: 4
                 },
                 {
-                    title: $("#state-column-title").html(),
-                    data: "state",
-                    render: function (data, type, full, meta) {
-                        var priority = data;
-                        switch (priority) {
-                            case "ACTIVO":
-                                priority = $("#activate-field").html();
-                                break;
-                            case "INACTIVO":
-                                priority = $("#inactivate-field").html();
-                                break;
-                            default:
-                                priority = "";
-                        }
-                        return priority;
-                    },
-                    responsivePriority: 6
+                title: $("#state-column-title").html(),
+                data: "state",
+                render: function (data, type, full, meta) {
+                    var priority = data;
+                    switch (priority) {
+                        case "Activo":
+                            priority = $("#active-field").html();
+                            break;
+                        case "Inactivo":
+                            priority = $("#inactive-field").html();
+                            break;
+                        default:
+                            priority = "";
+                    }
+                    return priority;
+                },
+                responsivePriority: 3
                 },
                 {
                     title: $("#type-column-title").html(),
@@ -95,6 +112,7 @@
                                 data +
                                 '</span>';
                         }
+
                         return html;
                     },
                     responsivePriority: 7
@@ -107,10 +125,10 @@
                     render: function (data, type, full, meta) {
                         var btn_group = article_actions_btn_group.clone();
 
-                        if (full.state === "ACTIVO")
+                        if (full.state === "Activo")
                             btn_group.find("#toggleAble").remove();
 
-                        if (full.state === "INACTIVO")
+                        if (full.state === "Inactivo")
                             btn_group.find("#toggleDisable").remove();
 
                         return btn_group.html().replace(/_articleID_/g, full.article_id).replace(/_lotID_/g, lotId);
@@ -119,9 +137,10 @@
             ]
         });
 
-        //Oculta las acciones (buttons) del articulo si el lote esta cerrado
-        if ($("#State").val() == "CLOSED")
+        if (lotState === "CERRADO") {
             table.column(9).visible(false);
+            document.getElementById("articleCreate").style.display = "none";
+        }
 
     };
 }(window.Index = window.Index || {}, jQuery));

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Ecommerce.Common.DataMembers.Output;
 using Ecommerce.Infrastructure;
+using Microsoft.Extensions.Logging;
 
 namespace Ecommerce.Core.Managers
 {
@@ -16,7 +17,9 @@ namespace Ecommerce.Core.Managers
 
         public ICollection<Common.DataMembers.Output.ArticuloTipo> Get()
         {
+            
             return _articuloTipoInfrastructure.Get();
+            
         }
 
         public Common.DataMembers.Output.ArticuloTipo GetByCodigo(string codigo)

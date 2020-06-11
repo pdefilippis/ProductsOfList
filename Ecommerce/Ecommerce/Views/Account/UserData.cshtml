@@ -1,4 +1,4 @@
-﻿@*@model Ecommerce.ViewModels.Account.UserDataViewModel
+@model Ecommerce.ViewModels.Account.UserDataViewModel
 
         @{
             ViewData["Title"] = "Datos del usuario";
@@ -7,6 +7,12 @@
         @section Breadcrumb {
         <li class="active"><strong>@ViewData["Title"]</strong></li>
         }
+
+        <div class="row">
+            <div class="col-md-6 pull-left" style="padding-bottom: 37px;">
+                <h2 style="font-size: 264%;text-decoration: underline ;color:#002147; font-family:sans-serif">Datos del usuario</h2>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-md-4">
@@ -31,4 +37,4 @@
                     <input asp-for="CreationTimestamp" class="form-control" readonly />
                 </div>
             </div>
-        </div>*@
+        </div>

@@ -25,8 +25,11 @@ namespace Ecommerce.ViewModels.Users
         [Required(ErrorMessage = "Required")]
         public string Name { get; set; }
 
-        [Display(Name = "Surname")]
+        [Display(Name = "Apellido")]
         [Required(ErrorMessage = "Required")]
         public string Surname { get; set; }
+        
+        [Display(Name = "Es administrador")]
+        public bool IsAdmin { get; set; }
     }
 }

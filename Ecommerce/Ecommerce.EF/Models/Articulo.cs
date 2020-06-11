@@ -7,6 +7,12 @@ namespace Ecommerce.Domain.Models
 {
     public partial class Articulo
     {
+        public Articulo()
+        {
+            Notificaciones = new HashSet<Notificaciones>();
+            Solicitud = new HashSet<Solicitud>();
+        }
+
         public int Id { get; set; }
         public int IdTipo { get; set; }
         [Required]
@@ -17,9 +23,10 @@ namespace Ecommerce.Domain.Models
         public int IdLote { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Precio { get; set; }
-        [StringLength(50)]
-        public string UsuarioAdjudicado { get; set; }
+        public int? UsuarioAdjudicado { get; set; }
         public bool Activo { get; set; }
+        [StringLength(100)]
+        public string Marca { get; set; }
 
         [ForeignKey("IdLote")]
         [InverseProperty("Articulo")]
@@ -27,5 +34,12 @@ namespace Ecommerce.Domain.Models
         [ForeignKey("IdTipo")]
         [InverseProperty("Articulo")]
         public virtual ArticuloTipo IdTipoNavigation { get; set; }
+        [ForeignKey("UsuarioAdjudicado")]
+        [InverseProperty("Articulo")]
+        public virtual Usuario UsuarioAdjudicadoNavigation { get; set; }
+        [InverseProperty("IdArticuloNavigation")]
+        public virtual ICollection<Notificaciones> Notificaciones { get; set; }
+        [InverseProperty("IdArticuloNavigation")]
+        public virtual ICollection<Solicitud> Solicitud { get; set; }
     }
 }

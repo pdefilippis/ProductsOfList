@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.ViewModels.Users
 {
     public class CreateUserViewModel
     {
+        public int? Id { get; set; }
+
         [Display(Name = "Usuario")]
         [Required(ErrorMessage = "Required")]
         public string User { get; set; }
@@ -24,5 +22,13 @@ namespace Ecommerce.ViewModels.Users
         [Display(Name = "Apellido")]
         [Required(ErrorMessage = "Required")]
         public string Surname { get; set; }
+
+        [Display(Name = "Es administrador")]
+        public bool IsAdmin { get; set; }
+        
+        [Display(Name = "Contraseña")]
+        [Required(ErrorMessage = "Required")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
     }
 }

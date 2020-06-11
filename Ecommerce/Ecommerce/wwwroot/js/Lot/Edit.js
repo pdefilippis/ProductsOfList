@@ -1,4 +1,4 @@
-﻿(function (self, $, undefined) {
+(function (self, $, undefined) {
 
     Edit.Start = function () {
 
@@ -17,6 +17,18 @@
                     $("#FlagImage").val(false);
                     $('#report-name').val(file.name);
                     $("#image-error").hide();
+
+                    var file = this.files[0];
+
+                    if (file !== null) {
+                        var FR = new FileReader();
+
+                        FR.addEventListener("load", function (e) {
+                            document.getElementById("previewPhoto").src = e.target.result;
+                        });
+
+                        FR.readAsDataURL(this.files[0]);
+                    }
                 }
             }
         });
@@ -29,9 +41,12 @@
             $('#Imagen').val("");
             $('#report-name').val("");
             $("#FlagImage").val(false);
+
+            $("#previewPhoto").attr('src', "/images/sinfoto.png");
         });
         // #endregion
     };
+
 
 }(window.Edit = window.Edit || {}, jQuery));
 

@@ -6,6 +6,8 @@ using AutoMapper;
 using Ecommerce.Domain;
 using Ecommerce.Domain.Models;
 using Ecommerce.Infrastructure.Mappers;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -19,6 +21,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Core = Ecommerce.Core;
 using Infra = Ecommerce.Infrastructure;
+using DataMembers = Ecommerce.Common.DataMembers;
+using Ecommerce.Core.Validations;
+using Ecommerce.Services;
 
 namespace Ecommerce
 {
@@ -31,12 +36,10 @@ namespace Ecommerce
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
@@ -44,39 +47,45 @@ namespace Ecommerce
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            #region ID
             services.AddScoped<Core.IArticuloManager, Core.Managers.Articulo>();
             services.AddScoped<Core.IArticuloTipoManager, Core.Managers.ArticuloTipo>();
             services.AddScoped<Core.ILoteManager, Core.Managers.Lote>();
             services.AddScoped<Core.IUsuarioManager, Core.Managers.Usuario>();
+            services.AddScoped<Core.INotificacionesManager, Core.Managers.Notificaciones>();
 
             services.AddScoped<Infra.IArticuloInfrastructure, Infra.Repository.Articulo>();
             services.AddScoped<Infra.IArticuloTipoInfrastructure, Infra.Repository.ArticuloTipo>();
             services.AddScoped<Infra.ILoteInfrastructure, Infra.Repository.Lote>();
             services.AddScoped<Infra.IUsuarioInfrastructure, Infra.Repository.Usuario>();
+            services.AddScoped<Infra.INotificacionesInfrastructure, Infra.Repository.Notificaciones>();
 
             services.AddSingleton<Infra.Mappers.ITransformMapper, Infra.Mappers.TransformMapper>();
+
+            services.AddTransient<StatisticsService>();
+            #endregion
 
             //app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
 
             services.AddScoped<IConnectionContext>(x => new ConnectionContext(Configuration.GetConnectionString("DeRemate")));
 
-            
-            services.AddDbContext<ProductsManagerContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("DeRemate"))
-                );
+
+            services.AddDbContext<ProductsManagerContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DeRemate")));
 
             services.AddMvc(config =>
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
-            }).AddXmlSerializerFormatters();
+            })
+            .AddXmlSerializerFormatters()
+            .AddFluentValidation();
 
-            //services.ConfigureApplicationCookie(options =>
-            //{
-            //    options.Cookie.HttpOnly = true;
-            //    options.Cookie.Expiration = TimeSpan.FromDays(5);
-            //    options.LoginPath = "/Login/Index";
-            //});
+            #region Validaciones
+            services.AddTransient<IValidator<DataMembers.Input.Usuario>, UsuarioValidation>();
+            services.AddTransient<IValidator<DataMembers.Input.Lote>, LoteValidation>();
+            services.AddTransient<IValidator<DataMembers.Input.Articulo>, ArticuloValidation>();
+            #endregion
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -95,13 +104,13 @@ namespace Ecommerce
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseExceptionHandler("/Error/Status");
                 app.UseHsts();
             }
 
             #region Configuracion Automapper
-            var config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg =>
+            {
                 Ecommerce.Infrastructure.Mappers.TransformMapper.Initialize(cfg);
             });
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using NLog.Web;
 
 namespace Ecommerce
 {
@@ -14,11 +15,19 @@ namespace Ecommerce
     {
         public static void Main(string[] args)
         {
+            var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            logger.Debug("init main");
             CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .ConfigureLogging(logging =>
+                    {
+                        logging.ClearProviders();
+                        logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                    })
+                .UseNLog();
     }
 }

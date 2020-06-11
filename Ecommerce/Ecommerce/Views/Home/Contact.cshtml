@@ -1,15 +1,86 @@
-﻿
 @{
-    Layout = null;
+    ViewData["Title"] = "Contacto";
+}
+
+@section Breadcrumb {
+    <li class="active"><strong>@ViewData["Title"]</strong></li>
 }
 
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Contact</title>
+    <title>Contacto</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="stylesheet" type="text/css" href="~/Contact/ContactFrom_v1/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/Contact/ContactFrom_v1/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Contact/ContactFrom_v1/vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Contact/ContactFrom_v1/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Contact/ContactFrom_v1/css/main.css">
+
+
 </head>
 <body>
+    <div style="margin-right:20px">
+        <div class="contact1">
+            <div class="container-contact1">
+                <div class="contact1-pic js-tilt" data-tilt>
+                    <img src="~/Contact/ContactFrom_v1/images/img-01.png" alt="IMG">
+                </div>
+
+                <form class="contact1-form validate-form">
+                    <span class="contact1-form-title">
+                        Contáctenos:
+                    </span>
+
+                    <div class="wrap-input1">
+                        <input class="input1" type="text" placeholder="Nombre">
+                        <span class="shadow-input1"></span>
+                    </div>
+
+                    <div class="wrap-input1">
+                        <input class="input1" type="text" placeholder="Email">
+                        <span class="shadow-input1"></span>
+                    </div>
+
+                    <div class="wrap-input1">
+                        <input class="input1" type="text" placeholder="Asunto">
+                        <span class="shadow-input1"></span>
+                    </div>
+
+                    <div class="wrap-input1">
+                        <textarea class="input1" placeholder="Mensaje"></textarea>
+                        <span class="shadow-input1"></span>
+                    </div>
+
+                    <div class="container-contact1-form-btn">
+                        <button class="contact1-form-btn">
+                            <span>
+                                Enviar
+                                <i class="fas fa-long-arrow-alt-right" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+        <script src="~/Contact/ContactFrom_v1/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <script src="~/Contact/ContactFrom_v1/vendor/bootstrap/js/popper.js"></script>
+        <script src="~/Contact/ContactFrom_v1/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script src="~/Contact/ContactFrom_v1/vendor/select2/select2.min.js"></script>
+        <script src="~/Contact/ContactFrom_v1/vendor/tilt/tilt.jquery.min.js"></script>
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+
+
+        <script src="~/Contact/ContactFrom_v1/js/main.js"></script>
+
+    </div>
 </body>
 </html>

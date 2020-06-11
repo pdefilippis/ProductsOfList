@@ -1,0 +1,18 @@
+CREATE TABLE Estado(
+	Id INT IDENTITY(1,1) NOT NULL,
+	Codigo VARCHAR(20) NOT NULL,
+	Descripcion VARCHAR(100) NULL,
+	Activo BIT DEFAULT(1) NOT NULL
+)
+
+ALTER TABLE Estado ADD PRIMARY KEY (ID);
+
+INSERT INTO Estado (Codigo, Descripcion) VALUES ('ABIERTO', 'Abierto'), ('CERRADO', 'Cerrado');
+
+ALTER TABLE Lote ADD IdEstado INT NULL;
+
+UPDATE Lote SET IdEstado = (SELECT Id FROM Estado WHERE Codigo = 'ABIERTO');
+
+ALTER TABLE Lote ALTER COLUMN IdEstado INT NOT NULL;
+
+ALTER TABLE Lote ADD FOREIGN KEY (IdEstado) REFERENCES Estado(Id);

@@ -21,7 +21,15 @@ namespace Ecommerce.Domain.Models
         [StringLength(50)]
         public string NombreImagen { get; set; }
         public bool Activo { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime Creacion { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime Actualizacion { get; set; }
+        public int IdEstado { get; set; }
 
+        [ForeignKey("IdEstado")]
+        [InverseProperty("Lote")]
+        public virtual Estado IdEstadoNavigation { get; set; }
         [InverseProperty("IdLoteNavigation")]
         public virtual ICollection<Articulo> Articulo { get; set; }
     }

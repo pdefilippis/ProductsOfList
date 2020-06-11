@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Output = Ecommerce.Common.DataMembers.Output;
 using Domain = Ecommerce.Domain.Models;
+using System.Linq;
 
 namespace Ecommerce.Infrastructure.Mappers
 {
@@ -16,9 +17,12 @@ namespace Ecommerce.Infrastructure.Mappers
                 .ForMember(d => d.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(d => d.NumeroSerie, opt => opt.MapFrom(src => src.NumeroSerie))
                 .ForMember(d => d.Precio, opt => opt.MapFrom(src => src.Precio))
-                .ForMember(d => d.UsuarioAdjudicado, opt => opt.MapFrom(src => src.UsuarioAdjudicado))
-                .ForMember(d => d.Lote, opt => opt.Ignore())
-                .ForMember(d => d.Tipo, opt => opt.Ignore())
+                .ForMember(d => d.UsuarioAdjudicado, opt => opt.MapFrom(src => src.UsuarioAdjudicadoNavigation))
+                .ForMember(d => d.Activo, opt => opt.MapFrom(src => src.Activo))
+                .ForMember(d => d.Lote, opt => opt.MapFrom(src => src.IdLoteNavigation))
+                .ForMember(d => d.Tipo, opt => opt.MapFrom(src => src.IdTipoNavigation))
+                .ForMember(d => d.Marca, opt => opt.MapFrom(src => src.Marca))
+                .ForMember(d => d.UsuariosInteresados, opt => opt.MapFrom(src => src.Solicitud.Where(x => x.IdArticulo.Equals(src.Id)).Select(x => x.IdUsuarioNavigation)))
                 .ReverseMap();
 
            

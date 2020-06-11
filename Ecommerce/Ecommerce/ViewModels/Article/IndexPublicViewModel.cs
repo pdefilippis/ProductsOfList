@@ -11,6 +11,6 @@ namespace Ecommerce
         public string Description { get; set; }
         public int LotId { get; set; }
         public int TakenId { get; set; }
-        //public Lote.LotState State { get; set; }
+        public string LotState { get; set; }
     }
 }

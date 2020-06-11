@@ -23,13 +23,25 @@ namespace Ecommerce.Infrastructure.Repository
 
         public Output.Usuario ChangePassword(string usuario, string password)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
                 var item = context.Usuario.Where(x => x.Usuario1.Equals(usuario)).FirstOrDefault();
                 item.Clave = password;
                 context.SaveChanges();
 
                 return _transformMapper.Transform<Domain.Models.Usuario, Output.Usuario>(item);
+            }
+        }
+
+        public void ChangeStatus(int id)
+        {
+            using (var context = _context.Get())
+            {
+                var item = context.Usuario.Where(x => x.Id.Equals(id)).FirstOrDefault();
+                if (item == null) return;
+
+                item.Activo = !item.Activo;
+                context.SaveChanges();
             }
         }
 
@@ -42,7 +54,9 @@ namespace Ecommerce.Infrastructure.Repository
                     Apellido = usuario.Apellido,
                     Clave = usuario.Password,
                     Nombre = usuario.Nombre,
-                    Usuario1 = usuario.UserName
+                    Usuario1 = usuario.UserName,
+                    Mail = usuario.Email,
+                    Administrador = usuario.EsAdministrador
                 };
 
                 context.Add(item);
@@ -61,9 +75,93 @@ namespace Ecommerce.Infrastructure.Repository
             }
         }
 
+        public ICollection<Output.Usuario> Get()
+        {
+            using (var context = _context.Get())
+            {
+                var items = context.Usuario.ToList();
+                return _transformMapper.Transform<List<Domain.Models.Usuario>, ICollection<Output.Usuario>>(items);
+            }
+        }
+
+        public ICollection<Output.Usuario> GetAll()
+        {
+            using (var context = _context.Get())
+            {
+                var items = context.Usuario.ToList();
+                return _transformMapper.Transform<List<Domain.Models.Usuario>, ICollection<Output.Usuario>>(items);
+            }
+        }
+
+        public ICollection<Output.Usuario> GetByArticulo(int idArticulo)
+        {
+            using (var context = _context.Get())
+            {
+                var items = context.Solicitud.Where(x => x.IdArticulo.Equals(idArticulo)).Select(x => x.IdUsuarioNavigation).ToList();
+                return _transformMapper.Transform<List<Domain.Models.Usuario>, ICollection<Output.Usuario>>(items);
+            }
+        }
+
+        public Output.Usuario GetById(int id)
+        {
+            using (var context = _context.Get())
+            {
+                var item = context.Usuario.Where(x => x.Id.Equals(id)).FirstOrDefault();
+                return _transformMapper.Transform<Domain.Models.Usuario, Output.Usuario>(item);
+            }
+        }
+
+        public Output.Usuario GetByMail(string eMail)
+        {
+            using (var context = _context.Get())
+            {
+                var item = context.Usuario.Where(x => x.Mail.Equals(eMail)).FirstOrDefault();
+                return _transformMapper.Transform<Domain.Models.Usuario, Output.Usuario>(item);
+            }
+        }
+
+        public ICollection<string> GetTokenValid(int idUsuario)
+        {
+            using (var context = _context.Get())
+            {
+                var stampValid = DateTime.Now.AddMinutes(-5);
+                var items = context.RecuperarClave.Where(x => x.IdUsuario.Equals(idUsuario) && x.Stamp >= stampValid).ToList();
+
+                return items.Select(x => x.Token).ToList();
+            }
+        }
+
+        public void RecoverPasswordToken(int idUsuario, string token)
+        {
+            using (var context = _context.Get())
+            {
+                var item = new Domain.Models.RecuperarClave
+                {
+                    IdUsuario = idUsuario,
+                    Token = token,
+                    Stamp = DateTime.Now
+                };
+
+                context.RecuperarClave.Add(item);
+                context.SaveChanges();
+            }
+        }
+
+        public void RegistrarLogin(int idUsuario)
+        {
+            using (var context = _context.Get())
+            {
+                var item = context.Usuario.Where(x => x.Id.Equals(idUsuario)).FirstOrDefault();
+
+                item.UltimoIngreso = DateTime.Now;
+                context.SaveChanges();
+            }
+        }
+
         public Output.Usuario Save(Input.Usuario usuario)
         {
-            if (Exists(usuario.UserName))
+            //if (Exists(usuario.UserName))
+            if (usuario.Id.HasValue)
                 return Update(usuario);
             else
                 return Create(usuario);
@@ -73,10 +171,13 @@ namespace Ecommerce.Infrastructure.Repository
         {
             using (var context = _context.Get())
             {
-                var item = context.Usuario.Where(x => x.Usuario1.Equals(usuario)).FirstOrDefault();
+                var item = context.Usuario.Where(x => x.Id.Equals(usuario.Id)).FirstOrDefault();
 
                 item.Apellido = usuario.Apellido;
                 item.Nombre = usuario.Nombre;
+                item.Mail = usuario.Email;
+                item.Administrador = usuario.EsAdministrador;
+                item.Usuario1 = usuario.UserName;
 
                 context.SaveChanges();
 

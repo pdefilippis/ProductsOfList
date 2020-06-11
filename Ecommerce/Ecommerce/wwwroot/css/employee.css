@@ -1,0 +1,62 @@
+﻿.navy-bg, .bg-primary {
+    background-color: #1ab394 !important;
+    color: #ffffff;
+}
+
+.widget {
+    border-radius: 17px;
+    padding: 36px 9px;
+    margin-bottom: -11px;
+    margin-top: 12px;
+}
+
+.yellow-bg, .bg-warning {
+    background-color: #f8ac59 !important;
+    color: #ffffff;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.col-8 {
+    flex: 0 0 66.666667%;
+    max-width: 72.666667%;
+}
+
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.col-4 {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 24px;
+}
+
+.widget.style1 h2 {
+    font-size: 25px;
+    padding-left: 88px;
+}
+
+.lazur-bg, .bg-info {
+    background-color: #23c6c8 !important;
+    color: #ffffff;
+}
+
+.text {
+    margin-left: 13px;
+}
+
+.col-8 {
+    max-width: 91.666667%;
+    margin-top: -73px;
+    position: relative;
+}
+
+h2.font-bold {
+    margin-right: 49px;
+}

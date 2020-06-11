@@ -7,6 +7,7 @@ using Domain = Ecommerce.Domain.Models;
 using System.Linq;
 using Ecommerce.Infrastructure.Mappers;
 using Ecommerce.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Infrastructure.Repository
 {
@@ -20,16 +21,43 @@ namespace Ecommerce.Infrastructure.Repository
             _context = context;
         }
 
+        public void ChangeStatus(int id)
+        {
+            using (var context = _context.Get())
+            {
+                var item = context.Lote.Where(x => x.Id.Equals(id)).FirstOrDefault();
+
+                item.Activo = !item.Activo;
+                item.Actualizacion = DateTime.Now;
+                context.SaveChanges();
+            }
+        }
+
+        public void ChangeStatus(int idLote, string newStatus)
+        {
+            using (var context = _context.Get())
+            {
+                var item = context.Lote.Where(x => x.Id.Equals(idLote)).FirstOrDefault();
+                var estado = context.Estado.Where(x => x.Activo.Value && x.Codigo.Equals(newStatus)).FirstOrDefault();
+
+                item.IdEstado = estado.Id;
+                context.SaveChanges();
+            }
+        }
+
         public Output.Lote Create(Input.Lote lote)
         {
             using (var context = _context.Get())
             {
+                var estado = context.Estado.Where(x => x.Activo.Value && x.Codigo.Equals(Ecommerce.Common.Constant.Properties.Estado.Abierto)).FirstOrDefault();
+
                 var item = new Domain.Models.Lote
                 {
                     Descripcion = lote.Descripcion,
                     Activo = true,
                     NombreImagen = lote.NombreImagen,
-                    Imagen = lote.Imagen
+                    Imagen = lote.Imagen,
+                    IdEstado = estado.Id
                 };
 
                 context.Add(item);
@@ -45,6 +73,7 @@ namespace Ecommerce.Infrastructure.Repository
             {
                 var item = context.Lote.Where(x => x.Id.Equals(id)).FirstOrDefault();
                 item.Activo = false;
+                item.Actualizacion = DateTime.Now;
                 context.SaveChanges();
             }
         }
@@ -53,16 +82,63 @@ namespace Ecommerce.Infrastructure.Repository
         {
             using (var context = _context.Get())
             {
-                var items = context.Lote.Where(x => x.Activo).ToList();
+                var items = context.Lote
+                    .Include("Articulo")
+                    .Include("IdEstadoNavigation")
+                    .Include("Articulo.UsuarioAdjudicadoNavigation")
+                    .Include("Articulo.Solicitud")
+                    .Include("Articulo.Solicitud.IdUsuarioNavigation")
+                    .Include("IdEstadoNavigation")
+                    .Where(x => x.Activo).ToList();
+                return _transformMapper.Transform<List<Domain.Models.Lote>, ICollection<Output.Lote>>(items);
+            }
+        }
+
+        public ICollection<Output.Lote> GetAll()
+        {
+            using (var context = _context.Get())
+            {
+                var items = context.Lote
+                    .Include("Articulo")
+                    .Include("IdEstadoNavigation")
+                    .Include("Articulo.UsuarioAdjudicadoNavigation")
+                    .Include("Articulo.Solicitud")
+                    .Include("Articulo.Solicitud.IdUsuarioNavigation")
+                    .Include("IdEstadoNavigation")
+                    .ToList();
+                return _transformMapper.Transform<List<Domain.Models.Lote>, ICollection<Output.Lote>>(items);
+            }
+        }
+
+        public ICollection<Output.Lote> GetByDescripcion(string descripcion)
+        {
+            using (var context = _context.Get())
+            {
+                var items = context.Lote
+                    .Include("Articulo")
+                    .Include("IdEstadoNavigation")
+                    .Include("Articulo.UsuarioAdjudicadoNavigation")
+                    .Include("Articulo.Solicitud")
+                    .Include("Articulo.Solicitud.IdUsuarioNavigation")
+                    .Include("IdEstadoNavigation")
+                    .Where(x => x.Descripcion.ToLower().Equals(descripcion.ToLower())).ToList();
                 return _transformMapper.Transform<List<Domain.Models.Lote>, ICollection<Output.Lote>>(items);
             }
         }
 
         public Output.Lote GetById(int id)
         {
-            using (var context = new Domain.Models.ProductsManagerContext())
+            using (var context = _context.Get())
             {
-                var item = context.Lote.Where(x => x.Id.Equals(id)).FirstOrDefault();
+                var item = context.Lote
+                    .Include("Articulo")
+                    .Include("IdEstadoNavigation")
+                    .Include("Articulo.UsuarioAdjudicadoNavigation")
+                    .Include("Articulo.Solicitud")
+                    .Include("Articulo.Solicitud.IdUsuarioNavigation")
+                    .Include("IdEstadoNavigation")    
+                    .Where(x => x.Id.Equals(id)).FirstOrDefault();
+                var test = _transformMapper.Transform<Domain.Models.Lote, Output.Lote>(item);
                 return _transformMapper.Transform<Domain.Models.Lote, Output.Lote>(item);
             }
         }
@@ -79,11 +155,19 @@ namespace Ecommerce.Infrastructure.Repository
         {
             using (var context = _context.Get())
             {
-                var item = context.Lote.Where(x => x.Id.Equals(lote.Id)).FirstOrDefault();
+                var item = context.Lote
+                    .Include("Articulo")
+                    .Include("IdEstadoNavigation")
+                    .Include("Articulo.UsuarioAdjudicadoNavigation")
+                    .Include("Articulo.Solicitud")
+                    .Include("Articulo.Solicitud.IdUsuarioNavigation")
+                    .Include("IdEstadoNavigation")
+                    .Where(x => x.Id.Equals(lote.Id)).FirstOrDefault();
 
                 item.Descripcion = lote.Descripcion;
                 item.NombreImagen = lote.NombreImagen;
                 item.Imagen = lote.Imagen;
+                item.Actualizacion = DateTime.Now;
 
                 context.SaveChanges();
                 return _transformMapper.Transform<Domain.Models.Lote, Output.Lote>(item);

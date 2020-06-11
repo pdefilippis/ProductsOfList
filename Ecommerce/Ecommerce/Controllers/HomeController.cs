@@ -1,39 +1,55 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Ecommerce.ViewModels.Home;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Lote = Ecommerce.Common.DataMembers.Output.Lote;
+
 
 namespace Ecommerce.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
-    
-        //private readonly ProductsManagerContext context;
 
-        //public HomeController(ProductsManagerContext productsManagerContext)
-        //{
-        //    this.context = productsManagerContext;
-        //}
+        private readonly Core.ILoteManager _loteManager;
+        private readonly ILogger<HomeController> _logger;
+        private readonly Core.IUsuarioManager _usuarioManager;
 
 
-        //public IActionResult Index()
-        //{
-        //    HomeViewModel model = new HomeViewModel();
+        public HomeController(Core.ILoteManager loteManager, ILogger<HomeController> logger)
+        {
+            _loteManager = loteManager;
+            _logger = logger;
+        }
 
-        //    List<Lote> lots = context.Lote.Where(x => x.Estado == Lote.EstadoLote.ENABLED).OrderByDescending(x => x.Id).ToList();
-
-        //    model = new HomeViewModel
-        //    {
-        //        Lots = lots,
-        //    };
-
-        //    return View(model);
-        //}
-        
+        [Authorize(Roles = "CLIENT,ADMIN")]//CLIENT - ADMIN
         public IActionResult Index()
         {
-            var algo = HttpContext.User.Identity.IsAuthenticated;
-            return View();
+            try
+            {
+                HomeViewModel model = new HomeViewModel();
+
+                var lote = _loteManager.Get();
+
+                List<Lote> lots = lote.Where(l => l.Activo == true && l.Estado.Codigo == "ABIERTO").OrderByDescending(l => l.Id).ToList();
+
+                model = new HomeViewModel
+                {
+                    Lots = lots,
+                };
+
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }   
         }
+
 
         public IActionResult Contact()
         {
@@ -42,6 +58,15 @@ namespace Ecommerce.Controllers
 
         public IActionResult About()
         {
+            return View();
+        }
+
+        [Authorize(Roles = "CLIENT")]
+        public IActionResult ShowNotifications()
+        {
+            var currentUserId = _usuarioManager.GetByName(HttpContext.User.Identity.Name).Id;
+            // var notifications = _notificationManager.GetByUser(currentUserId);
+            // return View(notifications);
             return View();
         }
     }

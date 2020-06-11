@@ -13,7 +13,14 @@ namespace Ecommerce.Infrastructure
         Member.Output.Articulo GetById(int id);
         ICollection<Member.Output.Articulo> GetByLote(int lote);
         ICollection<Member.Output.Articulo> Get();
+        ICollection<Member.Output.Articulo> GetAll();
         void Delete(int id);
-
+        void Postular(Member.Input.ArticuloPostulacion postulacion);
+        void DeclinarPostulacion(Member.Input.ArticuloPostulacion postulacion);
+        bool ExistsPostulacion(Member.Input.ArticuloPostulacion postulacion);
+        void AdjudicarArticulo(int idArticulo, int idUsuario);
+        void ChangeStatus(int id);
+        ICollection<Member.Output.Articulo> GetPostulados(int idUsuario);
+        ICollection<Member.Output.Articulo> GetByUserInteresado(int idUsuario);
     }
 }

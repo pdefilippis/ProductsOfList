@@ -3,25 +3,25 @@
 @import 'https://fonts.googleapis.com/css?family=Montserrat|Open+Sans';
 
 .navbar-brand {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat';
     text-transform: uppercase
 }
 
 .navbar .nav {
-    font-family: 'Open Sans', sans-serif;
-    text-transform: uppercase;
+    font-family: Corbel;
+    text-transform: full-width;
     letter-spacing: 3px;
-    font-size: 1.2rem
+    font-size: 1.4rem
 }
 
 .navbar-inverse {
-    background-color: #003300
+    background-color: #1e3976
 }
 
     .navbar-inverse .navbar-nav > .active > a:hover,
     .navbar-inverse .navbar-nav > li > a:hover,
     .navbar-inverse .navbar-nav > li > a:focus {
-        background-color: #002200
+        background-color: #1e3976
     }
 
     .navbar-inverse .navbar-nav > .active > a,
@@ -31,16 +31,18 @@
     .navbar-inverse .navbar-nav > .open > a,
     .navbar-inverse .navbar-nav > .open > a:hover,
     .navbar-inverse .navbar-nav > .open > a:focus {
-        background-color: #003300
+        background-color: #1e3976
     }
 
 .dropdown-menu {
-    background-color: #006B00
+    background-color:transparent;
+    font-family: 'Corbel';
 }
 
     .dropdown-menu > li > a:hover,
     .dropdown-menu > li > a:focus {
-        background-color: #002200
+        background-color: aliceblue;
+        color:transparent;
     }
 
 .navbar-inverse {
@@ -53,76 +55,25 @@
 }
 
 .navbar-inverse {
-    border-color: #003300
+    border-color: #3884D1
 }
 
-    .navbar-inverse .navbar-brand {
-        color: #FFFFFF
-    }
 
-        .navbar-inverse .navbar-brand:hover {
-            color: #FFCC00
-        }
-
-    .navbar-inverse .navbar-nav > li > a {
-        color: #FFFFFF
-    }
-
-        .navbar-inverse .navbar-nav > li > a:hover,
-        .navbar-inverse .navbar-nav > li > a:focus {
-            color: #FFCC00
-        }
-
-    .navbar-inverse .navbar-nav > .active > a,
-    .navbar-inverse .navbar-nav > .open > a,
-    .navbar-inverse .navbar-nav > .open > a:hover,
-    .navbar-inverse .navbar-nav > .open > a:focus {
-        color: #FFCC00
-    }
-
-        .navbar-inverse .navbar-nav > .active > a:hover,
-        .navbar-inverse .navbar-nav > .active > a:focus {
-            color: #FFCC00
-        }
-
-.dropdown-menu > li > a {
-    color: #FFFFFF
-}
-
-    .dropdown-menu > li > a:hover,
-    .dropdown-menu > li > a:focus {
-        color: #FFCC00
-    }
-
-.navbar-inverse .navbar-nav > .dropdown > a .caret {
-    border-top-color: #FFFFFF
-}
-
-.navbar-inverse .navbar-nav > .dropdown > a:hover .caret {
-    border-top-color: #FFFFFF
-}
-
-.navbar-inverse .navbar-nav > .dropdown > a .caret {
-    border-bottom-color: #FFFFFF
-}
-
-.navbar-inverse .navbar-nav > .dropdown > a:hover .caret {
-    border-bottom-color: #FFFFFF
-}
 
 #go-to-top-btn {
     opacity: 1;
-    font-size: 17px;
-    background-color: #002147;
+    font-size: 13px;
+    background-color: #007bff;
     padding: 15px;
     position: fixed;
-    bottom: 86px;
+    bottom: 96px;
     right: 4px;
+    border-color: #5369bb;
+    border-radius: 48px;
 }
 
 body {
-    padding-top: 50px;
-    padding-bottom: -5px;
+    padding-top: 0px;
 }
 
 .required:after {
@@ -145,7 +96,7 @@ body {
 }
 
 .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
-    background-color: #002147
+    background-color: #337ab7
 }
 
 .input-sm {
@@ -153,9 +104,55 @@ body {
 }
 
 .select2-results__option--highlighted {
-    background-color: #002147 !important;
+    background-color: #337ab7 !important;
 }
 
 .table.dataTable tbody > tr.selected, table.dataTable tbody > tr > .selected {
-    background-color: #002147 !important;
+    background-color: #337ab7 !important;
 }
+
+.dropdown-menu{
+    left:-27px;
+}
+
+.navbar .dropdown-menu {
+    background: #9C8F8C
+}
+
+.owl-theme .owl-nav [class*='owl-'] {
+    margin-left: 1em !important;
+    margin-right: 1em !important;
+}
+
+.owl-theme .owl-nav {
+    margin-top: 37px;
+}
+
+.img-thumbnail {
+    width: 170px;
+    height: 170px;
+}
+
+#employee-table_wrapper {
+    padding-top: 151px;
+}
+
+.btn-create {
+    color: white;
+    background-color: #449ED3 !important;
+    border: none;
+    font-family: Arial;
+    font-size: 95%;
+    font-weight: bold;
+    margin: 1em 0px;
+}
+
+    .btn-create:hover {
+        color: white;
+        background-color: #2FCDC9 !important;
+        border: none;
+        font-family: Arial;
+        font-size: 95%;
+        font-weight: bold;
+        margin: 1em 0px;
+    }

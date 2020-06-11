@@ -16,15 +16,12 @@ namespace Ecommerce.Infrastructure.Mappers
                 .ForMember(d => d.Descripcion, opt => opt.MapFrom(src => src.Descripcion))
                 .ForMember(d => d.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(d => d.Imagen, opt => opt.MapFrom(src => src.Imagen))
-                .ForMember(d => d.NombreImagen, opt => opt.MapFrom(src => src.NombreImagen));
-
-            mapper.CreateMap<Output.Lote, Domain.Models.Lote>()
-                .ForMember(d => d.Articulo, opt => opt.MapFrom(src => src.Articulos))
-                .ForMember(d => d.Descripcion, opt => opt.MapFrom(src => src.Descripcion))
-                .ForMember(d => d.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(d => d.Imagen, opt => opt.MapFrom(src => src.Imagen))
                 .ForMember(d => d.NombreImagen, opt => opt.MapFrom(src => src.NombreImagen))
-                .ForMember(d => d.Activo, opt => opt.Ignore());
+                .ForMember(d => d.Activo, opt => opt.MapFrom(src => src.Activo))
+                .ForMember(d => d.Actualizacion, opt => opt.MapFrom(src => src.Actualizacion))
+                .ForMember(d => d.Creacion, opt => opt.MapFrom(src => src.Creacion))
+                .ForMember(d => d.Estado, opt => opt.MapFrom(src => src.IdEstadoNavigation))
+                .ReverseMap();
         }
     }
 }

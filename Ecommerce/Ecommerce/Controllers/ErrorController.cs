@@ -1,4 +1,5 @@
 ﻿using Ecommerce.ViewModels.Error;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,6 @@ namespace Ecommerce.Controllers
         public IActionResult Status(int code)
         {
             return View(new StatusViewModel { HTTPStatusCode = code });
-         }
+        }
     }
 }

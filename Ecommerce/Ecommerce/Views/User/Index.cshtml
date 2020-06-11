@@ -1,9 +1,23 @@
-﻿@{
+@{
     ViewData["Title"] = "Usuarios";
 }
 
 @section scripts{
     <script src="~/js/User/Index.js"></script>
+
+    <script>
+    $(function () {
+        var SuccesMessage = '@TempData["SuccesMessage"]'
+        if (SuccesMessage != '')
+            alertify.success(SuccesMessage);
+    });
+
+        $(function () {
+            var ErrorMessage = '@TempData["ErrorMessage"]'
+            if (ErrorMessage != '')
+                alertify.error(ErrorMessage);
+    });
+    </script>
 }
 
 @section Breadcrumb {
@@ -14,41 +28,49 @@
 
 <div class="row">
     <div class="col-md-6 pull-left">
-        <h2 style="padding-bottom:37px; font-size: 295%; color:#676A6C; font-family:'Blippo'">Listado de usuarios</h2>
+        <h2 style="padding-bottom:37px;font-size: 264%;text-decoration: underline ;color:#002147; font-family:sans-serif">Listado de usuarios</h2>
     </div>
     <div class="col-md-6 pull-right">
         <div class="form-group btn-group pull-right" style="margin-top: 55px;margin-bottom: 10px;">
-            <a asp-action="CreateUser" class="btn btn-primary" style="background-color:#002147"><i class='fa fa-plus-circle'>&nbsp;</i>Crear</a>
+            <a asp-action="CreateUser" class="btn btn-primary btn-create"><i class='fa fa-plus-circle'>&nbsp;</i>Crear</a>
         </div>
     </div>
 </div>
 
-<table id="users-table" class="table table-striped table-bordered table-hover table-responsive text-nowrap" style="width:100%"></table>
+<table id="users-table" class="table table-striped table-bordered table-hover table-responsive text-nowrap" style="width: 100%"></table>
 
 
 <div id="templates" hidden>
     <div id="user-actions-btn-group">
-        <div class="btn-group" style="display:flex">
-            <a asp-action="EditUser" asp-route-userId="_USERID_" class="btn btn-default btn-xs" style="color:#00A3A1" title="Editar usuario">
+        <div class="btn-group" style="display: flex">
+            <a asp-action="EditUser" asp-route-userId="_USERID_" class="btn btn-default btn-xs" style="color:white;background-color:#337ab7" title="Editar usuario">
                 <i class="fas fa-pencil-alt"></i>
             </a>
-            <a asp-action="EnableUserConfirmation" asp-route-userId="_USERID_" style="color:#00A3A1" class="btn btn-default btn-xs btn-enable-user" title="Activar usuario">
-                <i class="fa fa-toggle-on fa-fw"></i>
-            </a>
-            <a asp-action="DisableUserConfirmation" asp-route-userId="_USERID_" style="color:#00A3A1" class="btn btn-default btn-xs btn-disable-user" title="Desactivar usuario">
+            <a asp-action="DisableUserConfirmation" asp-route-userId="_USERID_" style="color:white;background-color:#337ab7" class="btn btn-default btn-xs btn-disable-user" title="Desactivar usuario">
                 <i class="fa fa-toggle-off fa-fw"></i>
+            </a>
+            <a asp-action="EnableUserConfirmation" asp-route-userId="_USERID_" style="color:white;background-color:#337ab7" class="btn btn-default btn-xs btn-enable-user" title="Activar usuario">
+                <i class="fa fa-toggle-on fa-fw"></i>
             </a>
         </div>
     </div>
-
+    
     <div id="id-column-title">ID</div>
     <div id="username-column-title">Usuario</div>
     <div id="name-column-title">Nombre</div>
     <div id="surname-column-title">Apellido</div>
     <div id="mail-column-title">Mail</div>
-    <div id="state-column-title">Estado</div>
     <div id="created-column-title">Creado</div>
     <div id="last-login-column-title">Ultimo ingreso</div>
-    <div id="last-enabled-column-title"></div>
+    <div id="isadmin-column-title">Es administrador</div>
+    <div id="enabled-column-title">Activado</div>
     <div id="actions-column-title">Acciones</div>
+
+    <div id="yes-template">
+        <i class="fa fa-check fa-fw"></i>
+    </div>
+    <div id="no-template">
+        <i class="fa fa-times fa-fw"></i>
+    </div>
+    
 </div>

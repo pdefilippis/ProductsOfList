@@ -1,10 +1,10 @@
-﻿using System;
+using Ecommerce.Common.DataMembers.Output;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Ecommerce.Core.Managers;
 
-namespace Ecommerce
+namespace Ecommerce.ViewModels.Home
 {
     public class HomeViewModel
     {
