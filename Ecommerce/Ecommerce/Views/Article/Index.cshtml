@@ -5,25 +5,41 @@
     ViewData["Title"] = "Artículos";
 }
 
+@section scripts{
+    <script src="~/js/Article/Index.js"></script>
+    <script src="~/libman/unpkg/datatables.net-buttons-bs/datatables.js"></script>
+    <script src="~/libman/unpkg/datatables.net-buttons-bs/datatables.min.js"></script>
+
+    <script>
+    $(function () {
+        var SuccesMessage = '@TempData["SuccesMessage"]'
+        if (SuccesMessage != '')
+            alertify.success(SuccesMessage);
+    });
+        $(function () {
+            var ErrorMessage = '@TempData["ErrorMessage"]'
+            if (ErrorMessage != '')
+                alertify.error(ErrorMessage);
+    });
+    </script>
+}
+
 @section Breadcrumb {
     <li><a asp-action="Index" asp-controller="Lot" style="color:#002147">Lotes</a></li>
     <li class="active"><strong>@ViewData["Title"]</strong></li>
 }
 
 
-@section scripts{
-    <script src="~/js/Article/Index.js"></script>
-}
-
 <input asp-for="LotId" hidden />
+<input asp-for="LotState" hidden />
 
 <div class="row">
-    <div class="col-md-6 pull-left" style="padding-bottom: 37px; font-family:'Blippo';">
-        <h2 style="font-size:295%; color:#676A6C">Listado de Artículos</h2>
+    <div class="col-md-6 pull-left" style="padding-bottom: 37px;">
+        <h2 style="font-size: 264%;text-decoration: underline ;color:#002147; font-family:sans-serif">Listado de artículos</h2>
     </div>
     <div class="col-md-6 pull-right">
         <div class="form-group btn-group pull-right" id="btnCreate" style="margin-top: 55px;margin-bottom: 10px;">
-            <a id="articleCreate" asp-action="Createarticle" class="btn btn-primary" asp-route-lotId=@Model.LotId style="background-color:#002147"><i class='fa fa-plus-circle'>&nbsp;</i>Crear</a>
+            <a id="articleCreate" asp-action="Createarticle" class="btn btn-primary btn-create" asp-route-articleId="0" asp-route-lotId=@Model.LotId><i class='fa fa-plus-circle'>&nbsp;</i>Crear</a>
         </div>
     </div>
 </div>
@@ -32,27 +48,36 @@
 
 <div id="templates" hidden>
     <div id="article-actions-btn-group">
-        <div class="btn-group" style="display:flex">
+        <div class="btn-group" style="        display: flex
+">
 
-            <a asp-action="EditArticle" asp-route-articleId="_articleID_" asp-route-lotId="_lotID_" class="btn btn-default btn-xs" title="Editar" style="color:#2A0CC0" id="editArticle">
+            <a asp-action="EditArticle" asp-route-articleId="_articleID_" asp-route-lotId="_lotID_" class="btn btn-default btn-xs" title="Editar" style="color:white;background-color:#337ab7" id="editArticle">
                 <i class="fas fa-pencil-alt"></i>
             </a>
-            <a asp-action="EnableDisable" asp-route-articleId="_articleID_" asp-route-lotId="_lotID_" class="btn btn-default btn-xs btn-enable-article" title="Habilitar/Deshabilitar" style="color:#2A0CC0">
+            <a asp-action="EnableDisable" asp-route-articleId="_articleID_" asp-route-lotId="_lotID_" class="btn btn-default btn-xs btn-enable-article" title="Habilitar/Deshabilitar" style="color:white;background-color:#337ab7">
                 <i id="toggleAble" class="fa fa-toggle-on fa-fw"></i>
                 <i id="toggleDisable" class="fa fa-toggle-off fa-fw"></i>
             </a>
-            <a asp-action="CreateArticle" asp-route-articleId="_articleID_" asp-route-lotId="_lotID_" class="btn btn-default btn-xs" title="Duplicar" style="color: #2A0CC0">
+            <a asp-action="CreateArticle" asp-route-articleId="_articleID_" asp-route-lotId="_lotID_" class="btn btn-default btn-xs" title="Duplicar" style="color:white;background-color:#337ab7">
                 <i class="far fa-clone"></i>
             </a>
         </div>
     </div>
 
 
+    <div id="excel-text"> Excel</div>
+    <div id="excel-title">Listado en Excel</div>
+    <div id="filename">Listado @ViewData["Title"]</div>
+    <div id="pdf-text"> PDF</div>
+    <div id="pdf-title">Listado en PDF</div>
+    <div id="print-text"> Imprimir</div>
+
+
     <div id="active-field">
-        <span class="badge" style="background-color:#37B22C; color:white; font-size:smaller">Activado</span>
+        <span class="badge" style="background-color:#37B22C; color:white; font-size:smaller">Activo</span>
     </div>
     <div id="inactive-field">
-        <span class="badge" style="background-color: #DB2C2C;color: white; font-size: smaller">Desactivado</span>
+        <span class="badge" style="background-color: #DB2C2C;color: white; font-size: smaller">Inactivo</span>
     </div>
 
 
@@ -60,10 +85,10 @@
     <div id="articleDescription-column-title">Descripción</div>
     <div id="state-column-title">Estado</div>
     <div id="type-column-title">Tipo</div>
-    @*<div id="brand-column-title">Marca</div>*@
+    <div id="brand-column-title">Marca</div>
     <div id="serialNumber-column-title">Nro de serie</div>
     <div id="price-column-title">Precio</div>
-    @*<div id="userCount-column-title">Usuarios interesados</div>*@
-    @*<div id="adjudicatedUser-column-title">Usuario adjudicado</div>*@
+    <div id="userCount-column-title">Usuarios interesados</div>
+    <div id="adjudicatedUser-column-title">Usuario adjudicado</div>
     <div id="actions-column-title">Acciones</div>
 </div>
