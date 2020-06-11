@@ -1,4 +1,5 @@
 using Ecommerce.Common.DataMembers.Input;
+using Ecommerce.ViewModels.Account;
 using Ecommerce.ViewModels.Login;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -116,6 +117,27 @@ namespace Ecommerce.Controllers
             return View();
         }
 
+        [HttpPost, AllowAnonymous]
+        public IActionResult ResetPassword(ResetPasswordViewModel resetPassword)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _usuarioManager.RecoverPasswordNotification(resetPassword.Email);
+                    return View("TokenValidation", new TokenValidationViewModel { Email = resetPassword.Email });
+                }
+     
+                return View(resetPassword);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
+            
+        }
+
         public IActionResult LogOut()
         {
             HttpContext.SignOutAsync();
@@ -123,9 +145,34 @@ namespace Ecommerce.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult TokenValidation()
+        public IActionResult TokenValidation(ResetPasswordViewModel resetPassword)
         {
-            return View();
+            return View(resetPassword);
+        }
+        [HttpPost, AllowAnonymous]
+        public IActionResult TokenValidation(TokenValidationViewModel resetPassword)
+        {
+            try
+            {
+                if (ModelState.IsValid && resetPassword.Password == resetPassword.ConfirmPassword)
+                {
+                    var result = _usuarioManager.CheckRecoverPassword(new RecoverPassword
+                    {
+                        Email = resetPassword.Email,
+                        Password = resetPassword.Password,
+                        Token = resetPassword.Token
+                    });
+
+                    return result ? View("Index") : View(resetPassword);
+                }
+
+                return View(resetPassword);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
         }
 
     }

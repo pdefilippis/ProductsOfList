@@ -12,6 +12,7 @@ namespace Ecommerce.Infrastructure
     public interface IUsuarioInfrastructure
     {
         Output.Usuario Get(string usuario);
+        Output.Usuario GetByMail(string eMail);
         Output.Usuario Create(Input.Usuario usuario);
         Output.Usuario Update(Input.Usuario usuario);
         Output.Usuario Save(Input.Usuario usuario);
@@ -22,5 +23,7 @@ namespace Ecommerce.Infrastructure
         ICollection<Output.Usuario> GetAll();
         Output.Usuario GetById(int id);
         void ChangeStatus(int id);
+        void RecoverPasswordToken(int idUsuario, string token);
+        ICollection<string> GetTokenValid(int idUsuario);
     }
 }

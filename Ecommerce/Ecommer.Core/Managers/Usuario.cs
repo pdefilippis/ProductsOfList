@@ -5,6 +5,7 @@ using System.Text;
 using Ecommerce.Common.DataMembers.Input;
 using Ecommerce.Common.DataMembers.Output;
 using Ecommerce.Common.FaultContracts;
+using Ecommerce.Core.Services;
 using Ecommerce.Core.Validations;
 using Ecommerce.Infrastructure;
 using Microsoft.Extensions.Logging;
@@ -29,6 +30,15 @@ namespace Ecommerce.Core.Managers
                 return null;
             
             
+        }
+
+        public bool CleanPassword(string email)
+        {
+            var user = _usuarioInfrastructure.GetByMail(email);
+            if (user == null) return false;
+
+
+            throw new NotImplementedException();
         }
 
         public bool Disable(int id)
@@ -87,6 +97,16 @@ namespace Ecommerce.Core.Managers
             
         }
 
+        public void RecoverPasswordNotification(string email)
+        {
+            var item = _usuarioInfrastructure.GetByMail(email);
+            if (item == null) return;
+
+            var token = GenerateToken(6);
+            _usuarioInfrastructure.RecoverPasswordToken(item.Id, token);
+            new Notifications().SendRecoverPassword(email, token);
+        }
+
         public Common.DataMembers.Output.Usuario Register(Common.DataMembers.Input.Usuario usuario)
         {
             
@@ -109,6 +129,27 @@ namespace Ecommerce.Core.Managers
             //    throw new InvalidDataException(results.Errors.Select(x => x.ErrorMessage).ToList());
 
             return _usuarioInfrastructure.Save(usuario);
+        }
+
+        private static Random random = new Random();
+        private string GenerateToken(int length)
+        {
+            const string chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        public bool CheckRecoverPassword(RecoverPassword recoverPassword)
+        {
+            var item = _usuarioInfrastructure.GetByMail(recoverPassword.Email);
+            if (item == null) return false;
+
+            var tokens = _usuarioInfrastructure.GetTokenValid(item.Id);
+
+            if(!tokens.Contains(recoverPassword.Token)) return false;
+
+            _usuarioInfrastructure.ChangePassword(item.UserName, recoverPassword.Password);
+            return true;
         }
     }
 }

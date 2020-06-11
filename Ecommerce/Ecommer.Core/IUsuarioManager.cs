@@ -17,5 +17,8 @@ namespace Ecommerce.Core
         Member.Output.Usuario GetByName(string name);
         bool Enable(int id);
         bool Disable(int id);
+        bool CleanPassword(string email);
+        void RecoverPasswordNotification(string email);
+        bool CheckRecoverPassword(Member.Input.RecoverPassword recoverPassword);
     }
 }

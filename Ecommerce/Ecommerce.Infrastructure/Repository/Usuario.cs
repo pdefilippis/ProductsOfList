@@ -111,6 +111,41 @@ namespace Ecommerce.Infrastructure.Repository
             }
         }
 
+        public Output.Usuario GetByMail(string eMail)
+        {
+            using (var context = _context.Get())
+            {
+                var item = context.Usuario.Where(x => x.Mail.Equals(eMail)).FirstOrDefault();
+                return _transformMapper.Transform<Domain.Models.Usuario, Output.Usuario>(item);
+            }
+        }
+
+        public ICollection<string> GetTokenValid(int idUsuario)
+        {
+            using (var context = _context.Get())
+            {
+                var stampValid = DateTime.Now.AddMinutes(-5);
+                var items = context.RecuperarClave.Where(x => x.IdUsuario.Equals(idUsuario) && x.Stamp >= stampValid).ToList();
+
+                return items.Select(x => x.Token).ToList();
+            }
+        }
+
+        public void RecoverPasswordToken(int idUsuario, string token)
+        {
+            using (var context = _context.Get())
+            {
+                var item = new Domain.Models.RecuperarClave
+                {
+                    IdUsuario = idUsuario,
+                    Token = token,
+                    Stamp = DateTime.Now
+                };
+
+                context.RecuperarClave.Add(item);
+                context.SaveChanges();
+            }
+        }
 
         public void RegistrarLogin(int idUsuario)
         {

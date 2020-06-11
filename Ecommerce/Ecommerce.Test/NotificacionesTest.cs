@@ -1,4 +1,5 @@
-﻿using Ecommerce.Test;
+﻿using Ecommerce.Core.Services;
+using Ecommerce.Test;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -47,6 +48,13 @@ namespace Ecommerce.Test
             notificacionesManager.RecordReading("2");
 
             Assert.IsTrue(true);
+        }
+
+        [Test]
+        public void Noticia_Email_Assert()
+        {
+            var notificacion = new Notifications();
+            notificacion.Send(null);
         }
     }
 }

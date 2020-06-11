@@ -1,4 +1,4 @@
-﻿@model Ecommerce.ViewModels.Account.ResetPasswordViewModel
+﻿@model Ecommerce.ViewModels.Account.TokenValidationViewModel
 
 
 @{
@@ -43,21 +43,22 @@
         <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
             <div class="wrap-login100 p-t-30 p-b-50">
 
-                <form class="login100-form validate-form p-b-33 p-t-5" asp-controller="Login" asp-action="ResetPassword" method="post">
+                <form class="login100-form validate-form p-b-33 p-t-5" asp-controller="Login" asp-action="TokenValidation" method="post" id="tokenValidationForm">
+                    <input asp-for="Email" type="hidden">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <h2 style="padding-left:81px; color:#808182">Restablecer contraseña</h2>
                     <div class="wrap-input100">
-                        <input class="input100" type="text" placeholder="Token">
+                        <input asp-for="Token" class="input100" type="text" placeholder="Token">
                         <span class="focus-input100" data-placeholder="&#xe81f;"></span>
                     </div>
                     <div class="wrap-input100">
-                        <input class="input100" type="password" placeholder="Contraseña nueva" id="oldpasswd">
+                        <input asp-for="Password" class="input100" type="password" placeholder="Contraseña nueva" >
                         <span class="focus-input100" data-placeholder="&#xe80f;"></span>
                         <span class="fa fa-eye eye-style fa-lg" style="margin-top:-8%;font-size: 12px;position: absolute;padding: 4px 1px;color: #666;margin-left: 90%;" onclick="showHidePasswordOld()" id="eyePasswOld"></span>
 
                     </div>
                     <div class="wrap-input100">
-                        <input class="input100" type="password" placeholder="Confirmar contraseña" id="newpassd">
+                        <input asp-for="ConfirmPassword" class="input100" type="password" placeholder="Confirmar contraseña" >
                         <span class="focus-input100" data-placeholder="&#xe80f;"></span>
                         <span class="fa fa-eye eye-style fa-lg" style="margin-top:-8%;font-size: 12px;position: absolute;padding: 4px 1px;color: #666;margin-left: 90%;" onclick="showHidePasswordNew()" id="eyePasswNew"></span>
 
@@ -65,7 +66,7 @@
                     <div class="form-group buttons">
                         <div class="container-login100-form-btn m-t-32">
                             <a href="/login/Index" style="color:white;min-width:101px;text-decoration:none;height:36px;min-width: 101px;font-size: 13px;" class="login100-form-btn2">Volver</a>&nbsp;&nbsp;
-                            <button type="submit" style="min-width: 101px;height:36px;min-width: 101px;font-size: 13px" class="login100-form-btn3">Enviar</button>
+                            <button type="submit" style="min-width: 101px;height:36px;min-width: 101px;font-size: 13px" class="login100-form-btn3" onclick="tokenValidationForm.submit();">Enviar</button>
                         </div>
                     </div>
                 </form>

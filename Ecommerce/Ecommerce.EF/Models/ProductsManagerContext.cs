@@ -20,6 +20,7 @@ namespace Ecommerce.Domain.Models
         public virtual DbSet<Estado> Estado { get; set; }
         public virtual DbSet<Lote> Lote { get; set; }
         public virtual DbSet<Notificaciones> Notificaciones { get; set; }
+        public virtual DbSet<RecuperarClave> RecuperarClave { get; set; }
         public virtual DbSet<Solicitud> Solicitud { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
 
@@ -27,7 +28,7 @@ namespace Ecommerce.Domain.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;database=ProductsManager;user=usrpm;password=usrpm");
             }
         }
@@ -112,6 +113,19 @@ namespace Ecommerce.Domain.Models
                     .HasForeignKey(d => d.IdUsuario)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Notificaciones_Usuario");
+            });
+
+            modelBuilder.Entity<RecuperarClave>(entity =>
+            {
+                entity.Property(e => e.Stamp).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Token).IsUnicode(false);
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.RecuperarClave)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RecuperarClave_Usuario");
             });
 
             modelBuilder.Entity<Solicitud>(entity =>

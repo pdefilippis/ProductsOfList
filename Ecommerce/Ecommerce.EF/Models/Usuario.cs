@@ -11,6 +11,7 @@ namespace Ecommerce.Domain.Models
         {
             Articulo = new HashSet<Articulo>();
             Notificaciones = new HashSet<Notificaciones>();
+            RecuperarClave = new HashSet<RecuperarClave>();
             Solicitud = new HashSet<Solicitud>();
         }
 
@@ -39,6 +40,8 @@ namespace Ecommerce.Domain.Models
         public virtual ICollection<Articulo> Articulo { get; set; }
         [InverseProperty("IdUsuarioNavigation")]
         public virtual ICollection<Notificaciones> Notificaciones { get; set; }
+        [InverseProperty("IdUsuarioNavigation")]
+        public virtual ICollection<RecuperarClave> RecuperarClave { get; set; }
         [InverseProperty("IdUsuarioNavigation")]
         public virtual ICollection<Solicitud> Solicitud { get; set; }
     }

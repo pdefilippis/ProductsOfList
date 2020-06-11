@@ -27,7 +27,7 @@ namespace Tests
         public void Articulo_GetById_Assert()
         {
             var mock = new Mock<Infra.IArticuloInfrastructure>();
-            var articuloManager = new Core.Managers.Articulo(mock.Object);
+            var articuloManager = new Core.Managers.Articulo(mock.Object, null);
             var target = ArticuloOutputFactory.Get();
 
             mock.Setup(x => x.GetById(target.Id))
@@ -53,7 +53,7 @@ namespace Tests
         public void Articulo_GetById_Fail()
         {
             var mock = new Mock<Infra.IArticuloInfrastructure>();
-            var articuloManager = new Core.Managers.Articulo(mock.Object);
+            var articuloManager = new Core.Managers.Articulo(mock.Object, null);
 
             var target = ArticuloOutputFactory.Get();
 
@@ -69,7 +69,7 @@ namespace Tests
         public void Articulo_Save_Assert()
         {
             var mock = new Mock<Infra.IArticuloInfrastructure>();
-            var articuloManager = new Core.Managers.Articulo(mock.Object);
+            var articuloManager = new Core.Managers.Articulo(mock.Object, null);
 
             var target = ArticuloOutputFactory.Get();
             var articulo = new Member.Input.Articulo
@@ -102,7 +102,7 @@ namespace Tests
         public void Articulo_Get_Assert()
         {
             var mock = new Mock<Infra.IArticuloInfrastructure>();
-            var articuloManager = new Core.Managers.Articulo(mock.Object);
+            var articuloManager = new Core.Managers.Articulo(mock.Object, null);
 
             var target = ArticuloOutputFactory.GetList();
 
@@ -129,7 +129,7 @@ namespace Tests
         public void Articulo_GetAll_Assert()
         {
             var mock = new Mock<Infra.IArticuloInfrastructure>();
-            var articuloManager = new Core.Managers.Articulo(mock.Object);
+            var articuloManager = new Core.Managers.Articulo(mock.Object, null);
 
             var target = ArticuloOutputFactory.GetList();
 
@@ -156,7 +156,7 @@ namespace Tests
         public void Articulo_GetLote_Assert()
         {
             var mock = new Mock<Infra.IArticuloInfrastructure>();
-            var articuloManager = new Core.Managers.Articulo(mock.Object);
+            var articuloManager = new Core.Managers.Articulo(mock.Object, null);
 
             var target = ArticuloOutputFactory.GetList();
 
@@ -183,7 +183,7 @@ namespace Tests
         public void Articulo_PostularArticulo_Assert()
         {
             var mock = new Mock<Infra.IArticuloInfrastructure>();
-            var articuloManager = new Core.Managers.Articulo(mock.Object);
+            var articuloManager = new Core.Managers.Articulo(mock.Object, null);
 
             var target = new Member.Input.ArticuloPostulacion
             {
@@ -205,7 +205,7 @@ namespace Tests
         public void Articulo_DeclinarPostulacionArticulo_Assert()
         {
             var mock = new Mock<Infra.IArticuloInfrastructure>();
-            var articuloManager = new Core.Managers.Articulo(mock.Object);
+            var articuloManager = new Core.Managers.Articulo(mock.Object, null);
 
             var target = new Member.Input.ArticuloPostulacion
             {
@@ -228,7 +228,7 @@ namespace Tests
         {
             var mock = new Mock<Infra.IArticuloInfrastructure>();
 
-            var articuloManager = new Core.Managers.Articulo(mock.Object);
+            var articuloManager = new Core.Managers.Articulo(mock.Object, null);
 
             var target = ArticuloOutputFactory.Get();
             target.Activo = false;
@@ -247,7 +247,7 @@ namespace Tests
         public void Articulo_Disable_Assert()
         {
             var mock = new Mock<Infra.IArticuloInfrastructure>();
-            var articuloManager = new Core.Managers.Articulo(mock.Object);
+            var articuloManager = new Core.Managers.Articulo(mock.Object, null);
 
             var target = ArticuloOutputFactory.Get();
 
