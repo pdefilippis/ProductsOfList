@@ -16,10 +16,10 @@
 }
 
 
-<h2 style="padding-bottom: 37px;text-decoration: underline ;color:#002147; font-family:sans-serif; font-size: 237%">Nuevo Artículo</h2>
+<h2 style="padding-bottom: 37px; font-family:'Blippo'; font-size:295%; color:#676A6C">Nuevo Artículo</h2>
 
 <div class="row">
-        @*<button type="button" class="btn btn-primary btn-sm" style="margin-bottom:-60px;background-color: #17a2b8;border-color:#41b2c3;">Agregar tipo</button>*@
+    <button type="button" class="btn btn-primary btn-sm" style="margin-bottom:-60px;background-color: #17a2b8;border-color:#41b2c3;">Agregar tipo</button>
     <div class="col-md-4">
         <form asp-action="CreateArticle" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -29,11 +29,6 @@
                 <label asp-for="TypeId" class="control-label"></label>
                 <select id="articles-multiselect" asp-for="TypeId" asp-items="Model.Types" class="form-control"></select>
                 <span asp-validation-for="TypeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Brand" class="control-label required"></label>
-                <input asp-for="Brand" class="form-control" maxlength="30" autofocus />
-                <span asp-validation-for="Brand" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SerialNumber" class="control-label required"></label>
@@ -54,7 +49,7 @@
             <div class="row">
                 <div class="col-md-6">
 
-                    <input type="submit" value="Crear" class="btn btn-primary pull-left" />
+                    <input type="submit" style="background-color:#002147" value="Crear" class="btn btn-primary pull-left" />
                 </div>
                 <div class="col-md-6">
                     <a asp-action="Index" asp-route-lotId="@Model.LotId" class="btn btn-default pull-right">Cancelar</a>

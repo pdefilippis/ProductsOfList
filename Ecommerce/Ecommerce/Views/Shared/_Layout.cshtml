@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -14,142 +14,84 @@
     <link rel="stylesheet" href="~/libman/unpkg/datatables.net-responsive-bs/css/responsive.bootstrap.css" />
     <link rel="stylesheet" href="~/bundles/css/datatables.responsive.min.css" />
 
-    <link rel="stylesheet" href="~/css/alertify.min.css" />
-    <link rel="stylesheet" href="~/css/themes/semantic.min.css" />
-
-    <link rel="stylesheet" href="~/css/notications.css" />
-
-
-    <link rel="stylesheet" href="~/libman/cdnjs/OwlCarousel2/assets/owl.carousel.css" />
-    <link rel="stylesheet" href="~/libman/cdnjs/OwlCarousel2/assets/owl.theme.default.css" />
-    <link rel="stylesheet" href="~/libman/cdnjs/OwlCarousel2/assets/owl.carousel.min.css" />
-    <link rel="stylesheet" href="~/libman/cdnjs/OwlCarousel2/assets/owl.theme.default.min.css" />
-
-
-    <link rel="stylesheet" href="~/libman/unpkg/datatables.net-buttons-bs/datatables.css" />
-    <link rel="stylesheet" href="~/libman/unpkg/datatables.net-buttons-bs/datatables.min.css" />
-
-    <link rel="stylesheet" href="~/libman/cdnjs/bootstrap-toggle/css/bootstrap-toggle.css" />
-    <link rel="stylesheet" href="~/libman/cdnjs/bootstrap-toggle/css/bootstrap-toggle.min.css" />
-
     <link rel="stylesheet" href="~/libman/cdnjs/twitter-bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/fontawesome.css" />
     <link rel="stylesheet" href="~/libman/cdnjs/font-awesome/css/all.css" />
     <link rel="stylesheet" href="~/libman/unpkg/sweetalert2/dist/sweetalert2.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/navbar_style.css" />
 
 </head>
-@inject Ecommerce.Services.StatisticsService StatsService
-<body style="margin:0; margin-bottom:18%;background-color:#f5f0f0;">
-    <div style="background-color:#f5f0f0;">
 
-
+<body>
+    <div style="background-color:#f5f0f0">
 
         @* --> Navbar <--*@
-        <section class="header" style="margin-right:31px">
-            <div class="overlay">
-                <div class="row">
-                    <div class="navbar navbar-default">
-                        <div class="container-fluid">
-                            <!-- Brand and toggle get grouped for better mobile display -->
-                            <div class="navbar-header">
-                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                                    <span class="sr-only">Toggle navigation</span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
-                                <div class="navlogo col-lg-2">
-                                    <a asp-controller="Home" asp-action="Index" class="navbar-brand">RE-MATE</a>
-                                </div>
+        <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
 
-                            </div>
+            <a asp-controller="Home" asp-action="Index" class="navbar-brand" style="padding-left:20px">RE-MATE</a>
+            <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                <ul class="nav navbar-nav navbar-right">
 
+                    
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" style="cursor:pointer;padding-left: 18px;padding-right: 47px;" data-toggle="dropdown">Usuarios&nbsp;<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="User" asp-action="CreateUser">Crear</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="User" asp-action="EditUser">Editar</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="User" asp-action="EnableUserConfirmation">Habilitar</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="User" asp-action="DisableUserConfirmation">Deshabilitar</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="User" asp-action="Index">Index</a></li>
+                        </ul>
+                    </li>
+                    
+                    
+                    <li>
+                        <a asp-controller="Lot" asp-action="Index" title="Lotes">Lotes (Admin)</a>
+                    </li>
 
-                            <!-- Collect the nav links, forms, and other content for toggling -->
-
-                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                <div class="col-lg-6">
-                                    <ul class="nav navbar-nav nav-links">
-                                        @if (User.IsInRole("ADMIN") || true)
-                                        {
-                                            <li><a asp-controller="User" asp-action="Index">Usuarios</a></li>
-                                        }
-
-                                        <li><a asp-controller="Lot" asp-action="Index">Lotes</a></li>
-                                        <li><a asp-controller="Home" asp-action="About">About</a></li>
-                                        <li><a asp-controller="Home" asp-action="Contact">Contacto</a></li>
-                                    </ul>
-                                </div>
-
-
-
-                                <div class="col-lg-4 right">
-                                    <ul class="nav navbar-nav navbar-left" style="padding-left:46px">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" style="cursor:pointer;padding-left: 18px;padding-right: 47px;" data-toggle="dropdown">Views&nbsp;<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Login" asp-action="Index">Login</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Login" asp-action="Register">Registrarse</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Login" asp-action="ResetPassword">Restablecer contraseña</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Article" asp-action="CreateArticle">Crear Artículos</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Article" asp-action="EditArticle">Editar Artículos</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Lot" asp-action="CreateLot">Crear Lote</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Lot" asp-action="EditLot">Editar Lote</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Article" asp-action="IndexPublic">Index publico</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Lot" asp-action="History">Historial del lote</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Article" asp-action="Index">Artículos</a></li>
+                        </ul>
+                    </li>
 
 
-                                        <li class="dropdown" style="top:15px; cursor:pointer">
-                                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" id="lst-notificaciones">
-                                                <i class="fa fa-bell fa-1x" style="color:#d7d9e6"></i>  <span class="label label-primary" id="idBell">@StatsService.GetCountNotificaciones(User.Identity.Name) </span>
-                                            </a>
-                                            <ul class="dropdown-menu notify dropdown-messages dropdown-alerts">
-                                                @foreach (var item in StatsService.GetNotificaciones(User.Identity.Name))
-                                                {
-                                                    <li>
-                                                        <a class="dropdown-item">
-                                                            <div>
-                                                                <i class="fas fa-envelope" style="color:black"></i><i class="classTxt" style="color:black; font-style: normal;"> Ha ganado el articulo <strong>@item.Articulo.Descripcion</strong> del lote <strong>@item.Articulo.Lote.Descripcion</strong></i>
-                                                                <div><span class="float-left text-muted small">Hace @Convert.ToInt32(DateTime.Now.Subtract(item.Stamp).TotalMinutes) minutos </span></div>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-                                                    <li class="dropdown-divider"></li>
-                                                }
-                                            </ul>
-                                        </li>
+                    <li>
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Home" asp-action="About">About</a>
+                    </li>
+                    <li class="active">
+                        <a asp-controller="Home" asp-action="Contact">Contact</a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" style="cursor:pointer;padding-left: 18px;padding-right: 47px;" data-toggle="dropdown">Name user&nbsp;<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Account" asp-action="UserData">Datos del usuario</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a asp-controller="Account" asp-action="ChangePassword">Cambiar contraseña</a></li>
+                            <li style="font-family: 'Open Sans', sans-serif;"><a href="#">Salir</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </header>
 
-
-                                        <li><a asp-controller="Employee" asp-action="Admin"><i class="fa fa-shopping-cart fa-2x"></i></a></li>
-                                        <li class="dropdown">
-                                            <a class="dropdown-toggle" style="cursor:pointer" data-toggle="dropdown" ;><i class="far fa-user"></i>&nbsp;@User.Identity.Name&nbsp;<b class="caret"></b></a>
-                                            <ul class="dropdown-menu" style="margin-top:11px">
-                                                <li style="font-size:20px; font-family:'Corbel'"><a asp-controller="Account" asp-action="UserData" style="color:#333"><i class="fas fa-id-card"></i>&nbsp;Datos del usuario</a></li>
-                                                <li style="font-size:20px; font-family:'Corbel'"><a asp-controller="Account" asp-action="ChangePassword" style="color:#333"><i class="fas fa-lock"></i>&nbsp;Cambiar contraseña</a></li>
-                                                <li style="font-size:20px; font-family:'Corbel'"><a id="btnLogOut" item-id="_LogOutID_" data-toggle="modal" style="color:#333" data-target="#modalApply" asp-controller="Login" asp-action="LogOut"><i class="fas fa-sign-out-alt"></i>&nbsp;Salir</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Modal -->
-        <div id="templates" hidden>
-            <div id="are-you-sure2">Confirmación</div>
-            <div id="this-operation-can-not-be-revert2">¿Estás seguro que queres salir?</div>
-            <div id="yes-text2">Si</div>
-            <div id="no-text2">No</div>
-
-            <div id="error-text2">Error</div>
-            <div id="couldnt-approve2">Ocurrió un error al momento de realizar la solicitud</div>
-
-            <div id="rejected2">Rechazado</div>
-            <div id="couldnt-rejected2">Ocurrió un error al momento de realizar la solicitud</div>
-        </div>
-
-
-        <!-- Breadcumb -->
-        <div style=" visibility: hidden; display: none; padding-top: 1.5em; visibility: visible; display: block; background-color:#dce1e3">
+        <div style=" visibility: hidden; display: none; padding-top: 1.5em; visibility: visible; display: block; background-color:#dcdfe0">
             @{
                 if (IsSectionDefined("Breadcrumb"))
                 {
-                    <ol class="breadcrumb" style="margin-top: -26px; margin-right:0px;background-color:#ECE3E3; position:relative; border-radius:0">
+                    <ol class="breadcrumb" style="margin-top: -15px; background-color:#dcdfe0">
                         @RenderSection("Breadcrumb", false)
                     </ol>
                 }
@@ -164,23 +106,19 @@
         </div>
 
 
-        <!-- Boton de subir -->
-        <button class="btn btn-default pull-right" id="go-to-top-btn" title="Subir">
-            <i class="fa fa-chevron-up fa-fw" style="color:white"></i>
-        </button>
-
-
-
         @* --> Footer <--*@
-        <footer>
-            <div class="footer" style="padding: 25px;margin-left: -11px;" />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <footer style="padding-top:10px;">
+            <div class="footer" style="padding: 25px" />
             <div class="container">
-                <p style="color: #ff8d1e" class="pull-left copyright"> Copyright © Footer 2020 RE-MATE </p>
+                <p class="pull-left copyright"> Copyright © Footer 2020. Ecommerce de Artículos </p>
 
             </div>
         </footer>
 
-
+        <button class="btn btn-default pull-right" id="go-to-top-btn" title="Subir">
+            <i class="fa fa-chevron-up fa-fw" style="color:white"></i>
+        </button>
 
         <script src="~/libman/cdnjs/jquery/jquery.js"></script>
         <script src="~/js/site.js"></script>
@@ -189,64 +127,33 @@
         <script src="~/login/vendor/bootstrap/js/popper.js"></script>
         <script src="~/libman/cdnjs/select2/js/select2.js"></script>
         <script src="~/libman/cdnjs/select2/js/select2.min.js"></script>
-        <script src="~/js/alertify.min.js"></script>
-
-        <script src="~/libman/cdnjs/OwlCarousel2/owl.carousel.js"></script>
-        <script src="~/libman/cdnjs/OwlCarousel2/owl.carousel.min.js"></script>
-
 
         <script src="~/libman/unpkg/datatables.net/js/jquery.dataTables.js"></script>
         <script src="~/libman/unpkg/datatables.net-bs/js/dataTables.bootstrap.js"></script>
         <script src="~/libman/unpkg/datatables.net-responsive/js/dataTables.responsive.js"></script>
         <script src="~/libman/unpkg/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
         <script src="~/bundles/js/datatables.responsive.min.js"></script>
-        <script src="~/js/Home/logOut.js"></script>
 
         @RenderSection("Scripts", required: false)
 
-        
-        <script>
-            $(() => {
-                $('#lst-notificaciones').on("click", function () {
-                    readNotifications();
-                });
-            })
 
-            function readNotifications() {
-                var url = "/Notificaciones/ReadNotifications";
-                $.get(url, null, function (data) {
-                }); 
-            }
-        </script>
     </div>
 </body>
 </html>
 
 <style>
     .footer {
-        background-color: #252525;
+        background-color: #002147;
         height: auto;
         padding-bottom: 30px;
         position: relative;
-        width: 101%;
-        border-bottom: 6px solid #0A2151;
-        border-top: 6px solid #0A2151;
-        bottom:-278px;
-
-    }
-
-    .classTxt{
-        white-space:normal;
-        width:100%;
+        width: 100%;
+        border-bottom: 1px solid #CCCCCC;
+        border-top: 2px solid #DDDDDD;
     }
 
         .footer p {
-            color: #0c0f10;
+            color: white;
             font-weight: lighter;
         }
-
-    .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
-        background-color: transparent;
-    }
-
 </style>
