@@ -10,5 +10,6 @@ namespace Ecommerce.Core
     {
         ICollection<Member.Output.Notificacion> GetByUser(string userName);
         void RecordReading(string userName);
+        void SendRequestConnected(string nombre, string email, string asunto, string mensaje);
     }
 }

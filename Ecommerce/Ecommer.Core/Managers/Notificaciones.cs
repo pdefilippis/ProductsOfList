@@ -7,7 +7,7 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using Ecommerce.Core.Validations;
 using Ecommerce.Common.FaultContracts;
-
+using Ecommerce.Core.Services;
 
 namespace Ecommerce.Core.Managers
 {
@@ -27,6 +27,11 @@ namespace Ecommerce.Core.Managers
         public void RecordReading(string userName)
         {
             _notificacionesInfrastructure.RecordReading(userName);
+        }
+
+        public void SendRequestConnected(string nombre, string email, string asunto, string mensaje)
+        {
+            new Notifications().Contactenos(nombre, email, asunto, mensaje);
         }
     }
 }
