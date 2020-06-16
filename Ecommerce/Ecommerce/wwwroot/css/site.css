@@ -147,12 +147,28 @@ body {
     margin: 1em 0px;
 }
 
-    .btn-create:hover {
-        color: white;
-        background-color: #2FCDC9 !important;
-        border: none;
-        font-family: Arial;
-        font-size: 95%;
-        font-weight: bold;
-        margin: 1em 0px;
-    }
+.btn-create:hover {
+    color: white;
+    background-color: #2FCDC9 !important;
+    border: none;
+    font-family: Arial;
+    font-size: 95%;
+    font-weight: bold;
+    margin: 1em 0px;
+}
+
+button.swal2-confirm.swal2-styled {
+    background-color: #449ED3 !important;
+}
+
+button.swal2-cancel.swal2-styled {
+    background-color: #F5552F !important;
+}
+
+.swal2-container.swal2-center.swal2-backdrop-show {
+    background: rgba(0,0,123,0.1) !important;
+}
+
+.swal2-container {
+    background: aliceblue !important;
+}
