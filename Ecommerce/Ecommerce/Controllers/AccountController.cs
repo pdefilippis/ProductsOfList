@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using FaultContracts = Ecommerce.Common.FaultContracts;
 
 namespace Ecommerce.Controllers
 {
@@ -55,42 +56,55 @@ namespace Ecommerce.Controllers
         [HttpPost]
         public IActionResult ChangePassword(ChangePasswordViewModel viewModel)
         {
-            var CurrentUserName = HttpContext.User.Identity.Name;
-            
-
-            if (ModelState.IsValid)
+            try
             {
+                var CurrentUserName = HttpContext.User.Identity.Name;
 
-                if(viewModel.NewPassword == viewModel.NewPasswordConfirmation)
+
+                if (ModelState.IsValid)
                 {
-                    var user = _usuarioManager.ChangePassword(new ChangePassword
+
+                    if (viewModel.NewPassword == viewModel.NewPasswordConfirmation)
                     {
-                        OldPassword = Ecommerce.Common.Password.EncryptPassword(viewModel.OldPassword),
-                        NewPassword = Ecommerce.Common.Password.EncryptPassword(viewModel.NewPassword),
-                        UserName = CurrentUserName
-                    });
+                        var user = _usuarioManager.ChangePassword(new ChangePassword
+                        {
+                            OldPassword = Ecommerce.Common.Password.EncryptPassword(viewModel.OldPassword),
+                            NewPassword = Ecommerce.Common.Password.EncryptPassword(viewModel.NewPassword),
+                            UserName = CurrentUserName
+                        });
 
-                    var usuario = new Usuario
-                    {
-                        Id = user.Id,
-                        Password = user.Password,
-                        Apellido = user.Apellido,
-                        Email = user.Email,
-                        Nombre = user.Nombre,
-                        UserName = user.UserName,
-                        EsAdministrador = user.EsAdministrador
-                    };
+                        var usuario = new Usuario
+                        {
+                            Id = user.Id,
+                            Password = user.Password,
+                            Apellido = user.Apellido,
+                            Email = user.Email,
+                            Nombre = user.Nombre,
+                            UserName = user.UserName,
+                            EsAdministrador = user.EsAdministrador
+                        };
 
-                    _usuarioManager.Save(usuario);
+                        _usuarioManager.Save(usuario);
 
+                    }
+
+                    return RedirectToAction("Index", "Login");
                 }
 
-                return RedirectToAction("Index","Login");
+                ModelState.AddModelError("", "Todos los campos deben ser completados");
+
+                return View();
             }
-
-            ModelState.AddModelError("", "Todos los campos deben ser completados");
-
-            return View();
+            catch (FaultContracts.InvalidDataException ex)
+            {
+                ViewBag.Errores = ex.Errores;
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
+            
         }
     }
 }

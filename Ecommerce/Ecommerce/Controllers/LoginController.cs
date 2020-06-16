@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using FaultContracts = Ecommerce.Common.FaultContracts;
 
 namespace Ecommerce.Controllers
 {
@@ -102,6 +103,11 @@ namespace Ecommerce.Controllers
 
                 ModelState.AddModelError("", "Todos los campos deben ser completados");
 
+                return View(registerModel);
+            }
+            catch(FaultContracts.InvalidDataException ex)
+            {
+                ViewBag.Errores = ex.Errores;
                 return View(registerModel);
             }
             catch(Exception ex)

@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Linq;
 using Input = Ecommerce.Common.DataMembers.Input;
+using FaultContracts = Ecommerce.Common.FaultContracts;
 
 namespace Ecommerce.Controllers
 {
@@ -86,6 +87,11 @@ namespace Ecommerce.Controllers
                     return View(loteModel);
                 }
             }
+            catch(FaultContracts.InvalidDataException ex)
+            {
+                ViewBag.Errores = ex.Errores;
+                return View(loteModel);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, string.Empty);
@@ -146,6 +152,11 @@ namespace Ecommerce.Controllers
                     return RedirectToAction("Index");
                 }
 
+                return View(loteModel);
+            }
+            catch(FaultContracts.InvalidDataException ex)
+            {
+                ViewBag.Errores = ex.Errores;
                 return View(loteModel);
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
 using Ecommerce.Common.DataMembers.Input;
+using FaultContracts = Ecommerce.Common.FaultContracts;
 using Ecommerce.Domain;
 using Ecommerce.ViewModels.Article;
 using Microsoft.AspNetCore.Authorization;
@@ -206,6 +207,11 @@ namespace Ecommerce.Controllers
 
                     return View(vm);
                 }
+            }
+            catch(FaultContracts.InvalidDataException ex)
+            {
+                ViewBag.Errores = ex.Errores;
+                return View(vm);
             }
             catch(Exception ex)
             {
