@@ -113,8 +113,8 @@ namespace Ecommerce.Core.Managers
             var validation = new ArticuloValidation(_articuloInfrastructure);
             var results = validation.Validate(articulo);
 
-            if (!results.IsValid)
-                throw new InvalidDataException(results.Errors.Select(x => x.ErrorMessage).ToList());
+            //if (!results.IsValid)
+                //throw new InvalidDataException(results.Errors.Select(x => x.ErrorMessage).ToList());
 
             return _articuloInfrastructure.Save(articulo);
 
