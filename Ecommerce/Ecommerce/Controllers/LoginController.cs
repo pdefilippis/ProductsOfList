@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
-using FaultContracts = Ecommerce.Common.FaultContracts;
 
 namespace Ecommerce.Controllers
 {
@@ -38,6 +38,31 @@ namespace Ecommerce.Controllers
 
             try
             {
+                var loginValidator = _usuarioManager.GetAll();
+                var validateActivity = _usuarioManager.Get();
+
+                var userValidado = validateActivity.FirstOrDefault(u => u.UserName == usuario.Input.User);
+
+                
+                if (usuario.Input.User == null || usuario.Input.Password == null)
+                {
+                    ModelState.AddModelError("", "Todos los campos deben ser completados");
+                    return View();
+                }
+                else if (userValidado.Activo != true)
+                {
+                    ModelState.AddModelError("", "Usuario inhabilitado");
+                    return View();
+                }
+                else
+                {
+                    if (loginValidator.Any(l => l.UserName.ToLower() != usuario.Input.User.ToLower() ||
+                                            l.Password != Ecommerce.Common.Password.EncryptPassword(usuario.Input.Password)))
+                        ModelState.AddModelError("", "Usuario y/o contraseña incorrectos");
+                }
+
+                
+
                 var user = _usuarioManager.Login(new Usuario
                 {
                     Password = usuario.Input.Password,
@@ -62,8 +87,6 @@ namespace Ecommerce.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                ModelState.AddModelError("", "Todos los campos deben ser completados");
-
                 return View();
             }
             catch (Exception ex)
@@ -87,6 +110,22 @@ namespace Ecommerce.Controllers
         {
             try
             {
+                var registerValidator = _usuarioManager.GetAll();
+
+                if (registerModel.Input.Password == null || registerModel.Input.Surname == null || registerModel.Input.Name == null
+                     || registerModel.Input.User == null || registerModel.Input.Email == null)
+                {
+                    ModelState.AddModelError("", "Todos los campos deben ser completados");
+                    return View();
+                }
+                else
+                {
+                    if (registerValidator.Any(r => r.Email.ToLower() == registerModel.Input.Email.ToLower()))
+                        ModelState.AddModelError("", "Ya existe un usuario con este email");
+                    if(registerValidator.Any(r => r.UserName.ToLower() == registerModel.Input.User.ToLower()))
+                        ModelState.AddModelError("", "Ya existe un usuario con este nombre de usuario");
+                }
+
                 if (ModelState.IsValid)
                 {
                     var user = _usuarioManager.Register(new Usuario
@@ -101,13 +140,8 @@ namespace Ecommerce.Controllers
                     return View("Index");
                 }
 
-                ModelState.AddModelError("", "Todos los campos deben ser completados");
+                
 
-                return View(registerModel);
-            }
-            catch(FaultContracts.InvalidDataException ex)
-            {
-                ViewBag.Errores = ex.Errores;
                 return View(registerModel);
             }
             catch(Exception ex)
@@ -128,12 +162,25 @@ namespace Ecommerce.Controllers
         {
             try
             {
+                var resetpasswdValidator = _usuarioManager.GetAll();
+
+                if (resetPassword.Email == null)
+                {
+                    ModelState.AddModelError("", "El correo es obligatorio");
+                }
+                else
+                {
+                    if(!resetpasswdValidator.Any(r => r.Email.ToLower() == resetPassword.Email))
+                        ModelState.AddModelError("", "El correo es inválido o no existe");
+                }
+
+
                 if (ModelState.IsValid)
                 {
                     _usuarioManager.RecoverPasswordNotification(resetPassword.Email);
                     return View("TokenValidation", new TokenValidationViewModel { Email = resetPassword.Email });
                 }
-     
+
                 return View(resetPassword);
             }
             catch (Exception ex)
@@ -155,11 +202,19 @@ namespace Ecommerce.Controllers
         {
             return View(resetPassword);
         }
+
         [HttpPost, AllowAnonymous]
         public IActionResult TokenValidation(TokenValidationViewModel resetPassword)
         {
             try
             {
+                var tokenValidation = _usuarioManager.GetAll();
+
+                if (resetPassword.Email == null || resetPassword.Password == null || resetPassword.Token == null)
+                {
+                    ModelState.AddModelError("", "Todos los campos deben ser completados");
+                }
+                
                 if (ModelState.IsValid && resetPassword.Password == resetPassword.ConfirmPassword)
                 {
                     var result = _usuarioManager.CheckRecoverPassword(new RecoverPassword
