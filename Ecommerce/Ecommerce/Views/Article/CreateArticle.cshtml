@@ -15,11 +15,11 @@
     <li class="active"><strong>@ViewData["Title"]</strong></li>
 }
 
-
 <h2 style="padding-bottom: 37px;text-decoration: underline ;color:#002147; font-family:sans-serif; font-size: 237%">Nuevo Artículo</h2>
 
+<h3 style="font-size:14px;color: chocolate;">@ViewData["Texto1"] <span style="text-decoration:underline">@ViewData["Texto2"]</span></h3>
+
 <div class="row">
-        @*<button type="button" class="btn btn-primary btn-sm" style="margin-bottom:-60px;background-color: #17a2b8;border-color:#41b2c3;">Agregar tipo</button>*@
     <div class="col-md-4">
         <form asp-action="CreateArticle" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -33,22 +33,18 @@
             <div class="form-group">
                 <label asp-for="Brand" class="control-label required"></label>
                 <input asp-for="Brand" class="form-control" maxlength="30" autofocus />
-                <span asp-validation-for="Brand" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SerialNumber" class="control-label required"></label>
                 <input asp-for="SerialNumber" class="form-control" maxlength="30" />
-                <span asp-validation-for="SerialNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label required"></label>
                 <input asp-for="Description" class="form-control" maxlength="50" />
-                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label required"></label>
                 <input asp-for="Price" type="number" class="form-control" maxlength="9" />
-                <span asp-validation-for="Price" class="text-danger"></span>
             </div>
 
             <div class="row">
