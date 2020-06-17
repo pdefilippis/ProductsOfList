@@ -23,23 +23,24 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="User" class="control-label required"></label>
-                <input asp-for="User" class="form-control" autofocus />
+                <input asp-for="User" class="form-control" autofocus maxlength="50"/>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label required"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" type="text" maxlength="50" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label required"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control" maxlength="50" />
             </div>
             <div class="form-group">
                 <label asp-for="Surname" class="control-label required"></label>
-                <input asp-for="Surname" class="form-control" />
+                <input asp-for="Surname" class="form-control" maxlength="50" />
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label required"></label>
-                <input asp-for="Password" class="form-control" type="password" id="passwd"/>
+                <input asp-for="Password" class="form-control" maxlength="50" type="password" id="passwd"/>
                 <span class="fa fa-eye eye-style fa-lg" onclick="showHidePassword()" id="eyePasswd"></span>
             </div>
             <div class="form-group">
