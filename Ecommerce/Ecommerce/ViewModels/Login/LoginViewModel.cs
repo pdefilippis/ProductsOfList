@@ -10,8 +10,7 @@ namespace Ecommerce.ViewModels.Login
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress(ErrorMessage = "El 'Email' no es una dirección de Email válida.")]
+            [EmailAddress(ErrorMessage = "Formato inválido")]
             public string Email { get; set; }
             [Required]
             [DataType(DataType.Password)]
