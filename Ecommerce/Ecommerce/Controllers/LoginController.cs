@@ -49,19 +49,29 @@ namespace Ecommerce.Controllers
                     ModelState.AddModelError("", "Todos los campos deben ser completados");
                     return View();
                 }
-                else if (userValidado.Activo != true)
+
+                if (!loginValidator.Any(r => r.UserName.ToLower() == usuario.Input.User || r.Password == usuario.Input.Password))
+                {
+                    ModelState.AddModelError("", "El usuario no existe");
+                    return View();
+                }
+
+                if (userValidado.Activo != true)
                 {
                     ModelState.AddModelError("", "Usuario inhabilitado");
                     return View();
                 }
-                else
-                {
-                    if (loginValidator.Any(l => l.UserName.ToLower() != usuario.Input.User.ToLower() ||
+
+                if (loginValidator.Any(l => l.UserName.ToLower() != usuario.Input.User.ToLower() ||
                                             l.Password != Ecommerce.Common.Password.EncryptPassword(usuario.Input.Password)))
-                        ModelState.AddModelError("", "Usuario y/o contraseña incorrectos");
+                {
+                    ModelState.AddModelError("", "Usuario y/o contraseña incorrectos");
+                    return View();
                 }
 
                 
+
+
 
                 var user = _usuarioManager.Login(new Usuario
                 {
@@ -214,7 +224,7 @@ namespace Ecommerce.Controllers
                 {
                     ModelState.AddModelError("", "Todos los campos deben ser completados");
                 }
-                
+
                 if (ModelState.IsValid && resetPassword.Password == resetPassword.ConfirmPassword)
                 {
                     var result = _usuarioManager.CheckRecoverPassword(new RecoverPassword
