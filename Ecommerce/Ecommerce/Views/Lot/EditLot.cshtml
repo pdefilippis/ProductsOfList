@@ -26,7 +26,6 @@
             <div class="form-group">
                 <label asp-for="Descripcion" class="control-label required"></label>
                 <input asp-for="Descripcion" class="form-control" autofocus maxlength="30" />
-                <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -56,9 +55,9 @@
             </div>
 
             <div class="row" style="padding-top:24px">
-                @if (Model.Imagen != null)
+                @if (Model.ImagenEdit.Length != 0)
                 {
-                <img src="@Model.Imagen" alt="Foto del lote" class="img-thumbnail" id="previewPhoto" style="margin-left:1em;">
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ImagenEdit)" alt="Foto del lote" class="img-thumbnail" id="previewPhoto" style="margin-left:1em;">
                 }
                 else
                 {
