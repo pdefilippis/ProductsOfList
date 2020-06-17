@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using FaultContracts = Ecommerce.Common.FaultContracts;
+using System.Linq;
 
 namespace Ecommerce.Controllers
 {
@@ -56,55 +56,64 @@ namespace Ecommerce.Controllers
         [HttpPost]
         public IActionResult ChangePassword(ChangePasswordViewModel viewModel)
         {
+            var CurrentUserName = HttpContext.User.Identity.Name;
+            var passwordValidator = _usuarioManager.GetAll();
+
             try
             {
-                var CurrentUserName = HttpContext.User.Identity.Name;
 
-
-                if (ModelState.IsValid)
+                if (viewModel.OldPassword == null || viewModel.NewPassword == null || viewModel.NewPasswordConfirmation == null)
                 {
-
-                    if (viewModel.NewPassword == viewModel.NewPasswordConfirmation)
+                    ModelState.AddModelError("", "Todos los campos deben ser completados");
+                    return View();
+                }
+                else
+                {
+                    if (viewModel.NewPassword != viewModel.NewPasswordConfirmation)
+                        ModelState.AddModelError("", "Las contraseñas no coinciden");
+                    if (passwordValidator.Any(p => p.Password != Ecommerce.Common.Password.EncryptPassword(viewModel.OldPassword)))
+                        ModelState.AddModelError("", "La contraseña actual es incorrecta");
+                }
+                    
+            
+            if (ModelState.IsValid)
+            {
+                if (viewModel.NewPassword == viewModel.NewPasswordConfirmation)
+                {
+                    var user = _usuarioManager.ChangePassword(new ChangePassword
                     {
-                        var user = _usuarioManager.ChangePassword(new ChangePassword
-                        {
-                            OldPassword = Ecommerce.Common.Password.EncryptPassword(viewModel.OldPassword),
-                            NewPassword = Ecommerce.Common.Password.EncryptPassword(viewModel.NewPassword),
-                            UserName = CurrentUserName
-                        });
+                        OldPassword = Ecommerce.Common.Password.EncryptPassword(viewModel.OldPassword),
+                        NewPassword = Ecommerce.Common.Password.EncryptPassword(viewModel.NewPassword),
+                        UserName = CurrentUserName
+                    });
 
-                        var usuario = new Usuario
-                        {
-                            Id = user.Id,
-                            Password = user.Password,
-                            Apellido = user.Apellido,
-                            Email = user.Email,
-                            Nombre = user.Nombre,
-                            UserName = user.UserName,
-                            EsAdministrador = user.EsAdministrador
-                        };
+                    var usuario = new Usuario
+                    {
+                        Id = user.Id,
+                        Password = user.Password,
+                        Apellido = user.Apellido,
+                        Email = user.Email,
+                        Nombre = user.Nombre,
+                        UserName = user.UserName,
+                        EsAdministrador = user.EsAdministrador
+                    };
 
-                        _usuarioManager.Save(usuario);
+                    
+                    _usuarioManager.Save(usuario);
 
-                    }
-
-                    return RedirectToAction("Index", "Login");
                 }
 
-                ModelState.AddModelError("", "Todos los campos deben ser completados");
-
-                return View();
+                return RedirectToAction("Index","Login");
             }
-            catch (FaultContracts.InvalidDataException ex)
-            {
-                ViewBag.Errores = ex.Errores;
-                return View(viewModel);
+
+            return View();
+
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, string.Empty);
                 return RedirectToAction("Status", "Error", new { code = 404 });
             }
-            
         }
     }
 }
