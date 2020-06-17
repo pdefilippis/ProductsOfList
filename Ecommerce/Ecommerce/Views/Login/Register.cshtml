@@ -49,6 +49,7 @@
 
                         <div class="input-group">
                             <input asp-for="Input.Email" class="input--style-1" type="text" placeholder="E-MAIL">
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
                         </div>
 
                         <div class="row row-space">
@@ -100,5 +101,12 @@
         color: red;
         padding-bottom: 33px;
         font-size: 92%;
+    }
+
+    span.text-danger.field-validation-error {
+        top: 39px;
+        position: absolute;
+        left: 2px;
+        color: red;
     }
 </style>
