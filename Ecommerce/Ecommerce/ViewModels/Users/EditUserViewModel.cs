@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Ecommerce.ViewModels.Users
 {
@@ -17,8 +13,7 @@ namespace Ecommerce.ViewModels.Users
         public string User { get; set; }
 
         [Display(Name = "Mail")]
-        [Required(ErrorMessage = "Required")]
-        [EmailAddress(ErrorMessage = "InvalidFormat")]
+        [EmailAddress(ErrorMessage = "Formato inválido")]
         public string Email { get; set; }
 
         [Display(Name = "Nombre")]
