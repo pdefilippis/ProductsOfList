@@ -74,8 +74,8 @@ namespace Ecommerce.Core.Managers
             var validation = new LoteValidation(_loteInfrastructure);
             var results = validation.Validate(lote);
 
-            if (!results.IsValid)
-                throw new InvalidDataException(results.Errors.Select(x => x.ErrorMessage).ToList());
+            //if (!results.IsValid)
+                //throw new InvalidDataException(results.Errors.Select(x => x.ErrorMessage).ToList());
 
             return _loteInfrastructure.Save(lote);
             
