@@ -1,14 +1,7 @@
-﻿using Ecommerce.Common.DataMembers.Output;
-using Ecommerce.ViewModels.Lot;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.IO;
 using System.Linq;
-using Input = Ecommerce.Common.DataMembers.Input;
 
 namespace Ecommerce.Controllers
 {
@@ -23,7 +16,22 @@ namespace Ecommerce.Controllers
             _logger = logger;
         }
 
-        public IActionResult Admin()
+        public JsonResult GetDataEmployee()
+        {
+            var articulos = _articuloManager.GetByUserInteresado(User.Identity.Name);
+
+            var items = articulos.Select(l => new
+            {
+                nameLot = l.Lote.Descripcion,
+                articleName = l.Descripcion,
+                probability = 100 / l.UsuariosInteresados.Count() + "\n%",
+                winner = l.Lote.Estado.Codigo.Equals("CERRADO") ? l.UsuarioAdjudicado.UserName == User.Identity.Name ? "v" : "x" : "Sin cerrar"
+            }).ToList();
+
+            return Json(items);
+        }
+
+            public IActionResult Admin()
         {
             try
             {
