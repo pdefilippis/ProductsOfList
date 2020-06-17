@@ -113,8 +113,8 @@ namespace Ecommerce.Core.Managers
                 var validation = new UsuarioValidation(_usuarioInfrastructure);
                 var results = validation.Validate(usuario);
 
-            if (!results.IsValid)
-                throw new InvalidDataException(results.Errors.Select(x => x.ErrorMessage).ToList());
+            //if (!results.IsValid)
+                //throw new InvalidDataException(results.Errors.Select(x => x.ErrorMessage).ToList());
 
             return _usuarioInfrastructure.Create(usuario);
             
@@ -125,8 +125,8 @@ namespace Ecommerce.Core.Managers
             var validation = new UsuarioValidation(_usuarioInfrastructure);
             var results = validation.Validate(usuario);
 
-            if (!results.IsValid)
-                throw new InvalidDataException(results.Errors.Select(x => x.ErrorMessage).ToList());
+            //if (!results.IsValid)
+                //throw new InvalidDataException(results.Errors.Select(x => x.ErrorMessage).ToList());
 
             return _usuarioInfrastructure.Save(usuario);
         }
