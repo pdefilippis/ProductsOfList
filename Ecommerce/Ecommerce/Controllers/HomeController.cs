@@ -25,7 +25,7 @@ namespace Ecommerce.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = "CLIENT,ADMIN")]//CLIENT - ADMIN
+        [Authorize(Roles = "CLIENT,ADMIN")]
         public IActionResult Index()
         {
             try
@@ -58,15 +58,6 @@ namespace Ecommerce.Controllers
 
         public IActionResult About()
         {
-            return View();
-        }
-
-        [Authorize(Roles = "CLIENT")]
-        public IActionResult ShowNotifications()
-        {
-            var currentUserId = _usuarioManager.GetByName(HttpContext.User.Identity.Name).Id;
-            // var notifications = _notificationManager.GetByUser(currentUserId);
-            // return View(notifications);
             return View();
         }
     }
