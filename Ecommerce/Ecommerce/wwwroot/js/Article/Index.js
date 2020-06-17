@@ -62,6 +62,10 @@
                         default:
                             priority = "";
                     }
+
+                    if (full.cerrado)
+                        priority = $("#closed-field").html();
+
                     return priority;
                 },
                 responsivePriority: 3
