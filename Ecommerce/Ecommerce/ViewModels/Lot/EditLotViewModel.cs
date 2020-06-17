@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,5 +18,6 @@ namespace Ecommerce.ViewModels.Lot
         public IFormFile Imagen { get; set; }
         public string NombreImagen { get; set; }
         public bool FlagImage { get; set; }
+        public byte[] ImagenEdit { get; set; }
     }
 }
