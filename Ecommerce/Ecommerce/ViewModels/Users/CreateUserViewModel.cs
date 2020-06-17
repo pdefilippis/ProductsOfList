@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.ViewModels.Users
 {
@@ -11,8 +11,7 @@ namespace Ecommerce.ViewModels.Users
         public string User { get; set; }
 
         [Display(Name = "Mail")]
-        [Required(ErrorMessage = "Required")]
-        [EmailAddress(ErrorMessage = "InvalidFormat")]
+        [EmailAddress(ErrorMessage = "Formato inválido")]
         public string Email { get; set; }
 
         [Display(Name = "Nombre")]
