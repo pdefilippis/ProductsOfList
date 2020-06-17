@@ -1,5 +1,4 @@
 using Ecommerce.Common.DataMembers.Input;
-using FaultContracts = Ecommerce.Common.FaultContracts;
 using Ecommerce.Domain;
 using Ecommerce.ViewModels.Article;
 using Microsoft.AspNetCore.Authorization;
@@ -73,7 +72,8 @@ namespace Ecommerce.Controllers
                 article_id = l.Id,
                 price = "$\n" + l.Precio.ToString(),
                 adjudicated = l.UsuarioAdjudicado == null ? "Sin usuario" : l.UsuarioAdjudicado.UserName,
-                userCount = l.UsuariosInteresados.Count
+                userCount = l.UsuariosInteresados.Count,
+                cerrado = l.Lote.Estado.Codigo.Equals("CERRADO") ? true : false
             }).ToList();
 
             return Json(items);
@@ -143,6 +143,9 @@ namespace Ecommerce.Controllers
                     {
                         var item = article3.FirstOrDefault(x => x.Id == ArticleId);
 
+                        ViewData["Texto1"] = "Aclaración:";
+                        ViewData["Texto2"] = "El numero de serie no puede repetirse";
+
                         if (article3 != null)
                         {
                             model.Price = item.Precio;
@@ -171,12 +174,23 @@ namespace Ecommerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateArticle(CreateArticleViewModel vm)
+        public IActionResult CreateArticle(CreateArticleViewModel vm, int LotId)
         {
-            var article2 = _articuloTipoManager.Get();
-
             try
             {
+                var article2 = _articuloTipoManager.Get();
+                var descriptionValidator = _articuloManager.GetLote(LotId);
+
+                if (vm.Description == null || vm.Brand == null || vm.Price == 0 || vm.SerialNumber == null)
+                {
+                    ModelState.AddModelError("", "Todos los campos deben ser completados");
+                }
+                else
+                {
+                    if (descriptionValidator.Any(d => d.NumeroSerie.ToLower() == vm.SerialNumber.ToLower()))
+                        ModelState.AddModelError("", "Ya existe un artículo con este número de serie");
+                }
+
                 if (ModelState.IsValid)
                 {
                     var article = new Articulo
@@ -208,11 +222,6 @@ namespace Ecommerce.Controllers
                     return View(vm);
                 }
             }
-            catch(FaultContracts.InvalidDataException ex)
-            {
-                ViewBag.Errores = ex.Errores;
-                return View(vm);
-            }
             catch(Exception ex)
             {
                 _logger.LogError(ex, string.Empty);
@@ -227,6 +236,7 @@ namespace Ecommerce.Controllers
             {
                 var article = _articuloManager.GetById(ArticleId);
                 var article2 = _articuloTipoManager.Get();
+
 
                 if (article == null)
                     return RedirectToAction("Index", new { LotId = LotId });
@@ -263,12 +273,24 @@ namespace Ecommerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditArticle(EditArticleViewModel vm)
+        public IActionResult EditArticle(EditArticleViewModel vm, int Lot_ID)
         {
             try
             {
                 var article = _articuloManager.GetById(vm.ArticleId);
                 var article2 = _articuloTipoManager.Get();
+
+                var descriptionValidator = _articuloManager.GetLote(Lot_ID);
+                if (vm.Description == null || vm.Brand == null || vm.Price == 0 || vm.SerialNumber == null)
+                {
+                    ModelState.AddModelError("", "Todos los campos deben ser completados");
+                }
+                else
+                {
+                    if (descriptionValidator.Any(d => d.Id != vm.ArticleId && d.NumeroSerie.ToLower() == vm.SerialNumber.ToLower()))
+                        ModelState.AddModelError("", "Ya existe un artículo con este número de serie");
+                }
+
 
                 if (ModelState.IsValid)
                 {
