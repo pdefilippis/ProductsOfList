@@ -60,8 +60,23 @@ namespace Ecommerce.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateUser(CreateUserViewModel viewModel)
         {
-           try
+            try
             {
+                var userValidator = _usuarioManager.GetAll();
+                if (viewModel.User == null || viewModel.Email == null || viewModel.Name == null || viewModel.Surname == null
+                    || viewModel.Password == null)
+                {
+                    ModelState.AddModelError("", "Todos los campos deben ser completados");
+                }
+                else
+                {
+                    if (userValidator.Any(u => u.UserName.ToLower() == viewModel.User.ToLower()))
+                        ModelState.AddModelError("", "Ya existe un usuario con este nombre de usuario");
+                    if (userValidator.Any(u => u.Email.ToLower() == viewModel.Email.ToLower()))
+                        ModelState.AddModelError("", "Ya existe un usuario con este mismo Email");
+                }
+                
+
                 if (ModelState.IsValid)
                 {
                     var usuario = new Usuario
@@ -105,11 +120,11 @@ namespace Ecommerce.Controllers
                     return View(new EditUserViewModel
                     {
                         UserId = UserId,
-                        User = usuario.UserName,
                         Name = usuario.Nombre,
                         Surname = usuario.Apellido,
                         Email = usuario.Email,
-                        IsAdmin = usuario.EsAdministrador
+                        IsAdmin = usuario.EsAdministrador,
+                        User = usuario.UserName
                     });
             }
             catch(Exception ex)
@@ -125,6 +140,19 @@ namespace Ecommerce.Controllers
         {
             try
             {
+                var userValidator = _usuarioManager.GetAll();
+                if (viewModel.Email == null || viewModel.Name == null || viewModel.Surname == null || viewModel.User == null)
+                {
+                    ModelState.AddModelError("", "Todos los campos deben ser completados");
+                }
+                else
+                {
+                    if (userValidator.Any(u => u.Id != viewModel.UserId && u.UserName.ToLower() == viewModel.User.ToLower()))
+                        ModelState.AddModelError("", "Ya existe un usuario con este nombre de usuario");
+                    if (userValidator.Any(u => u.Id != viewModel.UserId && u.Email.ToLower() == viewModel.Email.ToLower()))
+                        ModelState.AddModelError("", "Ya existe un usuario con este mismo Email");
+                }
+
                 if (ModelState.IsValid)
                 {
                     _usuarioManager.Save(new Usuario
@@ -133,8 +161,8 @@ namespace Ecommerce.Controllers
                         Email = viewModel.Email,
                         EsAdministrador = viewModel.IsAdmin,
                         Nombre = viewModel.Name,
-                        UserName = viewModel.User,
-                        Id = viewModel.UserId
+                        Id = viewModel.UserId,
+                        UserName = viewModel.User
                     });
 
                     TempData["SuccesMessage"] = "El usuario se ha editado correctamente";
@@ -163,7 +191,6 @@ namespace Ecommerce.Controllers
                     _usuarioManager.Enable(UserId);
                     TempData["SuccesMessage"] = "El usuario se ha activado";
 
-
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -184,7 +211,6 @@ namespace Ecommerce.Controllers
                     _usuarioManager.Disable(UserId);
                     TempData["ErrorMessage"] = "El usuario se ha desactivado";
                 
-
                 return RedirectToAction("Index");
             }
             catch(Exception ex)
