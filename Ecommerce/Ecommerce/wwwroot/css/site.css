@@ -164,11 +164,3 @@ button.swal2-confirm.swal2-styled {
 button.swal2-cancel.swal2-styled {
     background-color: #F5552F !important;
 }
-
-.swal2-container.swal2-center.swal2-backdrop-show {
-    background: rgba(0,0,123,0.1) !important;
-}
-
-.swal2-container {
-    background: aliceblue !important;
-}
