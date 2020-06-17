@@ -1,15 +1,12 @@
-using Ecommerce.Common.DataMembers.Output;
 using Ecommerce.ViewModels.Lot;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Linq;
 using Input = Ecommerce.Common.DataMembers.Input;
-using FaultContracts = Ecommerce.Common.FaultContracts;
 
 namespace Ecommerce.Controllers
 {
@@ -18,16 +15,17 @@ namespace Ecommerce.Controllers
     {
         private readonly Core.ILoteManager _loteManager;
         private readonly ILogger<LotController> _logger;
+        private readonly Core.IArticuloManager _articuloManager;
 
-        public LotController(Core.ILoteManager loteManager, ILogger<LotController> logger)
+        public LotController(Core.ILoteManager loteManager, Core.IArticuloManager articuloManager, ILogger<LotController> logger)
         {
             _loteManager = loteManager;
             _logger = logger;
+            _articuloManager = articuloManager;
         }
 
         public IActionResult Index()
         {
-            //TODO: Aca tenes la lista de lotes activos. Para poder completar la Grilla.
             var lotes = _loteManager.Get();
             return View();
         }
@@ -63,6 +61,18 @@ namespace Ecommerce.Controllers
         {
             try
             {
+                var descriptionValidator = _loteManager.GetAll();
+                if (loteModel.Descripcion == null)
+                {
+                    ModelState.AddModelError("", "Todos los campos deben ser completados");
+                }
+                else
+                {
+                    if (descriptionValidator.Any(l => l.Descripcion.ToLower() == loteModel.Descripcion.ToLower()))
+                        ModelState.AddModelError("", "Ya existe un lote con esta descripcion");
+                }
+
+
                 if (ModelState.IsValid)
                 {
                     var lote = new Input.Lote
@@ -86,11 +96,6 @@ namespace Ecommerce.Controllers
 
                     return View(loteModel);
                 }
-            }
-            catch(FaultContracts.InvalidDataException ex)
-            {
-                ViewBag.Errores = ex.Errores;
-                return View(loteModel);
             }
             catch (Exception ex)
             {
@@ -117,14 +122,14 @@ namespace Ecommerce.Controllers
                     LotId = lote.Id,
                     NombreImagen = lote.NombreImagen,
                     FlagImage = lote != null,
-                    Imagen = lote.Imagen != null ? ConvertByteToFile(lote) : null
+                    ImagenEdit = lote.Imagen
                 });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, string.Empty);
                 return RedirectToAction("Status", "Error", new { code = 404 });
-            }   
+            }
         }
 
 
@@ -134,16 +139,42 @@ namespace Ecommerce.Controllers
         {
             try
             {
+                var descriptionValidator = _loteManager.GetAll();
+                if (loteModel.Descripcion == null)
+                {
+                    ModelState.AddModelError("", "Todos los campos deben ser completados");
+                }
+                else
+                {
+                    if (descriptionValidator.Any(l => l.Id != loteModel.LotId && l.Descripcion.ToLower() == loteModel.Descripcion.ToLower()))
+                        ModelState.AddModelError("", "Ya existe un lote con esta descripcion");
+                }
+
+
                 if (ModelState.IsValid)
                 {
-
+                    var lotePrev = _loteManager.GetById(loteModel.LotId);
                     var lote = new Input.Lote
                     {
                         Id = loteModel.LotId,
                         Descripcion = loteModel.Descripcion,
-                        NombreImagen = loteModel.Imagen?.FileName,
-                        Imagen = loteModel.Imagen != null ? ConvertFileToByte(loteModel.Imagen) : null
+                        NombreImagen = lotePrev.NombreImagen,
+                        Imagen = lotePrev.Imagen
                     };
+
+                    if (loteModel.Imagen != null)
+                    {
+                        lote.NombreImagen = loteModel.Imagen.FileName;
+                        lote.Imagen = ConvertFileToByte(loteModel.Imagen);
+                    }
+                    else
+                   if (!loteModel.FlagImage)
+                    {
+                        lote.NombreImagen = null;
+                        lote.Imagen = null;
+                    }
+
+
 
                     TempData["SuccesMessage"] = "El lote se ha editado correctamente";
 
@@ -154,18 +185,13 @@ namespace Ecommerce.Controllers
 
                 return View(loteModel);
             }
-            catch(FaultContracts.InvalidDataException ex)
-            {
-                ViewBag.Errores = ex.Errores;
-                return View(loteModel);
-            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, string.Empty);
                 return RedirectToAction("Status", "Error", new { code = 404 });
             }
         }
-            
+
         //TODO: Modificar por dos acciones diferentes
         public IActionResult EnableDisable(int LotId)
         {
@@ -176,22 +202,22 @@ namespace Ecommerce.Controllers
                 {
                     TempData["ErrorMessage"] = "El lote se ha desactivado";
                     _loteManager.Disable(LotId);
-                }                    
+                }
                 else
                 {
                     TempData["SuccesMessage"] = "El lote se ha activado";
                     _loteManager.Enable(LotId);
                 }
-                
+
                 return RedirectToAction("Index");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, string.Empty);
                 return RedirectToAction("Status", "Error", new { code = 404 });
             }
         }
-        
+
         public JsonResult LotClosure(int LotId)
         {
             var item = _loteManager.Get();
@@ -222,15 +248,6 @@ namespace Ecommerce.Controllers
             }
 
             return img;
-        }
-
-        private IFormFile ConvertByteToFile(Lote lote)
-        {
-            using (var stream = new MemoryStream(lote.Imagen))
-            {
-                return new FormFile(stream, 0, lote.Imagen.Length, "name", "fileName");
-            }
-
         }
     }
 }
