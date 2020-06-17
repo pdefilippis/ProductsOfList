@@ -1,4 +1,4 @@
-﻿function showHidePasswordOld() {
+function showHidePasswordOld() {
     var x = document.getElementById("oldpasswd");
     var y = document.getElementById("eyePasswOld");
     if (x.type === "password") {
