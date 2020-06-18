@@ -37,11 +37,6 @@
             order: [[0, "desc"]],
             columns: [
                 {
-                    title: $("#id-column-title").html(),
-                    data: "article_id",
-                    responsivePriority: 2
-                },
-                {
                     title: $("#articleDescription-column-title").html(),
                     data: "article_Description",
                     render: $.fn.dataTable.render.text(),
