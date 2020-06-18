@@ -2,7 +2,7 @@
 <configuration>
   <host>smtp.gmail.com</host>
   <port>587</port>
-  <user>xxx@gmail.com</user>
-  <password>xxxx</password>
+  <user>paul.remate@gmail.com</user>
+  <password>Remate123456</password>
   <enableSsl>true</enableSsl>
 </configuration>

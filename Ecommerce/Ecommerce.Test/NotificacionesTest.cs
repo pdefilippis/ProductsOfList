@@ -54,7 +54,7 @@ namespace Ecommerce.Test
         public void Noticia_Email_Assert()
         {
             var notificacion = new Notifications();
-            notificacion.Send(null);
+            notificacion.SendRecoverPassword("pdefilippis@gmail.com", "77777");
         }
     }
 }
