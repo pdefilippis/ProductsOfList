@@ -45,20 +45,20 @@
 
                 <form class="login100-form validate-form p-b-33 p-t-5" asp-controller="Login" asp-action="TokenValidation" method="post" id="tokenValidationForm">
                     <input asp-for="Email" type="hidden">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <h2 style="padding-left:81px; color:#808182">Restablecer contraseña</h2>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="wrap-input100">
                         <input asp-for="Token" class="input100" type="text" placeholder="Token">
                         <span class="focus-input100" data-placeholder="&#xe81f;"></span>
                     </div>
                     <div class="wrap-input100">
-                        <input asp-for="Password" class="input100" type="password" placeholder="Contraseña nueva" >
+                        <input asp-for="Password" class="input100" id="oldpasswd" type="password" placeholder="Contraseña nueva">
                         <span class="focus-input100" data-placeholder="&#xe80f;"></span>
                         <span class="fa fa-eye eye-style fa-lg" style="margin-top:-8%;font-size: 12px;position: absolute;padding: 4px 1px;color: #666;margin-left: 90%;" onclick="showHidePasswordOld()" id="eyePasswOld"></span>
 
                     </div>
                     <div class="wrap-input100">
-                        <input asp-for="ConfirmPassword" class="input100" type="password" placeholder="Confirmar contraseña" >
+                        <input asp-for="ConfirmPassword" class="input100" id="newpassd" type="password" placeholder="Confirmar contraseña">
                         <span class="focus-input100" data-placeholder="&#xe80f;"></span>
                         <span class="fa fa-eye eye-style fa-lg" style="margin-top:-8%;font-size: 12px;position: absolute;padding: 4px 1px;color: #666;margin-left: 90%;" onclick="showHidePasswordNew()" id="eyePasswNew"></span>
 
@@ -92,3 +92,12 @@
 
 </body>
 </html>
+
+<style>
+    ul, li {
+        list-style-type: disc;
+        color: red;
+        font-size: 108%;
+        font-weight: 500;
+    }
+</style>
