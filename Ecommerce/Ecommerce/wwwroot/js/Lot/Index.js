@@ -30,11 +30,6 @@
             order: [[0, "desc"]],
             columns: [
                 {
-                    title: $("#id-column-title").html(),
-                    data: "lot_id",
-                    responsivePriority: 1
-                },
-                {
                     title: $("#description-column-title").html(),
                     data: "lot_Description",
                     render: $.fn.dataTable.render.text(),
