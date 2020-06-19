@@ -39,8 +39,8 @@ namespace Ecommerce.Controllers
                 state = l.Activo == true ? "Activo" : "Inactivo",
                 lot_id = l.Id,
                 lot_Description = l.Descripcion,
-                create_Date = l.Creacion.ToString("dd/MM/yyyy HH:mm:ss"),
-                update_Date = l.Actualizacion.ToString("dd/MM/yyyy HH:mm:ss"),
+                create_Date = l.Creacion.ToString("dd/MM/yyyy"),
+                update_Date = l.Actualizacion.ToString("dd/MM/yyyy"),
                 lot_article = l.Articulos.Count,
                 cerrado = l.Estado.Codigo.Equals("CERRADO") ? true : false
             }).ToList();
