@@ -1,15 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.ViewModels.Login
 {
     public class LoginViewModel
     {
-        [BindProperty]
-        public InputModel Input { get; set; }
-
-        public class InputModel
-        {
             [EmailAddress(ErrorMessage = "Formato inválido")]
             public string Email { get; set; }
             [Required]
@@ -22,6 +16,5 @@ namespace Ecommerce.ViewModels.Login
             [Required]
             public string Name { get; set; }
 
-        }
     }
 }
