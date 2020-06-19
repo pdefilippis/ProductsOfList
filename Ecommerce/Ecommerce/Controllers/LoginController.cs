@@ -38,10 +38,10 @@ namespace Ecommerce.Controllers
 
             try
             {
-                var loginValidator = _usuarioManager.GetAll();
-                var validateActivity = _usuarioManager.Get();
+                //var loginValidator = _usuarioManager.GetAll();
+                //var validateActivity = _usuarioManager.Get();
 
-                var userValidado = validateActivity.FirstOrDefault(u => u.UserName == usuario.User);
+                //var userValidado = validateActivity.FirstOrDefault(u => u.UserName == usuario.User);
 
                 if (usuario.User == null || usuario.Password == null)
                 {
@@ -49,24 +49,24 @@ namespace Ecommerce.Controllers
                     return View();
                 }
 
-                if (!loginValidator.Any(r => r.UserName.ToLower() == usuario.User || r.Password == usuario.Password))
-                {
-                    ModelState.AddModelError("", "Revisá tu e‑mail o usuario.");
-                    return View();
-                }
+                //if (!loginValidator.Any(r => r.UserName.ToLower() == usuario.User || r.Password == usuario.Password))
+                //{
+                //    ModelState.AddModelError("", "Revisá tu e‑mail o usuario.");
+                //    return View();
+                //}
 
-                if (userValidado.Activo != true)
-                {
-                    ModelState.AddModelError("", "Revisá tu e‑mail o usuario.");
-                    return View();
-                }
+                //if (userValidado.Activo != true)
+                //{
+                //    ModelState.AddModelError("", "Revisá tu e‑mail o usuario.");
+                //    return View();
+                //}
 
-                if (!loginValidator.Any(l => l.UserName.ToLower() == usuario.User.ToLower() ||
-                                            l.Password == Common.Password.EncryptPassword(usuario.Password)))
-                {
-                    ModelState.AddModelError("", "Revisá tu e‑mail o usuario.");
-                    return View();
-                }
+                //if (!loginValidator.Any(l => l.UserName.ToLower() == usuario.User.ToLower() ||
+                //                            l.Password == Common.Password.EncryptPassword(usuario.Password)))
+                //{
+                //    ModelState.AddModelError("", "Revisá tu e‑mail o usuario.");
+                //    return View();
+                //}
 
 
 
@@ -93,6 +93,8 @@ namespace Ecommerce.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
+
+                ModelState.AddModelError("", "Revisá tus datos.");
 
                 return View();
             }
