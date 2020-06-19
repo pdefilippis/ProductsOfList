@@ -41,42 +41,39 @@ namespace Ecommerce.Controllers
                 var loginValidator = _usuarioManager.GetAll();
                 var validateActivity = _usuarioManager.Get();
 
-                var userValidado = validateActivity.FirstOrDefault(u => u.UserName == usuario.Input.User);
+                var userValidado = validateActivity.FirstOrDefault(u => u.UserName == usuario.User);
 
-                
-                if (usuario.Input.User == null || usuario.Input.Password == null)
+                if (usuario.User == null || usuario.Password == null)
                 {
                     ModelState.AddModelError("", "Todos los campos deben ser completados");
                     return View();
                 }
 
-                if (!loginValidator.Any(r => r.UserName.ToLower() == usuario.Input.User || r.Password == usuario.Input.Password))
+                if (!loginValidator.Any(r => r.UserName.ToLower() == usuario.User || r.Password == usuario.Password))
                 {
-                    ModelState.AddModelError("", "El usuario no existe");
+                    ModelState.AddModelError("", "Revisá tu e‑mail o usuario.");
                     return View();
                 }
 
                 if (userValidado.Activo != true)
                 {
-                    ModelState.AddModelError("", "Usuario inhabilitado");
+                    ModelState.AddModelError("", "Revisá tu e‑mail o usuario.");
                     return View();
                 }
 
-                if (loginValidator.Any(l => l.UserName.ToLower() != usuario.Input.User.ToLower() ||
-                                            l.Password != Ecommerce.Common.Password.EncryptPassword(usuario.Input.Password)))
+                if (!loginValidator.Any(l => l.UserName.ToLower() == usuario.User.ToLower() ||
+                                            l.Password == Common.Password.EncryptPassword(usuario.Password)))
                 {
-                    ModelState.AddModelError("", "Usuario y/o contraseña incorrectos");
+                    ModelState.AddModelError("", "Revisá tu e‑mail o usuario.");
                     return View();
                 }
-
-                
 
 
 
                 var user = _usuarioManager.Login(new Usuario
                 {
-                    Password = usuario.Input.Password,
-                    UserName = usuario.Input.User
+                    Password = usuario.Password,
+                    UserName = usuario.User
                 });
 
                 if (user != null)
@@ -122,17 +119,17 @@ namespace Ecommerce.Controllers
             {
                 var registerValidator = _usuarioManager.GetAll();
 
-                if (registerModel.Input.Password == null || registerModel.Input.Surname == null || registerModel.Input.Name == null
-                     || registerModel.Input.User == null || registerModel.Input.Email == null)
+                if (registerModel.Password == null || registerModel.Surname == null || registerModel.Name == null
+                     || registerModel.User == null || registerModel.Email == null)
                 {
                     ModelState.AddModelError("", "Todos los campos deben ser completados");
                     return View();
                 }
                 else
                 {
-                    if (registerValidator.Any(r => r.Email.ToLower() == registerModel.Input.Email.ToLower()))
+                    if (registerValidator.Any(r => r.Email.ToLower() == registerModel.Email.ToLower()))
                         ModelState.AddModelError("", "Ya existe un usuario con este email");
-                    if(registerValidator.Any(r => r.UserName.ToLower() == registerModel.Input.User.ToLower()))
+                    if(registerValidator.Any(r => r.UserName.ToLower() == registerModel.User.ToLower()))
                         ModelState.AddModelError("", "Ya existe un usuario con este nombre de usuario");
                 }
 
@@ -140,11 +137,11 @@ namespace Ecommerce.Controllers
                 {
                     var user = _usuarioManager.Register(new Usuario
                     {
-                        Password = registerModel.Input.Password,
-                        Apellido = registerModel.Input.Surname,
-                        Nombre = registerModel.Input.Name,
-                        UserName = registerModel.Input.User,
-                        Email = registerModel.Input.Email
+                        Password = registerModel.Password,
+                        Apellido = registerModel.Surname,
+                        Nombre = registerModel.Name,
+                        UserName = registerModel.User,
+                        Email = registerModel.Email
                     });
 
                     return View("Index");
