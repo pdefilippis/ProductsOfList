@@ -1,10 +1,3 @@
-﻿using Ecommerce.Common.DataMembers.Input;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Mail;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace Ecommerce.Core.Services
@@ -23,12 +16,12 @@ namespace Ecommerce.Core.Services
 
             var cuerpo = new StringBuilder();
 
-            cuerpo.AppendLine(string.Format("Nombre: {0}", nombre));
-            cuerpo.AppendLine(string.Format("Email: {0}", email));
-            cuerpo.AppendLine(string.Format("Asunto: {0}", asunto));
-            cuerpo.AppendLine(string.Format("Mensaje: {0}", mensaje));
+            cuerpo.AppendLine(string.Format("Nombre: <b>{0}</b><br>", nombre));
+            cuerpo.AppendLine(string.Format("Email: <b>{0}</b><br>", email));
+            cuerpo.AppendLine(string.Format("Asunto: <b>{0}</b><br>", asunto));
+            cuerpo.AppendLine(string.Format("Mensaje: <b>{0}", mensaje));
 
-            gestor.EnviarCorreo("soporteremate@gmail.com", "Contacto Usuario", cuerpo.ToString(), true);
+            gestor.EnviarCorreo("remate.contacto.soporte@gmail.com", "Contacto Usuario", cuerpo.ToString(), true);
         }
     }
 }
