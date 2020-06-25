@@ -38,36 +38,12 @@ namespace Ecommerce.Controllers
 
             try
             {
-                //var loginValidator = _usuarioManager.GetAll();
-                //var validateActivity = _usuarioManager.Get();
-
-                //var userValidado = validateActivity.FirstOrDefault(u => u.UserName == usuario.User);
 
                 if (usuario.User == null || usuario.Password == null)
                 {
                     ModelState.AddModelError("", "Todos los campos deben ser completados");
                     return View();
                 }
-
-                //if (!loginValidator.Any(r => r.UserName.ToLower() == usuario.User || r.Password == usuario.Password))
-                //{
-                //    ModelState.AddModelError("", "Revisá tu e‑mail o usuario.");
-                //    return View();
-                //}
-
-                //if (userValidado.Activo != true)
-                //{
-                //    ModelState.AddModelError("", "Revisá tu e‑mail o usuario.");
-                //    return View();
-                //}
-
-                //if (!loginValidator.Any(l => l.UserName.ToLower() == usuario.User.ToLower() ||
-                //                            l.Password == Common.Password.EncryptPassword(usuario.Password)))
-                //{
-                //    ModelState.AddModelError("", "Revisá tu e‑mail o usuario.");
-                //    return View();
-                //}
-
 
 
                 var user = _usuarioManager.Login(new Usuario
@@ -76,7 +52,7 @@ namespace Ecommerce.Controllers
                     UserName = usuario.User
                 });
 
-                if (user != null)
+                if (user != null && user.Activo == true)
                 {
                     var claims = new List<Claim>
                 {
@@ -94,7 +70,7 @@ namespace Ecommerce.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                ModelState.AddModelError("", "Revisá tus datos.");
+                ModelState.AddModelError("", "Credenciales inválidas");
 
                 return View();
             }
@@ -217,12 +193,9 @@ namespace Ecommerce.Controllers
         {
             try
             {
-                var tokenValidation = _usuarioManager.GetAll();
-
                 if (resetPassword.Email == null || resetPassword.Password == null || resetPassword.Token == null)
-                {
                     ModelState.AddModelError("", "Todos los campos deben ser completados");
-                }
+                
 
                 if (ModelState.IsValid && resetPassword.Password == resetPassword.ConfirmPassword)
                 {
