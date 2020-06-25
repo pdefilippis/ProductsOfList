@@ -70,7 +70,7 @@ namespace Ecommerce.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                ModelState.AddModelError("", "Credenciales inválidas");
+                ModelState.AddModelError("", "Usuario y/o contraseña incorrectos");
 
                 return View();
             }
