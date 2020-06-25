@@ -85,10 +85,10 @@
 
 
                                 <div class="col-lg-4 right">
-                                    <ul class="nav navbar-nav navbar-left" style="padding-left:46px">
+                                    <ul class="nav navbar-nav navbar-left" style="padding-left:26px">
 
 
-                                        <li class="dropdown" style="top:15px; cursor:pointer">
+                                        <li class="dropdown" style="top:15px; cursor:pointer;">
                                             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" id="lst-notificaciones">
                                                 <i class="fa fa-bell fa-1x" style="color:#d7d9e6"></i>  <span class="label label-primary" id="idBell">@StatsService.GetCountNotificaciones(User.Identity.Name) </span>
                                             </a>
@@ -99,7 +99,7 @@
 
                                                     @foreach (var item in StatsService.GetNotificaciones(User.Identity.Name))
                                                     {
-                                                        <li>
+                                                        <li style="list-style-type: none;">
                                                             <a class="dropdown-item" asp-controller="Employee" asp-action="Admin">
                                                                 <div>
                                                                     <i class="fas fa-envelope" style="color:black"></i><i class="classTxt" style="color:black; font-style: normal;"> Ha ganado el articulo <strong>@item.Articulo.Descripcion</strong> del lote <strong>@item.Articulo.Lote.Descripcion</strong></i>
@@ -115,7 +115,7 @@
                                             {
                                                 <ul class="dropdown-menu notify dropdown-messages dropdown-alerts">
 
-                                                        <li>
+                                                        <li style="list-style-type: none;">
                                                             <a style="color:black">
                                                                 <i class="fas fa-exclamation-circle" style="color:royalblue"></i> Sin notificaciones disponibles
                                                             </a>
@@ -131,9 +131,9 @@
                                         <li class="dropdown">
                                             <a class="dropdown-toggle" style="cursor:pointer" data-toggle="dropdown" ;><i class="far fa-user"></i>&nbsp;@User.Identity.Name&nbsp;<b class="caret"></b></a>
                                             <ul class="dropdown-menu" style="margin-top:11px">
-                                                <li style="font-size:20px; font-family:'Corbel'"><a asp-controller="Account" asp-action="UserData" style="color:#333"><i class="fas fa-id-card"></i>&nbsp;Datos del usuario</a></li>
-                                                <li style="font-size:20px; font-family:'Corbel'"><a asp-controller="Account" asp-action="ChangePassword" style="color:#333"><i class="fas fa-lock"></i>&nbsp;Cambiar contraseña</a></li>
-                                                <li style="font-size:20px; font-family:'Corbel'"><a id="btnLogOut" item-id="_LogOutID_" data-toggle="modal" style="color:#333" data-target="#modalApply" asp-controller="Login" asp-action="LogOut"><i class="fas fa-sign-out-alt"></i>&nbsp;Salir</a></li>
+                                                <li style="font-size:20px; font-family:'Corbel'; list-style-type: none;"><a asp-controller="Account" asp-action="UserData" style="color:#333"><i class="fas fa-id-card"></i>&nbsp;Datos del usuario</a></li>
+                                                <li style="font-size:20px; font-family:'Corbel'; list-style-type: none;"><a asp-controller="Account" asp-action="ChangePassword" style="color:#333"><i class="fas fa-lock"></i>&nbsp;Cambiar contraseña</a></li>
+                                                <li style="font-size:20px; font-family:'Corbel'; list-style-type: none;"><a id="btnLogOut" item-id="_LogOutID_" data-toggle="modal" style="color:#333" data-target="#modalApply" asp-controller="Login" asp-action="LogOut"><i class="fas fa-sign-out-alt"></i>&nbsp;Salir</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -222,7 +222,7 @@
         @RenderSection("Scripts", required: false)
 
         
-        <script>
+    <script>
             $(() => {
                 $('#lst-notificaciones').on("click", function () {
                     readNotifications();
@@ -232,7 +232,7 @@
             function readNotifications() {
                 var url = "/Notificaciones/ReadNotifications";
                 $.get(url, null, function (data) {
-                }); 
+                });
             }
         </script>
     </div>
