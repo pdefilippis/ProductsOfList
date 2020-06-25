@@ -13,14 +13,14 @@ namespace Ecommerce.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-
+        private readonly Core.INotificacionesManager _notificacionesManager;
         private readonly Core.ILoteManager _loteManager;
         private readonly ILogger<HomeController> _logger;
-        private readonly Core.IUsuarioManager _usuarioManager;
 
 
-        public HomeController(Core.ILoteManager loteManager, ILogger<HomeController> logger)
+        public HomeController(Core.ILoteManager loteManager, ILogger<HomeController> logger, Core.INotificacionesManager notificacionesManager)
         {
+            _notificacionesManager = notificacionesManager;
             _loteManager = loteManager;
             _logger = logger;
         }
@@ -50,10 +50,36 @@ namespace Ecommerce.Controllers
             }   
         }
 
-
+        [HttpGet]
         public IActionResult Contact()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Contact(ContactUsViewModel vm)
+        {
+            try
+            {
+                if(vm.Email == null || vm.Message == null || vm.Name == null || vm.Subject == null)
+                { 
+                    ModelState.AddModelError("", "Todos los campos deben ser completados");
+                    return View();
+                }
+
+                if (ModelState.IsValid)
+                {
+                   _notificacionesManager.SendRequestConnected(vm.Email,vm.Message,vm.Name,vm.Subject);
+                   TempData["SuccesMessage"] = "Mensaje enviado correctamente";
+                }
+
+                return RedirectToAction("Contact");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, string.Empty);
+                return RedirectToAction("Status", "Error", new { code = 404 });
+            }
         }
 
         public IActionResult About()
